@@ -1,0 +1,20 @@
+.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  background-color: black;
+  color: #f5f5f5;
+}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="login" class="horizontal">
+  <div id="login-leftbox">
+    <div id="login-leftbox-content" class="vertical">
+      <div id="login-logo"></div>
+      <div id="login-hello">Hello, Collector</div>
+      <div id="login-form">
+        <form action="{% url 'accounts:login' %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" id="signin-btn">SIGN IN</button>
+        </form>
+      </div>
+      <div id="login-signup">
+        <span id="signup-head">New to SSAFY?</span>
+        <a href="{% url 'accounts:signup' %}" id="signup-link">Create an account</a>
+      </div>
+    </div>
+  </div>
+  <div id="login-rightbox"></div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+{% load static %}
+<script src="{% static 'src/SignIn.js' %}"></script>
+{% endblock scripts %}

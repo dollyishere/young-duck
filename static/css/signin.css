@@ -1,0 +1,117 @@
+#login {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('https://image.tmdb.org/t/p/original/mqsPyyeDCBAghXyjbw4TfEYwljw.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#login-leftbox {
+  width: 30%;
+  height: 100%;
+  opacity: 0.9;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-rightbox {
+  width: 70%;
+  height: 100%;
+  opacity: 0.9;
+  background: linear-gradient( to right, black, #2C2C2C );
+}
+
+#login-leftbox-content {
+  width: 350px;
+  height: 540px;
+  padding: 20px;
+  gap: 50px;
+}
+
+#login-logo {
+  height: 100px;
+  width: 100px;
+  background-color: aliceblue;
+}
+
+#login-hello {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+#login-form {
+  width: 100%;
+  flex-flow: column;
+  align-items: center;
+}
+
+#login-form > form {
+  width: 100%;
+}
+
+#id_username {
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  padding: 0px 15px 0px 15px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+#id_password {
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  padding: 0px 15px 0px 15px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+label {
+  display: none;
+}
+
+#signin-btn {
+  width: 100%;
+  background-color: transparent;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#login-form > form > ul > li {
+  display: none;
+}
+
+#login-signup {
+  width: calc(100% - 4px);
+  justify-content: space-between;
+  padding: 0px 2px 0px 2px;
+}
+
+#signup-head {
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 19px;
+}
+
+#signup-link {
+  color: #4691BC;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 19px;
+}

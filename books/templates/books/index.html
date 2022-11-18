@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="books">
+  <div id="books-container" class="vertical">
+    <div id="my-books" class="books vertical">
+      <div class="books-header">
+        <div id="my-books-title" class="books-index-title">나의 테마북</div>
+        <div class="books-buttons">
+          <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
+          <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+        </div>
+      </div>
+      <div class="books-body horizontal">
+        <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸 어디까지 들어</div>
+          <div class="book-semi">소제목이 들어갈 칸 얘도 어디까지 들</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 레이아웃을 보기 위한 더미데이터 -->
+    <div id="recommended-books" class="books vertical">
+      <div class="books-header">
+        <div id="my-books-title" class="books-index-title">추천 테마북</div>
+        <div class="books-buttons">
+          <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
+          <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+        </div>
+      </div>
+      <div class="books-body horizontal">
+        <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸 어디까지 들어</div>
+          <div class="book-semi">소제목이 들어갈 칸 얘도 어디까지 들</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="newest-books" class="books vertical">
+      <div class="books-header">
+        <div id="my-books-title" class="books-index-title">최신 테마북</div>
+        <div class="books-buttons">
+          <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
+          <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+        </div>
+      </div>
+      <div class="books-body horizontal">
+        <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸 어디까지 들어</div>
+          <div class="book-semi">소제목이 들어갈 칸 얘도 어디까지 들</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+        <div class="book vertical">
+          <div class="book-thumbnail"></div>
+          <div class="book-title">제목이 들어갈 칸</div>
+          <div class="book-semi">소제목이 들어갈 칸</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+

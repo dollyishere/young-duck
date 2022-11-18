@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="login" class="horizontal">
+  <div id="login-leftbox" class="vertical" style="justify-content: space-between">
+    <div id="signup-back-btn">
+      <span>Already have an account?</span>
+      <a href="{% url 'accounts:login' %}" id="signin-link">Sign in →</a>
+    </div>
+    <div id="signup-leftbox-content" class="vertical">
+      <div id="login-hello">Sign Up to SSAFY</div>
+      <div id="signup-form">
+        <form action="{% url 'accounts:signup' %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" id="create-btn" value="CREATE">
+        </form>
+      </div>
+    </div>
+    <div style="height: 50px"></div>
+  </div>
+  <div id="login-rightbox"></div>
+</div>
+{% endblock content %}

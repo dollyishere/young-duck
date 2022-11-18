@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="profile">
+  <div id="profile-container" class="horizontal" style="align-items: flex-start;">
+    <!-- 프로필 정보 -->
+    <div id="profile-leftbox" class="vertical">
+      <div id="profile-myprofile" class="profile-image"></div>
+      <div id="profile-mynickname" class="profile-nickname">테스트용 프로필</div>
+      {% with followings=person.followings.all followers=person.followers.all %}
+      {% if user == person %}
+      <!-- 본인이면 edit 버튼 -->
+      <div id="profile-btn" class="profile-btn">
+        <form id="profile-btn" data-user-id="{{ person.pk }}">
+          {% csrf_token %}
+            <button id="profile-edit" class="profile-btn">EDIT PROFILE</button>
+        </form>
+      </div>
+      <!-- 아니면 follow 버튼 -->
+      {% else %}
+      <form id="follow-form" data-user-id="{{ person.pk }}">
+        {% csrf_token %}
+        {% if user in followers %}
+          <button id="followBtn" class="profile-btn">UNFOLLOW</button>
+        {% else %}
+          <button id="followBtn" class="profile-btn">FOLLOW</button>
+        {% endif %}
+      </form>
+      {% endif %}
+      <div id="profile-follow" class="profile-follow-cnt horizontal">
+        <div id="follow-header"></div>
+        <div id="follow-body">
+          Followings : <span id="followings-count">{{ followings|length }}</span>
+          <span id="following-divider">|</span>
+          Followers : <span id="followers-count">{{ followers|length }}</span>
+        </div>
+      </div>
+      {% endwith %}
+
+    </div>
+    <div id="profile-rightbox" class="vertical">
+      <!-- 나의 테마북 -->
+      <div id="my-mini-book" class="mini-books vertical">
+        <div class="mini-books-header">
+          <div id="mini-books-title" class="mini-books-title">나의 테마북</div>
+          <div class="mini-books-buttons">
+            <div id="mini-books-left" class="mini-books-left-btn left-btn-disavailable"></div>
+            <div id="mini-books-right" class="mini-books-right-btn right-btn-available"></div>
+          </div>
+        </div>
+        <div class="mini-books-body horizontal">
+          <div class="mini-book vertical">
+            <div class="mini-book-thumbnail"></div>
+            <div class="mini-book-title">제목이 들어갈 칸</div>
+            <div class="mini-book-semi">소제목이 들어갈 칸</div>
+          </div>
+          <div class="mini-book vertical">
+            <div class="mini-book-thumbnail"></div>
+            <div class="mini-book-title">제목이 들어갈 칸</div>
+            <div class="mini-book-semi">소제목이 들어갈 칸</div>
+          </div>
+          <div class="mini-book vertical">
+            <div class="mini-book-thumbnail"></div>
+            <div class="mini-book-title">제목이 들어갈 칸</div>
+            <div class="mini-book-semi">소제목이 들어갈 칸</div>
+          </div>
+          <div class="mini-book vertical">
+            <div class="mini-book-thumbnail"></div>
+            <div class="mini-book-title">제목이 들어갈 칸</div>
+            <div class="mini-book-semi">소제목이 들어갈 칸</div>
+          </div>
+          <div class="mini-book vertical">
+            <div class="mini-book-thumbnail"></div>
+            <div class="mini-book-title">제목이 들어갈 칸</div>
+            <div class="mini-book-semi">소제목이 들어갈 칸</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 시청한 영화 -->
+      <div id="watched-movies" class="watched-movies vertical">
+        <div class="watched-movies-header">
+          <div id="watched-movies-title" class="watched-movies-title">영화 컬렉션</div>
+          <div class="mini-books-buttons"></div>
+        </div>
+        <div class="watched-movies-body horizontal">
+          <!-- for문 왕창 돌리기 -->
+          {% for i in '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'|make_list %}
+          <div class="watched-movie-card">
+            <div class="movie-poster"></div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  
+
+{% endblock content %}
+
+{% block scripts %}
+  
+{% endblock scripts %}

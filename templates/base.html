@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- static 불러오기 -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile-modal.css' %}">
+  <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bookindex.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+  <!-- font 추가 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <title>Document</title>
+</head>
+<body>
+  
+  {% include '_nav.html' %}
+  {% comment %} <div class="content">
+    <div class="container">
+      {% if request.user.is_authenticated %}
+      <h3>Hello, {{ user }}</h3>
+      
+      <form action="{% url 'accounts:logout' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="LOGOUT" class="btn btn-warning">
+      </form>
+
+      <a href="{% url 'accounts:update' %}" class="btn btn-secondary">Change account info</a>
+      
+      <form action="{% url 'accounts:delete' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="QUIT" class="btn btn-danger">
+      </form>
+
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="btn btn-warning">LOGIN</a>
+        <a href="{% url 'accounts:signup' %}" class="btn btn-success">SIGHUP</a>
+      {% endif %}
+      <hr> 
+    </div>
+  </div>
+  {% endcomment %} 
+
+  {% block content %}
+  {% endblock content %}
+
+
+  {% load static %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="{% static 'src/Nav.js' %}"></script>
+  <script src="{% static 'src/Profile.js' %}"></script>
+
+</body>
+</html>

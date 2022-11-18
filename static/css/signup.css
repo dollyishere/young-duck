@@ -1,0 +1,83 @@
+#signup-form {
+  width: 100%;
+  flex-flow: column;
+  align-items: center;
+}
+
+#signup-form > form {
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 100;
+  color: #f5f5f5;
+  line-height: 1.2;
+}
+
+#signup-leftbox-content {
+  width: 350px;
+  height: 540px;
+  padding: 20px;
+  gap: 50px;
+}
+
+#id_password1 {
+  margin-top: 30px;
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  padding: 0px 15px 0px 15px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+#id_password2 {
+  margin-top: 30px;
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  padding: 0px 15px 0px 15px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+#create-btn {
+  margin-top: 28px;
+  width: 100%;
+  background-color: transparent;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#signup-back-btn {
+  margin-top: 30px;
+  width: 350px;
+  height: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 100;
+  justify-content: flex-end;
+}
+
+#signup-back-btn > span {
+  margin-right: 10px;
+}
+
+#signin-link {
+  color: #4691BC;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+}
+
+.errorlist {
+  display: none;
+}

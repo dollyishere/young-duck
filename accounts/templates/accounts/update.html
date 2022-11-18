@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>UPDATE</h1>
+  <hr>
+  <form action="{% url 'accounts:update' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-success" value="Change Info">
+  </form>
+  <hr>
+  <a href="{% url 'books:index' %}" class="btn btn-primary">Back to the index</a>
+{% endblock content %}
