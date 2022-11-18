@@ -99,6 +99,7 @@ def profile(request, username):
     }
     return render(request, 'accounts/profile.html', context)
 
+
 # profile update 함수
 @login_required
 def profile_update(request, username):

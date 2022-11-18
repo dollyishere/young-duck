@@ -8,7 +8,7 @@ class User(AbstractUser):
 
 # profile 사진 업로드 경로 정하기
 def profiles_image_path(instance, filename):
-    return 'images/{}/profile_img'.format(instance.user.username)
+    return 'images/{}/profile_img/{}'.format(instance.user.username, filename)
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
