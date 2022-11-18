@@ -9,7 +9,6 @@ TMDB_API_KEY = '851d868671f3d56e21c372701537e231'
 def get_genre_datas():
     total_data = []
 
-    # 1페이지부터 500페이지까지의 데이터를 가져옴.
     request_url = 'https://api.themoviedb.org/3/genre/movie/list?api_key={}&language=ko-KR'.format(TMDB_API_KEY)
     
     genres = requests.get(request_url).json()

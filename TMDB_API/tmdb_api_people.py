@@ -9,7 +9,7 @@ def get_people_datas():
     total_data = []
     people_id_data = []
 
-    # 1페이지부터 500페이지까지의 데이터를 가져옴.
+
     for i in range(1, 300):
         request_url = 'https://api.themoviedb.org/3/person/popular?api_key={}&language=ko-KR&page={}'.format(TMDB_API_KEY, i)
     
