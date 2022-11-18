@@ -6,13 +6,17 @@
     <!-- 프로필 정보 -->
     <div id="profile-leftbox" class="vertical">
       <div id="profile-myprofile" class="profile-image"></div>
-      <div id="profile-mynickname" class="profile-nickname">테스트용 프로필</div>
+      {% comment %} profile nickname 존재 여부에 따라 nickname 출력 변경: jy {% endcomment %}
+      {% if person.profile.nickname %}
+        <div id="profile-mynickname" class="profile-nickname">{{ person.profile.nickname }}</div>
+      {% else %}
+        <div id="profile-mynickname" class="profile-nickname">{{ person.pk }}번째 컬렉터</div>
+      {% endif %}
       {% with followings=person.followings.all followers=person.followers.all %}
       {% if user == person %}
       <!-- 본인이면 edit 버튼 -->
       <div id="profile-btn" class="profile-btn">
-        <form id="profile-btn" data-user-id="{{ person.pk }}">
-          {% csrf_token %}
+        <form action="{% url 'accounts:profile_update' username=person.username %}" id="profile-btn" data-user-id="{{ person.pk }}">
             <button id="profile-edit" class="profile-btn">EDIT PROFILE</button>
         </form>
       </div>

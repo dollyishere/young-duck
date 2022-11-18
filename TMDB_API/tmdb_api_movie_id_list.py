@@ -9,7 +9,7 @@ TMDB_API_KEY = '851d868671f3d56e21c372701537e231'
 def get_movies_id_datas():
     total_data = []
 
-    # 1페이지부터 50페이지까지의 데이터를 가져옴.
+
     # popular
     for i in range(1, 50):
         request_url = 'https://api.themoviedb.org/3/movie/popular?api_key={}&language=ko-KR&page={}'.format(TMDB_API_KEY, i)

@@ -100,24 +100,26 @@ def profile(request, username):
     return render(request, 'accounts/profile.html', context)
 
 # profile update 함수
-# 현재는 동기식으로 구현했으나, 이후 비동기식으로 구현할 예정임
 @login_required
 def profile_update(request, username):
     if request.user.username == username:
         if request.method == 'POST':
-            form = ProfileForm(request.POST, request.FILES, instance=request.user)
+            form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
             if form.is_valid():
-                form.save()
-                return redirect('accounts:profile')
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                return redirect('accounts:profile', username)
         else:
-            form = ProfileForm(instance=request.user)
-        context = {
-            'form' : form,
-        }
-        return render(request, 'accounts/profile_update.html', context)
+            form = ProfileForm(instance=request.user.profile)
+        
     else:
-        redirect('accounts:profile')
-
+        return redirect('accounts:profile')
+    context = {
+        'form' : form,
+    }
+    return render(request, 'accounts/profile_update.html', context)
+    
 
 @require_POST
 def follow(request, user_pk):

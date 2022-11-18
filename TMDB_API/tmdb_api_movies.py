@@ -9,7 +9,7 @@ def get_movie_datas():
     total_data = []
     cnt = 0
 
-    # 1페이지부터 500페이지까지의 데이터를 가져옴.
+
     for i in range(1, 10):
         
         request_url = 'https://api.themoviedb.org/3/movie/popular?api_key={}&language=ko-KR&page={}'.format(TMDB_API_KEY, i)
@@ -30,7 +30,6 @@ def get_movie_datas():
                     'genres': movie['genre_ids']
                 }
 
-                # Movie 모델 필드명에 맞추어 데이터를 저장함.
                 credit_request_url = 'https://api.themoviedb.org/3/movie/{}/credits?api_key={}&language=ko-KR'.format(movie['id'],TMDB_API_KEY)
 
                 credits = requests.get(credit_request_url).json()
