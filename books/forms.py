@@ -5,11 +5,11 @@ class BookForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        exclude = []
+        fields = ['title', 'semi_title', 'cover_image']
 
 
 class CardForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = []
+        exclude = ['user',]

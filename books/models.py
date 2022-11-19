@@ -3,15 +3,27 @@ from django.conf import settings
 from movies.models import Movie
 
 # Create your models here.
+
+# cover_image 저장 루트 지정
+def cover_image_path(instance, filename):
+    return 'images/{}/cover_img/{}'.format(instance.user.username, filename)
+
 class Book(models.Model):
     title = models.CharField(max_length=20)
     semi_title = models.CharField(max_length=50)
+    cover_image = models.ImageField(
+        blank=True,
+        upload_to=cover_image_path,
+        )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_books')
 
 class Card(models.Model):
     my_score = models.IntegerField()
     my_comment = models.TextField()
     visits_count = models.IntegerField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    belonged_book = models.ManyToManyField(Book, related_name='card')
-    movie = models.ManyToManyField(Movie, related_name='card')
+    belonged_book = models.ManyToManyField(Book, related_name='collected_cards')
+    watched_movie = models.ManyToManyField(Movie, related_name='cards')

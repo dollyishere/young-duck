@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="container" style="margin: 100px;">
+		<img src="{{ book.cover_image.url }}" alt="not_found">
+		<h1>BOOK DETAIL</h1>
+		<h2>{{ book.title }}</h2>
+		<h3>{{ book.semi_title }}</h3>
+		<h5>{{ book.user }}님의 테마북입니다.</h5>
+		<p>{{ book.created_at }}에 작성됨</p>
+		<p>{{ book.updated_at }}에 수정됨</p>
+		<p>{{ book.like_users|length }}명의 수집가님이 이 테마북을 좋아합니다.</p>
+		<hr>
+		<a href="{% url 'books:update' book.pk %}">UPDATE</a>
+		<form action="{% url 'books:delete' book.pk %}" method="POST">
+			{% csrf_token %}
+			<input type="submit" value="DELETE">
+		</form>
+		<a href="{% url 'books:index' %}">[back]</a>
+	</div>
+{% endblock content %}
