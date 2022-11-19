@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" style="margin: 100px;">
+        {% for movie in movies %}
+            <a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a>
+        {% endfor %}
+    </div>
+{% endblock content %}
