@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 from .forms import BookForm, CardForm
 from .models import Book, Card
+from movies.models import Genre, Movie, People
 
 # Create your views here.
 def index(request):
@@ -67,3 +68,67 @@ def delete(request, book_pk):
             book.delete()
             return redirect('books:index')
     return redirect('books:detail', book.pk)
+
+
+def create_card(request, book_pk, movie_pk):
+    if request.method == 'POST':
+        book = get_object_or_404(Book, pk=book_pk)
+        movie = get_object_or_404(Movie, pk=movie_pk)
+        cards = Card.objects.filter(user=request.user)
+        if len(cards):
+            for card in cards:
+                if card.watched_movie == movie:
+                    card.belonged_book.add(book.pk)
+                    return redirect('books:detail', book.pk)
+        form = CardForm(request.POST)
+        if form.is_valid():
+            card = form.save(commit=False)
+            card.user = request.user
+            card.belonged_book = book
+            card.watched_movie = movie
+            card.save()
+            return redirect('books:detail_card', card.pk)
+    else:
+        form = CardForm()
+    context = {
+        'form' : form,
+        'book' : book,
+        'movie' : movie,
+    }
+    return render(request, 'books/create_card.html', context)
+
+
+def detail_card(request, card_pk):
+    card = get_object_or_404(Card, pk=card_pk)
+    context = {
+        'card' : card,
+    }
+    return render(request, 'books/detail_card.html', context)
+
+
+def update_card(request, card_pk):
+    card = get_object_or_404(Book, pk=card_pk)
+    if request.user == card.user:
+        if request.method == 'POST':
+            form = CardForm(request.POST, instance=card)
+            if form.is_valid():
+                form.save()
+                return redirect('books:detail_card', card.pk)
+        else:
+            form = BookForm(instance=card)
+    else:
+        return redirect('books:detail_card', card.pk)
+    context = {
+        'card' : card,
+        'form' : form,
+    }
+    return render(request, 'books/update_card.html', context)
+
+
+def delete_card(request, card_pk):
+    card = get_object_or_404(Book, pk=card_pk)
+    if request.user.is_authenticated:
+        if request.user == card.user:
+            card.delete()
+            return redirect('books:index')
+    return redirect('books:detail_card', card.pk)

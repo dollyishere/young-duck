@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="container" style="margin: 100px;">
+		<h1>CARD DETAIL</h1>
+		<h2>{{ card.watched_movie.title }}</h2>
+        <p>{{ card.my_score }}</p>
+        <textarea>{{ card.my_comment }}</textarea>
+        <p>지금까지 {{ card.visits_count }}번 관람하셨습니다.</p>
+		<hr>
+		<a href="{% url 'books:update_card' card.pk %}">UPDATE</a>
+		<form action="{% url 'books:delete_card' card.pk %}" method="POST">
+			{% csrf_token %}
+			<input type="submit" value="DELETE">
+		</form>
+		<a href="{% url 'books:index' %}">[back]</a>
+	</div>
+{% endblock content %}
