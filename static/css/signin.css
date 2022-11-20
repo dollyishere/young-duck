@@ -4,9 +4,6 @@
   z-index: 1;
   width: 100vw;
   height: 100vh;
-  background-image: url('https://image.tmdb.org/t/p/original/mqsPyyeDCBAghXyjbw4TfEYwljw.jpg');
-  background-size: 100%;
-  background-repeat: no-repeat;
 }
 
 #login-leftbox {
@@ -22,7 +19,7 @@
   width: 70%;
   height: 100%;
   opacity: 0.9;
-  background: linear-gradient( to right, black, #2C2C2C );
+  background: linear-gradient( to right, black 50%, #2C2C2C );
 }
 
 #login-leftbox-content {
@@ -81,7 +78,11 @@
   font-size: 20px;
 }
 
-label {
+label[for="id_username"] {
+  display: none;
+}
+
+label[for="id_password"] {
   display: none;
 }
 
@@ -92,6 +93,7 @@ label {
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 20px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 #login-form > form > ul > li {

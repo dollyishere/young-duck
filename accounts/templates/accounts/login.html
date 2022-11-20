@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div id="login" class="horizontal">
+<div id="login" class="horizontal" style="background: url('{{ background }}') no-repeat center top / 100%;">
   <div id="login-leftbox">
     <div id="login-leftbox-content" class="vertical">
       <div id="login-logo"></div>
@@ -18,7 +18,8 @@
       </div>
     </div>
   </div>
-  <div id="login-rightbox"></div>
+  <div id="login-rightbox">
+  </div>
 </div>
 {% endblock content %}
 

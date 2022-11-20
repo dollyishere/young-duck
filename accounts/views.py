@@ -9,6 +9,8 @@ from django.views.decorators.http import require_POST, require_http_methods
 from django.http import JsonResponse
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfileForm
 from .models import Profile
+from movies.models import Movie
+import random
 
 
 # Create your views here.
@@ -16,6 +18,7 @@ from .models import Profile
 def login(request):
     if request.user.is_authenticated:
         return redirect('books:index')
+    
     if request.method == "POST":
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
@@ -23,9 +26,12 @@ def login(request):
             return redirect('books:index')
     else:
         form = AuthenticationForm()
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
         'form' : form,
-        }
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
+    }
     return render(request, 'accounts/login.html', context)
 
 
@@ -46,8 +52,11 @@ def signup(request):
             return redirect('books:index')
     else:
         form = CustomUserCreationForm()
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
         'form' : form,
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
     }
     return render(request, 'accounts/signup.html', context)
 
@@ -69,8 +78,11 @@ def update(request):
             return redirect('books:index')
     else:
         form = CustomUserChangeForm(instance=request.user)
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
-        'form': form,
+        'form' : form,
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
     }
     return render(request, 'accounts/update.html', context)
 
@@ -85,8 +97,11 @@ def change_password(request):
             return redirect('books:index')
     else:
         form = PasswordChangeForm(request.user)
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
         'form' : form,
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
     }
     return render(request, 'accounts/change_password.html', context)
 
