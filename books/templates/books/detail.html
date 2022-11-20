@@ -16,6 +16,7 @@
 			{% csrf_token %}
 			<input type="submit" value="DELETE">
 		</form>
+		<a href="{% url 'books:search_movie' book.pk %}">카드 만들기</a>
 		<a href="{% url 'books:index' %}">[back]</a>
 	</div>
 {% endblock content %}

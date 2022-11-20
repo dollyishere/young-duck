@@ -5,7 +5,7 @@
 		<h1>CARD DETAIL</h1>
 		<h2>{{ card.watched_movie.title }}</h2>
         <p>{{ card.my_score }}</p>
-        <textarea>{{ card.my_comment }}</textarea>
+        <p>{{ card.my_comment }}</p>
         <p>지금까지 {{ card.visits_count }}번 관람하셨습니다.</p>
 		<hr>
 		<a href="{% url 'books:update_card' card.pk %}">UPDATE</a>
