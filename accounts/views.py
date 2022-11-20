@@ -78,8 +78,11 @@ def update(request):
             return redirect('books:index')
     else:
         form = CustomUserChangeForm(instance=request.user)
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
-        'form': form,
+        'form' : form,
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
     }
     return render(request, 'accounts/update.html', context)
 
@@ -94,8 +97,11 @@ def change_password(request):
             return redirect('books:index')
     else:
         form = PasswordChangeForm(request.user)
+    movies = Movie.objects.all()
+    backdrop_url = random.choice(movies).backdrop_path
     context = {
         'form' : form,
+        'background' : f'https://image.tmdb.org/t/p/original/{backdrop_url}',
     }
     return render(request, 'accounts/change_password.html', context)
 

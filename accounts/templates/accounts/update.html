@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>UPDATE</h1>
-  <hr>
-  <form action="{% url 'accounts:update' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn btn-success" value="Change Info">
-  </form>
-  <hr>
-  <a href="{% url 'books:index' %}" class="btn btn-primary">Back to the index</a>
+<div id="login" class="horizontal" style="background: url('{{ background }}') no-repeat center top / 100%;">
+  <div id="login-leftbox" class="vertical" style="justify-content: space-between">
+    <div id="signup-back-btn">
+      <a href="{% url 'books:index' %}" id="signin-link">Back to Home</a>
+    </div>
+    <div id="login-leftbox-content" class="vertical">
+      <form action="{% url 'accounts:update' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-success" value="CHANGE INFO">
+      </form>
+    </div>
+    <div style="height: 50px"></div>
+  </div>
+  <div id="login-rightbox"></div>
+</div>
 {% endblock content %}
