@@ -4,7 +4,7 @@
     <div class="container" style="margin: 100px;">
         <h1>{{ movie.title }}</h1>
         <p>{{ movie.overview }}</p>
-        <a href="{% url 'books:create_card' movie.pk %}">Make your card!</a>
+        <a href="{% url 'movies:search_book' movie.pk %}">Make your card!</a>
     </div>
 {% endblock content %}
 

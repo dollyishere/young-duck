@@ -79,9 +79,11 @@ def create_card(request, book_pk, movie_pk):
         cards = Card.objects.filter(user=request.user)
         if len(cards):
             for card in cards:
-                if movie.pk in card.watched_movie:
+                print(card)
+                print(card.watched_movie)
+                if movie == card.watched_movie:
                     card.belonged_book.add(book_pk)
-                    return redirect('books:detail', book.pk)
+                    return redirect('books:detail_card', card.pk)
         form = CardForm(request.POST)
         if form.is_valid():
             card = form.save(commit=False)
