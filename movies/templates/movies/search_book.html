@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" style="margin: 100px;">
+        <h1>SELECT BOOK</h1>
+        {% for book in books %}
+            <h5>{{ book.title }}</h5>
+            <form action="{% url 'books:create_card' book.pk movie.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="CREATE CARD">
+            </form>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock content %}

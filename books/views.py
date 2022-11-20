@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.http import JsonResponse
 from .forms import BookForm, CardForm
 from .models import Book, Card
 from movies.models import Genre, Movie, People
@@ -71,22 +73,22 @@ def delete(request, book_pk):
 
 
 def create_card(request, book_pk, movie_pk):
+    book = get_object_or_404(Book, pk=book_pk)
+    movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'POST':
-        book = get_object_or_404(Book, pk=book_pk)
-        movie = get_object_or_404(Movie, pk=movie_pk)
         cards = Card.objects.filter(user=request.user)
         if len(cards):
             for card in cards:
                 if movie.pk in card.watched_movie:
-                    card.belonged_book.add(book.pk)
+                    card.belonged_book.add(book_pk)
                     return redirect('books:detail', book.pk)
         form = CardForm(request.POST)
         if form.is_valid():
             card = form.save(commit=False)
             card.user = request.user
-            card.belonged_book = book
             card.watched_movie = movie
             card.save()
+            card.belonged_book.add(book_pk)
             return redirect('books:detail_card', card.pk)
     else:
         form = CardForm()
@@ -107,7 +109,7 @@ def detail_card(request, card_pk):
 
 
 def update_card(request, card_pk):
-    card = get_object_or_404(Book, pk=card_pk)
+    card = get_object_or_404(Card, pk=card_pk)
     if request.user == card.user:
         if request.method == 'POST':
             form = CardForm(request.POST, instance=card)
@@ -115,7 +117,7 @@ def update_card(request, card_pk):
                 form.save()
                 return redirect('books:detail_card', card.pk)
         else:
-            form = BookForm(instance=card)
+            form = CardForm(instance=card)
     else:
         return redirect('books:detail_card', card.pk)
     context = {
@@ -132,3 +134,26 @@ def delete_card(request, card_pk):
             card.delete()
             return redirect('books:index')
     return redirect('books:detail_card', card.pk)
+
+
+
+def search_movie(request, book_pk):
+    book = get_object_or_404(Book, pk=book_pk)
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        print(searched)   
+        movies = Movie.objects.filter(title__contains=searched)
+        people = People.objects.filter(name__contains=searched)
+        genres = Genre.objects.filter(name__contains=searched)
+        context = {
+            'searched' : searched,
+            'movies' : movies,
+            'people' : people,
+            'genres' : genres,
+            'book' : book,
+        }
+    else:
+        context = {
+            'book' : book,
+        }
+    return render(request, 'books/search_movie.html', context)

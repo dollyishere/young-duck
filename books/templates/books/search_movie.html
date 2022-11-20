@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="container" style="margin: 100px;">
+		{% if searched %}
+			<h1> 검색하신 {{ searched }} 영화에 대한 정보입니다. </h1>
+			<br>
+			{% for movie in movies %}
+			{{ movie.title }} <br>
+			{{ movie.overview }} <br>
+			<form action="{% url 'books:create_card' book_pk=book.pk movie_pk=movie.pk %}" method="POST">
+				{% csrf_token %}
+				<input type="submit" value="SELECT MOVIE">
+			</form>
+			{% endfor %}
+			{{ people }}
+			{{ genre }}
+		{% else %}
+   			<h1> 찾고 있는 영화 제목을 검색창에 입력해주세요. </h1>
+			<form action="{% url 'books:search_movie' book.pk %}" method="POST">
+				{% csrf_token %}
+				<input type="text" type="search" placeholder="search" name="searched">
+				<button type="submit">search</button>
+			</form>
+		{% endif %}
+	</div>
+{% endblock %}

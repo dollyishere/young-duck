@@ -2,7 +2,14 @@
 
 {% block content %}
     <div class="container" style="margin: 100px;">
-        {{ movie.title }}
-        {{ movie.overview }}
+        <h1>{{ movie.title }}</h1>
+        <p>{{ movie.overview }}</p>
+        <a href="{% url 'books:create_card' movie.pk %}">Make your card!</a>
     </div>
 {% endblock content %}
+
+{% block scripts %}
+
+
+{% endblock scripts %}
+

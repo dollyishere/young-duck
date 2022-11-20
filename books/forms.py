@@ -12,4 +12,4 @@ class CardForm(forms.ModelForm):
 
     class Meta:
         model = Card
-        exclude = ['user',]
+        fields = ['my_score', 'my_comment', 'visits_count']
