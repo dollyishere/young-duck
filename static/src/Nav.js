@@ -10,9 +10,10 @@ const navLogo = document.getElementById('nav-logo')
 const navTitle = document.getElementById('nav-title')
 const navProfile = document.getElementById('nav-profile')
 const profileModal = document.getElementById('profile-modal')
+// const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
-const BASE_URL = 'http://127.0.0.1:8000/'
-const HOME_URL = 'books/'
+const BASE_URL = 'http://127.0.0.1:8000'
+const HOME_URL = '/books'
 
 function btnClicked() {
   if(btnToggle.clicked == false) {
@@ -85,28 +86,41 @@ const modalFriends = document.getElementById('profile-modal-friends')
 const modalSettings = document.getElementById('profile-modal-settings')
 const modalLogout = document.getElementById('profile-modal-logout')
 
-const PROFILE_URL = '/'
-const FRIENDS_URL = '/'
-const SETTINGS_URL = '/'
-const LOGOUT_URL = 'logout/'
+const PROFILE_URL = ''
+const FRIENDS_URL = ''
+const SETTINGS_URL = ''
+const LOGOUT_URL = '/accounts/logout/'
 
-modalMyProfile.addEventListener('click', (e) => {
-  e.preventDefault()
-  location.href = BASE_URL+PROFILE_URL
-})
+// modalMyProfile.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   location.href = BASE_URL+PROFILE_URL
+// })
 
-modalFriends.addEventListener('click', (e) => {
-  e.preventDefault()
-  location.href = BASE_URL+FRIENDS_URL
-})
+// modalFriends.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   location.href = BASE_URL+FRIENDS_URL
+// })
 
-modalSettings.addEventListener('click', (e) => {
-  e.preventDefault()
-  location.href = BASE_URL+SETTINGS_URL
-})
+// modalSettings.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   location.href = BASE_URL+SETTINGS_URL
+// })
 
-modalLogout.addEventListener('click', (e) => {
-  e.preventDefault()
-  location.href = BASE_URL+LOGOUT_URL
-  location.href = "{% url 'accounts:logout' %}"
-})
+
+// modalLogout.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   console.log("clicked")
+//   axios({
+//     method: 'post',
+//     url: `/accounts/logout`,
+//     headers: {'X-CSRFToken' : csrftoken,},
+//   })
+//     .then((response) => {
+//       console.log(response)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// })
+  // location.href = BASE_URL+LOGOUT_URL
+  // location.href = "{% url 'accounts:logout' %}"

@@ -56,11 +56,12 @@
   {% block content %}
   {% endblock content %}
 
+  {% block script %}
+  {% endblock script %}
 
   {% load static %}
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'src/Nav.js' %}"></script>
-  <script src="{% static 'src/Profile.js' %}"></script>
 
 </body>
 </html>
