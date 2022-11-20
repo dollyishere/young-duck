@@ -44,6 +44,7 @@
 }
 
 .modal-inner {
+  display: flex;
   width: 100%;
   height: 30px;
 }
@@ -72,4 +73,20 @@
 #logout-icon {
   background-size: 100%;
   background-image: url("../images/profile_modal/logout.png");
+}
+
+.modal-post {
+  width: 100%;
+}
+
+.modal-post > div {
+  display: flex;
+  align-items: center;
+}
+
+.modal-post > button {
+  background-color: transparent;
+  color: #A1A1A1;
+  padding: 0px;
+  border: 0px;
 }

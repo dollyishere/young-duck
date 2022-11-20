@@ -28,27 +28,38 @@
     <div id="profile-modal-hello" class="vertical">
       <div>반가워요,</div>
       <div>
-        <span style="font-weight: 600;">은하수를 여행하는 히치하이커</span>
+        <span style="font-weight: 600;">{{ user.username }}</span>
         <span>님!</span>
       </div>
     </div>
   </div>
   <div id="profile-modal-body" class="vertical">
-    <div id="profile-modal-myprofile" class="horizontal modal-inner" style="cursor: pointer;">
-      <div id="myprofile-icon" class="modal-icon"></div>
-      <span id="myprofile-text">My Profile</span>
-    </div>
-    <div id="profile-modal-friends" class="horizontal modal-inner" style="cursor: pointer;">
-      <div id="friends-icon" class="modal-icon"></div>
-      <span id="friends-text">Search Friends</span>
-    </div>
-    <div id="profile-modal-settings" class="horizontal modal-inner" style="cursor: pointer;">
-      <div id="settings-icon" class="modal-icon"></div>
-      <span id="settings-text">Settings</span>
-    </div>
-    <div id="profile-modal-logout" class="horizontal modal-inner" style="cursor: pointer;">
-      <div id="logout-icon" class="modal-icon"></div>
-      <span id="logout-text">Logout</span>
-    </div>
+    <form action="{% url 'accounts:profile' user.username %}" method="POST" id="modal-profile" class="modal-post">
+      {% csrf_token %}
+      <button id="profile-modal-myprofile" class="horizontal modal-inner" style="cursor: pointer;">
+        <div id="myprofile-icon" class="modal-icon"></div>
+        <div id="myprofile-text">My Profile</div>
+      </button>
+    </form>
+    <form action="#" method="POST" id="modal-profile" class="modal-post">
+      {% csrf_token %}
+      <button id="profile-modal-friends" class="horizontal modal-inner" style="cursor: pointer;">
+        <div id="friends-icon" class="modal-icon"></div>
+        <div id="friends-text">Search Friends</div>
+      </button>
+    </form>
+    <form action="{% url 'accounts:update' %}" id="modal-update" class="modal-post">
+      <button id="profile-modal-settings" class="horizontal modal-inner" style="cursor: pointer;">
+        <div id="settings-icon" class="modal-icon"></div>
+        <div id="settings-text">Settings</div>
+      </button>
+    </form>
+    <form action="{% url 'accounts:logout' %}" method="POST" id="modal-logout" class="modal-post">
+    {% csrf_token %}
+      <button id="profile-modal-logout" class="horizontal modal-inner" style="cursor: pointer;">
+        <div id="logout-icon" class="modal-icon"></div>
+        <div style="display:flex;" id="logout-text">Logout</div>
+      </button>
+    </form>
   </div>
 </div>
