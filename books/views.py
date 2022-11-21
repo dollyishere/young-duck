@@ -11,9 +11,9 @@ from movies.models import Genre, Movie, People
 def index(request):
     # 만약 로그인하지 않았을 시, 홈에는 접근 불가
     if request.user.is_authenticated:
-        people = get_list_or_404(get_user_model())
+        books = Book.objects.filter(user=request.user)
         context = {
-            'people' : people,
+            'books' : books,
         }
         return render(request, 'books/index.html', context)
     else:
