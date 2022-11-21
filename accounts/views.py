@@ -49,6 +49,11 @@ def signup(request):
             user = form.save()
             Profile.objects.create(user=user)
             auth_login(request, user)
+            profile = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+            print(profile)
+            print(request.user.pk)
+            profile.nickname = '{}번째 수집가'.format(request.user.pk)
+            profile.save()
             return redirect('books:index')
     else:
         form = CustomUserCreationForm()
