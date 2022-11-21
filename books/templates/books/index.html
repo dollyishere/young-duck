@@ -110,7 +110,7 @@
         pk: "{{ book.pk }}",
         title: "{{ book.title }}",
         semi_title: "{{ book.semi_title }}",
-        cover_image: "{{ book.cover_image }}",
+        cover_image: "{{ book.cover_image.url }}",
       },
     {% endfor %}
   ]
@@ -160,6 +160,7 @@
         bookTitle.innerText = books[i*5+j].title
         bookSemi.innerText = books[i*5+j].semi_title
         themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
+        bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
       }
       
       myBooksList.appendChild(themeBook)
@@ -179,21 +180,7 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       myBookPage -= 1
-
-      if(myBookPage === 0) {
-        myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
-      }
-      else {
-        myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
-      }
-
-      if(myBookPage === maxPage-1) {
-        console.log('the end!')
-        myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
-      }
-      else {
-        myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
-      }
+      isEnd(myBookPage)
     }
   })
 
@@ -206,23 +193,25 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       myBookPage += 1
-
-
-      if(myBookPage === 0) {
-        myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
-      }
-      else {
-        myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
-      }
-
-      if(myBookPage === maxPage-1) {
-        myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
-      }
-      else {
-        myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
-      }
+      isEnd(myBookPage)
     }
   })
+
+  function isEnd(myBookPage) {
+    if(myBookPage === 0) {
+      myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
+    }
+    else {
+      myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
+    }
+
+    if(myBookPage === maxPage-1) {
+      myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+    }
+    else {
+      myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
+    }
+  }
 
   {% comment %} const BOOK_CREATE_URL = '/books/create'
 

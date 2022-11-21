@@ -3,7 +3,7 @@
 {% block content %}
 <div id="book-detail">
 	<div id="book-detail-container" class="vertical">
-		<div id="book-detail-cover" style="background-image: url('{{ book.cover_image.url }}')" class="vertical">
+		<div id="book-detail-cover" style="background-image: url('{{ book.cover_image.url }}'); background-position: center center;" class="vertical">
 			<div id="cover-top" class="horizontal">
 				<div class="profile-background">
 					<a href="{% url 'accounts:profile' person.username %}">
