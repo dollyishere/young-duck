@@ -1,0 +1,27 @@
+.component-init {
+    width: 100%;
+    justify-content: center;
+}
+
+.container-narrow {
+    width: 1000px;
+    padding: 100px;
+}
+
+label[for="id_title"] {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+label[for="id_semi_title"] {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+label[for="id_cover_image"] {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
