@@ -13,13 +13,13 @@
 				<input type="submit" value="SELECT MOVIE">
 			</form>
 			{% endfor %}
-			{{ people }}
-			{{ genre }}
+			{{ people.movie }}
+			{{ genre.movie }}
 		{% else %}
-   			<h1> 찾고 있는 영화 제목을 검색창에 입력해주세요. </h1>
+			<h1> 찾고 있는 영화 제목을 검색창에 입력해주세요. </h1>
 			<form action="{% url 'books:search_movie' book.pk %}" method="POST">
 				{% csrf_token %}
-				<input type="text" type="search" placeholder="search" name="searched">
+				<input type="search" placeholder="search" name="searched">
 				<button type="submit">search</button>
 			</form>
 		{% endif %}

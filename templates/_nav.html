@@ -5,7 +5,9 @@
     <div id="nav-title">Young Duck</div>
   </div>
   <div id="nav-search-box" class="hidden">
-    <input type="search" name="nav-search-form" id="nav-search-form" placeholder="검색어를 입력하세요" minlenght="1" maxlength="20">
+    <form action="{% url 'movies:search' %}">
+      <input type="search" name="nav-search-form" id="nav-search-form" placeholder="검색어를 입력하세요" minlenght="1" maxlength="20">
+    </form>
   </div>
   <div id="navbar-center" class="horizontal">
     <div id="nav-home">
@@ -29,8 +31,13 @@
     <div id="profile-modal-hello" class="vertical">
       <div>반가워요,</div>
       <div>
-        <span style="font-weight: 600;">{{ user.profile.nickname }}</span>
-        <span>님!</span>
+        {% if user.profile.nickname %}
+          <span style="font-weight: 600;">{{ user.profile.nickname }}</span>
+          <span>님!</span>
+        {% else %}
+          <span style="font-weight: 600;">{{ user.pk }}번째 수집가</span>
+          <span>님!</span>
+        {% endif %}
       </div>
     </div>
   </div>
