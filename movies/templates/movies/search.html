@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container" style="margin: 100px;">
+    <h1>search!</h1>
+    <h3>Movie의 결과입니다.</h3>
+    {% for movie in movies %}
+      {{ movie.title }}
+      {{ movie.overview }}
+      <a href="{% url 'movies:detail' movie.pk%}">go detail</a>
+    {% endfor %}
+    <hr>
+
+    <h3>People의 결과입니다.</h3>
+      {% for person in people %}
+        <p>{{ person.name }}</p>
+        <p>{{ person.movie_set }}</p>
+      {% endfor %}
+    <hr>
+
+    <h3>Genre의 결과입니다.</h3>
+      {% for genre in genres %}
+        <p>{{ genre }}</p>
+      {% endfor %}
+    <hr>
+
+    <h3>Book의 결과입니다.</h3>
+      {% for book in books %}
+        <p>{{ book.title }}</p>
+        <a href="{% url 'books:detail' book.pk %}">go detail</a>
+      {% endfor %}
+  </div>
+{% endblock content %}

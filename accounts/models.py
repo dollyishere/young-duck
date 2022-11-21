@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+import random
 
 
 class User(AbstractUser):
@@ -17,6 +18,6 @@ class Profile(models.Model):
         blank=True,
         )
     profile_img = models.ImageField(
-        default='',
+        default='images/icons/{}.png'.format(random.randrange(1, 20)),
         upload_to=profiles_image_path,
         )

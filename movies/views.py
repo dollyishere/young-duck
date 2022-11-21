@@ -21,15 +21,35 @@ def recommended(request):
     }
     return render(request, 'movies/recommended.html', context)
 
+def search(request):
+    print(request)
+    searched = request.GET['nav-search-form'].strip()
+    print(searched)
+    movies = Movie.objects.filter(title__contains=searched)
+    # print(movies)
+    # all_movies = Movie.objects.all()
+    people = People.objects.filter(name__contains=searched)
+    # people = []
+    # for credit in credits:
+    #     movie_list =
+    #     for movie in all_movies:
+    #         if movie.people
+    genres = Genre.objects.filter(name__contains=searched)
+    books = Book.objects.filter(title__contains=searched)
+    context = {
+            'searched' : searched,
+            'movies' : movies,
+            'people' : people,
+            'genres' : genres,
+            'books' : books,
+        }
+    return render(request, 'movies/search.html', context)
 
 def search_book(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    # if request.method == 'POST':
     books = Book.objects.filter(user=request.user)
     context = {
         'books' : books,
         'movie' : movie,
     }
     return render(request, 'movies/search_book.html', context)
-    # else:
-    #     return redirect('movies:search_book')
