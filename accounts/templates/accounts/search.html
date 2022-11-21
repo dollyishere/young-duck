@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class="container" style="margin: 100px;">
+		{% if searched %}
+			<h1> 검색하신 유저에 대한 정보입니다. </h1>
+			<br>
+			{% for person in people %}
+			{{ person.username }} <br>
+			<form action="{% url 'accounts:profile' person.username %}">
+				<input type="submit" value="SELECT USER">
+			</form>
+			<hr>
+			{% endfor %}
+		{% else %}
+			<h1> 찾고 있는 유저의 이름을 검색창에 입력해주세요. </h1>
+			<form action="{% url 'accounts:search' %}" method="POST">
+				{% csrf_token %}
+				<input type="search" placeholder="search" name="searched">
+				<button type="submit">search</button>
+			</form>
+		{% endif %}
+	</div>
+{% endblock %}

@@ -14,13 +14,17 @@
     <h3>People의 결과입니다.</h3>
       {% for person in people %}
         <p>{{ person.name }}</p>
-        <p>{{ person.movie_set }}</p>
+        <a href="{% url 'movies:detail_person' person.pk %}">go detail</a>
       {% endfor %}
     <hr>
 
     <h3>Genre의 결과입니다.</h3>
       {% for genre in genres %}
-        <p>{{ genre }}</p>
+        <p>{{ genre.name }}</p>
+      {% endfor %}
+      {% for genres_movie in genres_movies %}
+        <p>{{ genres_movie.title }}</p>
+        <a href="{% url 'movies:detail' genres_movie.pk%}">go detail</a>
       {% endfor %}
     <hr>
 

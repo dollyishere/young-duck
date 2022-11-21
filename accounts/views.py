@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
 from django.http import JsonResponse
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfileForm
-from .models import Profile
+from .models import Profile, User
 from movies.models import Movie
 import random
 
@@ -49,11 +49,6 @@ def signup(request):
             user = form.save()
             Profile.objects.create(user=user)
             auth_login(request, user)
-            profile = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-            print(profile)
-            print(request.user.pk)
-            profile.nickname = '{}번째 수집가'.format(request.user.pk)
-            profile.save()
             return redirect('books:index')
     else:
         form = CustomUserCreationForm()
@@ -110,6 +105,18 @@ def change_password(request):
     }
     return render(request, 'accounts/change_password.html', context)
 
+
+def search(request):
+    if request.method == 'POST':
+        searched = request.POST['searched'].strip()
+        people = User.objects.filter(username__contains=searched)
+        context = {
+                'searched' : searched,
+                'people' : people,
+            }
+        return render(request, 'accounts/search.html', context)
+    else:
+        return render(request, 'accounts/search.html', {})
 
 @login_required
 def profile(request, username):
