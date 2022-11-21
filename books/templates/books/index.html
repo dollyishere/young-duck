@@ -11,34 +11,6 @@
           <div id="my-books-right" class="books-right-btn right-btn-available"></div>
         </div>
       </div>
-      <div class="books-body horizontal">
-        <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸 어디까지 들어</div>
-          <div class="book-semi">소제목이 들어갈 칸 얘도 어디까지 들</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-      </div>
     </div>
 
     <!-- 레이아웃을 보기 위한 더미데이터 -->
@@ -50,7 +22,7 @@
           <div id="my-books-right" class="books-right-btn right-btn-available"></div>
         </div>
       </div>
-      <div class="books-body horizontal">
+      <div id="my-books" class="books-body horizontal">
         <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
         <div class="book vertical">
           <div class="book-thumbnail"></div>
@@ -119,5 +91,118 @@
     </div>
   </div>
 </div>
+
+
 {% endblock content %}
 
+{% block script %}
+<script>
+  const myBooksLeft = document.getElementById('my-books-left')
+  const myBooksRight = document.getElementById('my-books-right')
+
+  const books = [
+    {% for book in books %}
+      {
+        title: "{{ book.title }}",
+        semi_title: "{{ book.semi_title }}",
+        cover_image: "{{ book.cover_image }}",
+      },
+    {% endfor %}
+  ]
+
+  const myBooks = document.getElementById('my-books')
+  const maxPage = Math.ceil(books.length/5)
+  if(maxPage === 0) {
+    myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+  }
+
+  for(let i=0; i<maxPage; i++) {
+    
+    const myBooksList = document.createElement('div')
+    myBooksList.id = `my-books-list${i}`
+    myBooksList.classList.add("books-body", "horizontal")
+    if(i !== 0) {
+      myBooksList.classList.add("hidden")
+    }
+
+    for(let j=0; j<Math.min(5, books.length-(i*5)); j++) {
+      const bookThumbnail = document.createElement('div')
+      const bookTitle = document.createElement('div')
+      const bookSemi = document.createElement('div')
+      bookThumbnail.classList.add("book-thumbnail")
+      bookTitle.classList.add("book-title")
+      bookSemi.classList.add("book-semi")
+
+      bookTitle.innerText = books[i*5+j].title
+      bookSemi.innerText = books[i*5+j].semi_title
+
+      const themeBook = document.createElement('div')
+      themeBook.classList.add("book", "vertical")
+
+      themeBook.appendChild(bookThumbnail)
+      themeBook.appendChild(bookTitle)
+      themeBook.appendChild(bookSemi)
+
+      myBooksList.appendChild(themeBook)
+
+      myBooks.appendChild(myBooksList)
+    }
+  }
+
+  let myBookPage = 0;
+
+  myBooksLeft.addEventListener("click", (e) => {
+    e.preventDefault()
+    if(myBookPage > 0) {
+      const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
+      const newBooksList = document.getElementById(`my-books-list${myBookPage-1}`)
+
+      lastBooksList.classList.add("hidden")
+      newBooksList.classList.remove("hidden")
+      myBookPage -= 1
+
+      if(myBookPage === 0) {
+        myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
+      }
+      else {
+        myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
+      }
+
+      if(myBookPage === maxPage-1) {
+        console.log('the end!')
+        myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+      }
+      else {
+        myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
+      }
+    }
+  })
+
+  myBooksRight.addEventListener("click", (e) => {
+    e.preventDefault()
+    if(myBookPage < maxPage-1) {
+      const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
+      const newBooksList = document.getElementById(`my-books-list${myBookPage+1}`)
+
+      lastBooksList.classList.add("hidden")
+      newBooksList.classList.remove("hidden")
+      myBookPage += 1
+
+
+      if(myBookPage === 0) {
+        myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
+      }
+      else {
+        myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
+      }
+
+      if(myBookPage === maxPage-1) {
+        myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+      }
+      else {
+        myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
+      }
+    }
+  })
+</script>
+{% endblock script %}
