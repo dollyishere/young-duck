@@ -10,10 +10,13 @@ const navLogo = document.getElementById('nav-logo')
 const navTitle = document.getElementById('nav-title')
 const navProfile = document.getElementById('nav-profile')
 const profileModal = document.getElementById('profile-modal')
+const navAroundDiv = document.getElementById('nav-around')
+const navAroundSpan = document.querySelector('#nav-around > span')
 // const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
 const BASE_URL = 'http://127.0.0.1:8000'
 const HOME_URL = '/books'
+const ARROUND_URL = '/movies/recommended'
 
 function btnClicked() {
   if(btnToggle.clicked == false) {
@@ -43,6 +46,10 @@ navBar.addEventListener('click', (e) => {
   else if(e.target === navHomeDiv ||
     e.target === navHomeSpan) {
     location.href = BASE_URL+HOME_URL
+  }
+  else if(e.target === navAroundDiv ||
+    e.target === navAroundSpan) {
+    location.href = BASE_URL+ARROUND_URL
   }
   else if(e.target === navLogo ||
     e.target === navTitle) {
