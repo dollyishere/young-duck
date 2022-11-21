@@ -17,7 +17,7 @@ def index(request):
         }
         return render(request, 'books/index.html', context)
     else:
-        redirect('accounts:login')
+        return redirect('accounts:login')
 
 
 def create(request):
