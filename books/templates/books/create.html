@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
-		<h1 class="text-center">BOOK CREATE</h1>
-			<form action="{% url 'books:create' %}" method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<input type="submit">
-			</form>
-			<hr>
-			<a href="{% url 'books:index' %}">[back]</a>
+<div id="book-create" class="component-init">
+  <div id="book-create-container" class="vertical container-narrow">
+    <form action="{% url 'books:create' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button id="book-create-btn" value="CREATE">
+    </form>
 	</div>
+</div>
 {% endblock content %}
