@@ -1,7 +1,8 @@
+{% if user.is_authenticated %}
 <div id="navbar" class="horizontal">
   <div id="navbar-left" class="horizontal">
     <div id="nav-logo"></div>
-    <div id="nav-title">Service Name</div>
+    <div id="nav-title">Young Duck</div>
   </div>
   <div id="nav-search-box" class="hidden">
     <input type="search" name="nav-search-form" id="nav-search-form" placeholder="검색어를 입력하세요" minlenght="1" maxlength="20">
@@ -18,17 +19,17 @@
     </div>
   </div>
   <div id="navbar-right" class="horizontal">
-    <div id="nav-profile"></div>
+    <div id="nav-profile" style="background-image: url('{{ user.profile.profile_img.url }}'); background-size: 100%;"></div>
   </div>
 </div>
 
 <div id="profile-modal" class="vertical hidden">
   <div id="profile-modal-header" class="horizontal">
-    <div id="profile-modal-thumbnail"></div>
+    <div id="profile-modal-thumbnail" style="background-image: url('{{ user.profile.profile_img.url }}'); background-size: 100%;"></div>
     <div id="profile-modal-hello" class="vertical">
       <div>반가워요,</div>
       <div>
-        <span style="font-weight: 600;">{{ user.username }}</span>
+        <span style="font-weight: 600;">{{ user.profile.nickname }}</span>
         <span>님!</span>
       </div>
     </div>
@@ -63,3 +64,6 @@
     </form>
   </div>
 </div>
+
+
+{% endif %}

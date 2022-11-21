@@ -3,7 +3,9 @@
 <div id="login" class="horizontal" style="background: url('{{ background }}') no-repeat center top / 100%;">
   <div id="login-leftbox">
     <div id="login-leftbox-content" class="vertical">
-      <div id="login-logo"></div>
+      <div id="login-logo">
+        <span id="login-logo-title">Young Duck</span>
+      </div>
       <div id="login-hello">Hello, Collector</div>
       <div id="login-form">
         <form action="{% url 'accounts:login' %}" method="POST">

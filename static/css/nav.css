@@ -29,11 +29,13 @@ div {
 #nav-logo {
   width: 25px;
   height: 25px;
-  background-image: '';
-  background-color: #f5f5f5;
+  background-image: url('../images/logo/logo_tmp.png');
+  background-size: 100%;
   align-items: center;
   margin-right: 10px;
   cursor: pointer;
+  border-radius: 25px;
+  border: 2px solid #cdcdcd;
 }
 
 #nav-title {
@@ -105,8 +107,6 @@ input::-webkit-search-results-decoration { display: none; }
 #nav-profile {
   height: 25px;
   width: 25px;
-  background-color: #f5f5f5;
-  background-image: '';
   align-items: center;
   cursor: pointer;
 }

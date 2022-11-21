@@ -22,46 +22,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-  <title>Document</title>
+  <title>영화 덕후들을 위한 페이지, 영덕</title>
 </head>
 <body>
   
   {% include '_nav.html' %}
-  {% comment %} <div class="content">
-    <div class="container">
-      {% if request.user.is_authenticated %}
-      <h3>Hello, {{ user }}</h3>
-      
-      <form action="{% url 'accounts:logout' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="LOGOUT" class="btn btn-warning">
-      </form>
-
-      <a href="{% url 'accounts:update' %}" class="btn btn-secondary">Change account info</a>
-      
-      <form action="{% url 'accounts:delete' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="QUIT" class="btn btn-danger">
-      </form>
-
-      {% else %}
-        <a href="{% url 'accounts:login' %}" class="btn btn-warning">LOGIN</a>
-        <a href="{% url 'accounts:signup' %}" class="btn btn-success">SIGHUP</a>
-      {% endif %}
-      <hr> 
-    </div>
-  </div>
-  {% endcomment %} 
 
   {% block content %}
   {% endblock content %}
 
-  {% block script %}
-  {% endblock script %}
-
   {% load static %}
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{% static 'src/Nav.js' %}"></script>
+
+  {% block script %}
+  {% endblock script %}
 
 </body>
 </html>

@@ -32,7 +32,20 @@
 #login-logo {
   height: 100px;
   width: 100px;
-  background-color: aliceblue;
+  background-image: url('../images/logo/logo_tmp.png');
+  background-size: 100%;
+  border-radius: 100px;
+  border: 8px solid #cdcdcd;
+  justify-content: center;
+  align-items: baseline;
+}
+
+#login-logo-title {
+  margin-top: 112px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cdcdcd;
 }
 
 #login-hello {

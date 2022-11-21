@@ -5,7 +5,7 @@
   <div id="profile-container" class="horizontal" style="align-items: flex-start;">
     <!-- 프로필 정보 -->
     <div id="profile-leftbox" class="vertical">
-      <div id="profile-myprofile" class="profile-image"></div>
+      <div id="profile-myprofile" class="profile-image" style="background-image: url('{{ user.profile.profile_img.url }}'); background-size: 100%;"></div>
       {% comment %} profile nickname 존재 여부에 따라 nickname 출력 변경: jy {% endcomment %}
       {% if person.profile.nickname %}
         <div id="profile-mynickname" class="profile-nickname">{{ person.profile.nickname }}</div>
@@ -106,7 +106,7 @@
 
 {% endblock content %}
 
-{% block scripts %}
+{% block script %}
 {% load static %}
-  <script src="{% static 'src/Profile.js' %}"></script>
-{% endblock scripts %}
+<script src="{% static 'src/Profile.js' %}"></script>
+{% endblock script %}
