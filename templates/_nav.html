@@ -49,8 +49,7 @@
         <div id="myprofile-text">My Profile</div>
       </button>
     </form>
-    <form action="#" method="POST" id="modal-profile" class="modal-post">
-      {% csrf_token %}
+    <form action="{% url 'accounts:search' %}" id="modal-profile" class="modal-post">
       <button id="profile-modal-friends" class="horizontal modal-inner" style="cursor: pointer;">
         <div id="friends-icon" class="modal-icon"></div>
         <div id="friends-text">Search Friends</div>

@@ -13,6 +13,14 @@ def detail(request, movie_pk):
     }
     return render(request, 'movies/detail.html', context)
 
+def detail_person(request, person_pk):
+    person = get_object_or_404(People, pk=person_pk)
+    movies = person.movie_set.all()
+    context = {
+        'person' : person,
+        'movies' : movies,
+    }
+    return render(request, 'movies/detail_person.html', context)
 
 def recommended(request):
     movies = Movie.objects.all()
@@ -22,25 +30,20 @@ def recommended(request):
     return render(request, 'movies/recommended.html', context)
 
 def search(request):
-    print(request)
     searched = request.GET['nav-search-form'].strip()
-    print(searched)
     movies = Movie.objects.filter(title__contains=searched)
-    # print(movies)
-    # all_movies = Movie.objects.all()
     people = People.objects.filter(name__contains=searched)
-    # people = []
-    # for credit in credits:
-    #     movie_list =
-    #     for movie in all_movies:
-    #         if movie.people
     genres = Genre.objects.filter(name__contains=searched)
+    genres_movies = []
+    for genre in genres:
+        genres_movies.extend(genre.movie_set.all())
     books = Book.objects.filter(title__contains=searched)
     context = {
             'searched' : searched,
             'movies' : movies,
             'people' : people,
             'genres' : genres,
+            'genres_movies' : genres_movies,
             'books' : books,
         }
     return render(request, 'movies/search.html', context)
