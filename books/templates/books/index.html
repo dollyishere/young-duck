@@ -8,7 +8,11 @@
         <div id="my-books-title" class="books-index-title">나의 테마북</div>
         <div class="books-buttons">
           <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
-          <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+          {% if books.count < 5 %}
+            <div id="my-books-right" class="books-right-btn right-btn-disavailable"></div>
+          {%else %}
+            <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -109,6 +113,7 @@
       },
     {% endfor %}
   ]
+  books.push('end')
 
   const myBooks = document.getElementById('my-books')
   const maxPage = Math.ceil(books.length/5)
@@ -126,6 +131,7 @@
     }
 
     for(let j=0; j<Math.min(5, books.length-(i*5)); j++) {
+      const themeBook = document.createElement('div')
       const bookThumbnail = document.createElement('div')
       const bookTitle = document.createElement('div')
       const bookSemi = document.createElement('div')
@@ -133,16 +139,25 @@
       bookTitle.classList.add("book-title")
       bookSemi.classList.add("book-semi")
 
-      bookTitle.innerText = books[i*5+j].title
-      bookSemi.innerText = books[i*5+j].semi_title
-
-      const themeBook = document.createElement('div')
-      themeBook.classList.add("book", "vertical")
-
       themeBook.appendChild(bookThumbnail)
       themeBook.appendChild(bookTitle)
       themeBook.appendChild(bookSemi)
+      themeBook.classList.add("book", "vertical")
 
+      if(i*5+j === books.length-1) {
+        bookThumbnail.id = "themeBookCreate"
+        bookTitle.id = "themeBookCreateTitle"
+        bookTitle.innerText = '테마북'
+        bookSemi.id = "themeBookCreateSemi"
+        bookSemi.innerText = '추가'
+        bookTitle.style.visibility = "hidden"
+        bookSemi.style.visibility = "hidden"
+      } 
+      else {
+        bookTitle.innerText = books[i*5+j].title
+        bookSemi.innerText = books[i*5+j].semi_title
+      }
+      
       myBooksList.appendChild(themeBook)
 
       myBooks.appendChild(myBooksList)
@@ -204,5 +219,14 @@
       }
     }
   })
+
+  const BOOK_CREATE_URL = '/books/create'
+
+  const themeBookCreate = document.getElementById("themeBookCreate")
+  themeBookCreate.addEventListener("click", (e) => {
+    e.preventDefault()
+    location.href = BASE_URL+BOOK_CREATE_URL
+  })
+    
 </script>
 {% endblock script %}
