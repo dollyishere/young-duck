@@ -1,0 +1,115 @@
+#book-detail {
+  width: 100%;
+  justify-content: center;
+}
+
+#book-detail-container {
+  width: 1130px;
+  padding: 65px;
+}
+
+#book-detail-cover {
+  width: 960px;
+  height: 350px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  justify-content: space-between;
+  padding: 20px 25px 20px 25px;
+}
+
+#book-detail-movies {
+  width: 1000px;
+}
+
+.book-detail-movies {
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 100px;
+}
+
+.book-detail-movies-body {
+  width: 100%;
+  gap: 9px;
+  padding: 20px 0px 20px 0px;
+}
+
+.book-detail-movie-card {
+  width: 135px;
+  height: 189px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-movie-poster {
+  width: 125px;
+  height: 179px;
+  border-radius: 5px;
+  background-size: 100%;
+}
+
+#book-cover-profile {
+  width: 40px;
+  height: 40px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#cover-top {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+#cover-base {
+  width: 100%;
+  align-items: baseline;
+}
+
+#cover-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: #f5f5f5;
+  margin-right: 10px;
+}
+
+#cover-semi-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #f5f5f5;
+  margin-right: 30px;
+
+}
+
+#book-edit {
+  height: 20px;
+  width: 20px;
+  background-image: url('../images/icons/book-edit.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#book-delete {
+  height: 20px;
+  width: 20px;
+  background-image: url('../images/icons/book-delete.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+#book-delete-btn {
+  background-color: transparent;
+  border: none;
+}
+
+.profile-background {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border: 1px solid #cdcdcd;
+  border-radius: 50px;
+}

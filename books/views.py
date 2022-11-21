@@ -38,8 +38,13 @@ def create(request):
 
 def detail(request, book_pk):
     book = get_object_or_404(Book, pk=book_pk)
+    person = get_object_or_404(get_user_model(), pk=book.user.pk)
+    cards = book.collected_cards.all()
+
     context = {
         'book' : book,
+        'person' : person,
+        'cards' : cards,
     }
     return render(request, 'books/detail.html', context)
 

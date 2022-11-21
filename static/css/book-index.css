@@ -48,7 +48,7 @@
   width: 100%;
   height: calc(100% - 90px);
   padding: 20px 0px 20px 0px;
-  justify-content: space-between;
+  gap: calc(20% - 203px);
 }
 
 .book {
