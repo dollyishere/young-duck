@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from .forms import BookForm, CardForm
 from .models import Book, Card
 from movies.models import Genre, Movie, People
+import qrcode
 
 # Create your views here.
 def index(request):
@@ -107,8 +108,16 @@ def create_card(request, book_pk, movie_pk):
 
 def detail_card(request, card_pk):
     card = get_object_or_404(Card, pk=card_pk)
+    movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
+    qr_img = False
+    if movie.video:
+        qr_img_url = qrcode.make('https://www.youtube.com/watch?v={}'.format(movie.video))
+        print(type(qr_img_url))
+        qr_img_url.save('media/movies/video/{}.png'.format(movie.id))
+        qr_img = True
     context = {
         'card' : card,
+        'qr_img' : qr_img,
     }
     return render(request, 'books/detail_card.html', context)
 
