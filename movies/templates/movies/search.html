@@ -1,37 +1,93 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container" style="margin: 100px;">
-    <h1>search!</h1>
-    <h3>Movie의 결과입니다.</h3>
-    {% for movie in movies %}
-      {{ movie.title }}
-      {{ movie.overview }}
-      <a href="{% url 'movies:detail' movie.pk%}">go detail</a>
-    {% endfor %}
-    <hr>
+<div id="movie-search" class="component-init">
+  <div class="container-narrow vertical">
+    <div id="search-movie" class="vertical search-container">
+    <div id="search-subject">
+      <div id="search-index-movies" class="books-index-title">Movies</div>
+      <div id="search-index-people" class="books-index-title">People</div>
+      <div id="search-index-genre" class="books-index-title">Genre</div>
+      <div id="search-index-books" class="books-index-title">Books</div>
+    </div>
 
-    <h3>People의 결과입니다.</h3>
-      {% for person in people %}
-        <p>{{ person.name }}</p>
-        <a href="{% url 'movies:detail_person' person.pk %}">go detail</a>
-      {% endfor %}
-    <hr>
+    <div id="search-movies" class="search-list vertical">
+      <div class="search-notice">"{{ searched }}"에 대한 검색 결과는 총 {{ movies|length }}개 입니다.</div>
+      {% for movie in movies %}
+        <a href="{% url 'movies:detail' movie.pk %}">
+          <div class="search-item horizontal">
+            <div class="search-list-left">
+              <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.poster_path }}');"></div>
+            </div>
 
-    <h3>Genre의 결과입니다.</h3>
-      {% for genre in genres %}
-        <p>{{ genre.name }}</p>
+            <div class="search-list-right vertical">
+              <div class="search-list-title">{{ movie.title }}</div>
+              <div class="search-list-info horizontal">{{ movie.released_date }}랑 국가? 장르</div>
+              <div class="search-list-vote horizontal">별점 : {{ movie.vote_average }}</div>
+              <div class="search-list-overview">{{ movie.overview }}</div>
+            </div>
+          </div>
+        </a>
       {% endfor %}
+    </div>
+
+    <div id="search-people" class="search-list vertical hidden">
+      <div class="search-notice">"{{ searched }}"에 대한 검색 결과는 총 {{ people|length }}개 입니다.</div>
+      <div class="search-list-people horizontal">
+        {% for person in people %}
+          <a href="{% url 'movies:detail_person' person.pk %}">
+
+            <div class="search-person vertical" style="border: none;">
+              <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
+              <div class="search-person-name">{{ person.name }}</div>
+              <div class="search-person-department">{{ person.known_for_department }}</div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div id="search-genre" class="search-list vertical hidden">
+      <div class="search-notice">"{{ searched }}"에 대한 검색 결과는 총 {{ genres_movies|length }}개 입니다.</div>
       {% for genres_movie in genres_movies %}
-        <p>{{ genres_movie.title }}</p>
-        <a href="{% url 'movies:detail' genres_movie.pk%}">go detail</a>
-      {% endfor %}
-    <hr>
+        <a href="{% url 'movies:detail' genres_movie.pk %}">
+          <div class="search-item horizontal">
+            <div class="search-list-left">
+              <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ genres_movie.poster_path }}');"></div>
+            </div>
 
-    <h3>Book의 결과입니다.</h3>
-      {% for book in books %}
-        <p>{{ book.title }}</p>
-        <a href="{% url 'books:detail' book.pk %}">go detail</a>
+            <div class="search-list-right vertical">
+              <div class="search-list-title">{{ genres_movie.title }}</div>
+              <div class="search-list-info horizontal">{{ genres_movie.released_date }}랑 국가? 장르</div>
+              <div class="search-list-vote horizontal">별점 : {{ genres_movie.vote_average }}</div>
+              <div class="search-list-overview">{{ genres_movie.overview }}</div>
+            </div>
+          </div>
+        </a>
       {% endfor %}
+    </div>
+
+    <div id="search-books" class="search-list vertical hidden">
+      <div class="search-notice">"{{ searched }}"에 대한 검색 결과는 총 {{ books|length }}개 입니다.</div>
+      <div class="search-list-books horizontal">
+        {% for book in books %}
+          <a href="{% url 'books:detail' book.pk %}">
+
+            <div class="search-person vertical" style="border: none;">
+              <div class="search-book-thumbnail" style="background-image: url('/media/{{ book.cover_image }}')"></div>
+              <div class="search-person-name">{{ book.title }}</div>
+              <div class="search-person-department">{{ book.semi_title }}</div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  </div>
   </div>
 {% endblock content %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'src/Search.js' %}"></script>
+{% endblock script %}

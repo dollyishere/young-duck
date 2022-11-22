@@ -15,6 +15,7 @@
 			<div id="cover-base" class="horizontal">
 				<div id="cover-title">{{ book.title }}</div>
 				<div id="cover-semi-title">{{ book.semi_title }}</div>
+				{% if user  == person %}
 				<a href="{% url 'books:update' book.pk %}">
 					<div id="book-edit"></div>
 				</a>
@@ -24,6 +25,7 @@
 						<div id="book-delete" ></div>
 					</button>
 				</form>
+				{% endif %}
 			</div>
 		</div>
 		{% comment %} <span>{{ book.like_users|length }}</span> {% endcomment %}
