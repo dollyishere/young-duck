@@ -1,7 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
+<div id="create-card" class="component-init">
+	<div id="create-card-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')" class="background">
+	</div>
+	<div class="card-container">
+		<div class="card-back vertical">
+			<div class="card-header horizontal">
+				<a class="card-header-left" href="javascript:history.back()">
+					<div class="left-arrow-black card-btn"></div>
+				</a>
+				<div class="card-header-center">Y-Card</div>
+				<a class="write-black card-header-right">
+					<div class="write-black card-btn"></div>
+				</a>
+			</div>
+			<div class="card-cover" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')"></div>
+			<div class="card-body vertical">
+				<div class="card-body-top vertical">
+
+					<div class="card-title card-inner vertical">
+						<div class="card-tag">Title</div>
+						<div id="card-title">{{ movie.title }}</div>
+					</div>					
+
+					<div class="card-genre card-inner vertical">
+						<div class="card-tag">Genre</div>
+						<div class="card-genre-list horizontal">
+							{% for g in genre %}
+								<div id="card-genre">{{ g.name }}</div>
+							{% endfor %}
+						</div>
+					</div>
+
+					<div class="card-credit card-inner vertical">
+						<div class="card-credit">Credit</div>
+						<div class="card-credit-list horizontal">
+							{% for person in people %}
+								<a id="card-person" href="{% url 'movies:detail_person' person.pk %}">{{ person.name }}</a>
+							{% endfor %}
+						</div>
+					</div>
+
+				</div>
+				
+				<hr class="card-line">
+
+				<div class="card-body-base">
+					<form action="{% url 'books:update_card' card.pk %}" method="POST">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<div id="card-create">
+							<input type="submit" value="Post">
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="card-tail">
+			</div>
+		</div>
+	</div>
+</div>
+
+	{% comment %} <div class="container" style="margin: 100px;">
 		<h1 class="text-center">CARD UPDATE</h1>
 			<form action="{% url 'books:update_card' card.pk %}" method="POST">
 				{% csrf_token %}
@@ -10,5 +71,5 @@
 			</form>
 			<hr>
 			<a href="{% url 'books:detail_card' card.pk %}">[back]</a>
-	</div>
+	</div> {% endcomment %}
 {% endblock content %}

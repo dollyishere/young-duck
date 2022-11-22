@@ -231,3 +231,7 @@ textarea {
 textarea::-webkit-scrollbar {
   display: none;
 }
+
+.card-genre {
+  height: 35px;
+}

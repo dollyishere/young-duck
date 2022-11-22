@@ -1,27 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
+<div id="select_movie" class="component-init">
+  <div class="container-narrow vertical">
+    <div id="select-label">영화 제목을 검색하세요.</div>
+    <form action="{% url 'books:select_movie' book.pk %}" method="POST">
+      {% csrf_token %}
+      <input type="search" placeholder="search" name="searched" id="select-movie-search">
+      <!-- <button type="submit">search</button> -->
+    </form>
 		{% if searched %}
-			<h1> 검색하신 {{ searched }} 영화에 대한 정보입니다. </h1>
-			<br>
-			{% for movie in movies %}
-			{{ movie.title }} <br>
-			{{ movie.overview }} <br>
-			<form action="{% url 'books:create_card' book_pk=book.pk movie_pk=movie.pk %}" method="POST">
-				{% csrf_token %}
-				<input type="submit" value="SELECT MOVIE">
-			</form>
+    <div class="vertical">
+			<h1 style="margin-bottom: 10px;">"{{ searched }}"에 대해 총 {{ movies|length }}건의 검색 결과가 있습니다. </h1>
+
+      {% for movie in movies %}
+      <div class="select-search-result horizontal">
+        <div class="select-movie-content">
+          {{ movie.title|truncatechars:24 }}
+          {{ movie.released_date|date:'Y' }}
+          {{ movie.director }}
+        </div>
+        <div class="select-movie-add">
+          <form action="{% url 'books:create_card' book_pk=book.pk movie_pk=movie.pk %}" method="POST">
+            {% csrf_token %}
+            <button id="select-movie-add"></button>
+          </form>
+        </div>
+      </div>
 			{% endfor %}
 			{{ people.movie }}
 			{{ genre.movie }}
-		{% else %}
-			<h1> 찾고 있는 영화 제목을 검색창에 입력해주세요. </h1>
-			<form action="{% url 'books:select_movie' book.pk %}" method="POST">
-				{% csrf_token %}
-				<input type="search" placeholder="search" name="searched">
-				<button type="submit">search</button>
-			</form>
+    </div>
 		{% endif %}
-	</div>
+
+  </div>
+</div>
 {% endblock %}

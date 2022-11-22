@@ -178,6 +178,15 @@ def detail_card(request, card_pk):
 def update_card(request, card_pk):
     if request.user.is_authenticated:
         card = get_object_or_404(Card, pk=card_pk)
+        movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
+        genres = movie.genres.all()
+        people = movie.people.all()
+        if len(people) >= 5:
+            people = people[:5]
+
+        if len(genres) >= 5:
+            genres = genres[:5]
+
         if request.user == card.user:
             if request.method == 'POST':
                 form = CardForm(request.POST, instance=card)
@@ -191,6 +200,9 @@ def update_card(request, card_pk):
         context = {
             'card' : card,
             'form' : form,
+            'movie' : movie,
+            'genre' : genres,
+            'people' : people,
         }
         return render(request, 'books/update_card.html', context)
     else:
