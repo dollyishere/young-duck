@@ -6,7 +6,11 @@ class Genre(models.Model):
 
 class People(models.Model):
     name = models.CharField(max_length=50)
+    birthday = models.DateField(null=True)
+    known_for_department = models.CharField(max_length=50)
     popularity = models.FloatField()
+    profile_path = models.CharField(max_length=200, blank=True)
+    
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)

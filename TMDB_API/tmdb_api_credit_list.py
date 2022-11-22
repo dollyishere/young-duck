@@ -24,7 +24,6 @@ def get_credit_datas():
                 'birthday' : person['birthday'],
                 'known_for_department' : person['known_for_department'],
                 'popularity' : person['popularity'],
-                'biography' : person['biography'],
                 'profile_path' : person['profile_path'],
                 }
             }
