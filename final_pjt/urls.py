@@ -26,4 +26,7 @@ urlpatterns = [
     path('movies/', include('movies.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# handler404 = "mysite.views.page_not_found_view"
+handler400 = "final_pjt.views.page_bad_request_view"
+# handler403 = "final_pjt.views.page_not_found_view"
+handler404 = "final_pjt.views.page_not_found_view"
+# handler500 = "final_pjt.views.page_server_error_view"
