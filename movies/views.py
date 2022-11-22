@@ -12,10 +12,16 @@ from books.models import Book, Card
 def detail(request, movie_pk):
     if request.user.is_authenticated:
         movie = get_object_or_404(Movie, pk=movie_pk)
-        people = movie.people.all()[:5]
+        people = movie.people.all()
+        genres = movie.genres.all()
+        
+        if len(people) >= 5:
+            people = people[:5]
+        
         context = {
             'movie' : movie,
             'people' : people,
+            'genres' : genres,
         }
         return render(request, 'movies/detail.html', context)
     else:
