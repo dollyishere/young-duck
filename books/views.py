@@ -102,6 +102,16 @@ def create_card(request, book_pk, movie_pk):
     if request.user.is_authenticated:
         book = get_object_or_404(Book, pk=book_pk)
         movie = get_object_or_404(Movie, pk=movie_pk)
+        genres = movie.genres.all()
+        people = movie.people.all()
+
+        if len(people) >= 5:
+            people = people[:5]
+
+        if len(genres) >= 5:
+            genres = genres[:5]
+            
+            
         if request.method == 'POST':
             cards = Card.objects.filter(user=request.user)
             if len(cards):
@@ -127,6 +137,8 @@ def create_card(request, book_pk, movie_pk):
             'form' : form,
             'book' : book,
             'movie' : movie,
+            'genre' : genres,
+            'people' : people,
         }
         return render(request, 'books/create_card.html', context)
     else:
@@ -138,12 +150,24 @@ def detail_card(request, card_pk):
     if request.user.is_authenticated:
         card = get_object_or_404(Card, pk=card_pk)
         movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
+        genres = movie.genres.all()
+        people = movie.people.all()
+
+        if len(people) >= 5:
+            people = people[:5]
+
+        if len(genres) >= 5:
+            genres = genres[:5]
+            
         qr_img = False
         if movie.video:
             qr_img = 'media/movies/video/{}.png'.format(movie.pk)
         context = {
             'card' : card,
+            'movie' : movie,
             'qr_img' : qr_img,
+            'genre' : genres,
+            'people' : people,
         }
         return render(request, 'books/detail_card.html', context)
     else:
