@@ -4,6 +4,9 @@
     <div class="container" style="margin: 100px;">
         <h1>{{ movie.title }}</h1>
         <p>{{ movie.overview }}</p>
+        {% for person in people %}
+            <a href="{% url 'movies:detail_person' person.pk %}">{{ person.name }}</a>
+        {% endfor %}
         <a href="{% url 'movies:select_book' movie.pk %}">Make your card!</a>
     </div>
 {% endblock content %}
