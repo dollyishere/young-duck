@@ -3,6 +3,8 @@
 {% block content %}
     <div class="container" style="margin: 100px;">
         <h1>{{ person.name }}</h1>
+        <p>{{ person.birthday }}</p>
+        <p>{{ person.known_for_department }}</p>
         {% for movie in movies %}
           <p>{{ movie.title }}</p>
           <a href="{% url 'movies:detail' movie.pk %}">go detail</a>
