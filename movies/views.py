@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from .models import Genre, People, Movie
 from books.models import Book, Card
-
+import random
 
 # Create your views here.
 # signup, login 외 모든 기능은 로그인 후 접근할 수 있으므로, 만약 해당 유저가 login 상태가 아닐 시 login 페이지로 이동하도록 조치함(is_authenticated)
@@ -14,6 +14,9 @@ def detail(request, movie_pk):
         movie = get_object_or_404(Movie, pk=movie_pk)
         movie.click_count += 1
         print(movie.click_count)
+        movie.save()
+        movie.refresh_from_db
+
         people = movie.people.all()
         genres = movie.genres.all()
         
@@ -47,6 +50,15 @@ def detail_person(request, person_pk):
 @require_GET
 def recommended(request):
     if request.user.is_authenticated:
+        genre_list = []
+        genres = Genre.objects.all()
+        for genre in genres:
+            genre_list.append(genre)
+        choice_genres = random.sample(genre_list, 3)
+        # for choice_genre in choice_genres:
+        #     print(choice_genre.name)
+        #     '{}'.format() = choice_genre.movie_set.all()[:10] 
+            # '{}'.format(choice_genre[i]) = Genre.movie_set.filter
         movies = Movie.objects.all()
         context = {
             'movies' : movies,
