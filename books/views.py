@@ -95,6 +95,10 @@ def create_card(request, book_pk, movie_pk):
             card.watched_movie = movie
             card.save()
             card.belonged_book.add(book_pk)
+            if movie.video:
+                qr_img_url = qrcode.make('https://www.youtube.com/watch?v={}'.format(movie.video))
+                print(type(qr_img_url))
+                qr_img_url.save('media/movies/video/{}.png'.format(movie.pk))
             return redirect('books:detail_card', card.pk)
     else:
         form = CardForm()
@@ -111,10 +115,7 @@ def detail_card(request, card_pk):
     movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
     qr_img = False
     if movie.video:
-        qr_img_url = qrcode.make('https://www.youtube.com/watch?v={}'.format(movie.video))
-        print(type(qr_img_url))
-        qr_img_url.save('media/movies/video/{}.png'.format(movie.id))
-        qr_img = True
+        qr_img = 'media/movies/video/{}.png'.format(movie.pk)
     context = {
         'card' : card,
         'qr_img' : qr_img,

@@ -9,7 +9,7 @@ def get_movie_datas(movie_list, people_id_list):
     total_data = []
     credit_data = []
 
-    for i in range(100):
+    for i in range(len(movie_list)):
         movie = movie_list[i]
 
         movie_detail_request_url = 'https://api.themoviedb.org/3/movie/{}?api_key={}&language=ko-KR'.format( movie, TMDB_API_KEY)
