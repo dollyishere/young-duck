@@ -12,7 +12,7 @@
 					<div class="left-arrow-black card-btn"></div>
 				</a>
 				<div class="card-header-center">Y-Card</div>
-				<a class="write-black card-header-right">
+				<a class="write-black card-header-right" href="">
 					<div class="write-black card-btn"></div>
 				</a>
 			</div>
@@ -47,10 +47,19 @@
 				
 				<hr class="card-line">
 
-				<div class="card-body-base">
-					<div>{{ card.my_comment }}</div>
-					<div>{{ card.my_score }}</div>
-					<div>{{ card.visited_count }}</div>
+				<div class="card-body-base vertical">
+          <div class="horizontal base-content" id="card-score">
+            <div>My Score :</div>
+            <div>{{ card.my_score }}</div>
+          </div>
+          <div class="base-content vertical" id="card-comment">
+            <div class="base-content">My Comment :</div>
+            <div class="base-content" id="card-comment-text">{{ card.my_comment }}</div>
+          </div>
+          <div class="horizontal base-content" id="card-score">
+            <div>Visited Count :</div>
+            <div>{{ card.visited_count }}</div>
+          </div>
 					<div id="qr-img" style="background-image: url('/{{ qr_img }}');"></div>
 				</div>
 			</div>
