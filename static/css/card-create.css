@@ -61,7 +61,7 @@
   height: 20px;
   text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: black;
   padding: 5px;
@@ -104,14 +104,15 @@
 }
 
 .card-body-top {
-  width: 355px;
-  height: 163px;
-  padding: 20px 30px 20px 30px;
+  width: 365px;
+  height: 193px;
+  padding: 10px 25px 0px 25px;
 }
 
 .card-body-base {
-  width: 415px;
-  height: 234px;
+  width: 365px;
+  height: 220px;
+  padding: 10px 25px 10px 25px;
 }
 
 
@@ -143,20 +144,18 @@
   border-radius: 0px 0px 10px 10px;
 }
 
-.card-title {
+.card-inner {
   align-items: flex-start;
-}
-
-.card-title-genre {
   width: 100%;
-  justify-content: space-between;
   margin-bottom: 10px;
 }
 
 #card-title {
+  height: 45px;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 20px;
   font-weight: 600;
+  line-height: 1.2;
   color: black;
 }
 
@@ -164,8 +163,71 @@
   margin-bottom: 3px;
 }
 
-.card-actors-direct {
-  width: 100%;
-  justify-content: space-between;
+#card-genre {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: black;
+  margin-right: 10px;
+}
+
+#card-person {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: black;
+  margin-right: 10px;
+}
+
+#id_my_score {
+  width: 10%;
+  height: 17px;
+  resize: none;
+  border: none;
   margin-bottom: 10px;
+}
+
+
+#id_my_comment {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border: none;
+  margin-bottom: 10px;
+}
+
+#id_visited_count {
+  width: 10%;
+  height: 17px;
+  resize: none; 
+  border: none;
+}
+
+#card-create {
+  justify-content: flex-end;
+}
+
+#card-create > input {
+  border: none;
+  background-color: transparent;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f5f5f5;
+  background-color: #5A8C9C;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+textarea {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
 }
