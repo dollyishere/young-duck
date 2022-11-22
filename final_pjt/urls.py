@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls import handler400, handler403, handler404, handler500
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -24,3 +25,5 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('movies/', include('movies.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# handler404 = "mysite.views.page_not_found_view"
