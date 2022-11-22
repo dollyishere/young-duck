@@ -16,7 +16,7 @@
       {% if user == person %}
       <!-- 본인이면 edit 버튼 -->
       <div id="profile-btn" class="profile-btn">
-        <form action="{% url 'accounts:profile_update' username=person.username %}" id="profile-btn" data-user-id="{{ person.pk }}">
+        <form action="{% url 'accounts:update_profile' username=person.username %}" id="profile-btn" data-user-id="{{ person.pk }}">
             <button id="profile-edit" class="profile-btn">EDIT PROFILE</button>
         </form>
       </div>

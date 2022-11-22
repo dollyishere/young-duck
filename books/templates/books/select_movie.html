@@ -17,7 +17,7 @@
 			{{ genre.movie }}
 		{% else %}
 			<h1> 찾고 있는 영화 제목을 검색창에 입력해주세요. </h1>
-			<form action="{% url 'books:search_movie' book.pk %}" method="POST">
+			<form action="{% url 'books:select_movie' book.pk %}" method="POST">
 				{% csrf_token %}
 				<input type="search" placeholder="search" name="searched">
 				<button type="submit">search</button>
