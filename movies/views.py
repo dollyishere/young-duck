@@ -12,6 +12,8 @@ from books.models import Book, Card
 def detail(request, movie_pk):
     if request.user.is_authenticated:
         movie = get_object_or_404(Movie, pk=movie_pk)
+        movie.click_count += 1
+        print(movie.click_count)
         people = movie.people.all()
         genres = movie.genres.all()
         
