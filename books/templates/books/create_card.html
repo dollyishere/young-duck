@@ -1,14 +1,49 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
-		<h1 class="text-center">CARD CREATE</h1>
-			<form action="{% url 'books:create_card' book.pk movie.pk %}" method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<input type="submit">
-			</form>
-			<hr>
-			<a href="{% url 'books:detail' book.pk %}">[back]</a>
+<div id="create-card" class="component-init">
+	<div id="create-card-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')" class="background">
 	</div>
+	<div class="card-container">
+		<div class="card-back vertical">
+			<div class="card-header horizontal">
+				<a class="card-header-left">
+					<div class="left-arrow-black card-btn"></div>
+				</a>
+				<div class="card-header-center">Y-Ticket</div>
+				<a class="write-black card-header-right">
+					<div class="write-black card-btn"></div>
+				</a>
+			</div>
+			<div class="card-cover" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')"></div>
+			<div class="card-body vertical">
+				<div class="card-body-top vertical">
+					<div class="card-title-genre horizontal">
+						<div class="card-title vertical">
+							<div class="card-tag">Title</div>
+							<div id="card-title">{{ movie.title }}</div>
+						</div>
+						<div class="card-genre vertical">
+							<div class="card-tag">Genre</div>
+							<div id="card-genre">{{ movie.genre }}</div>
+						</div>
+					</div>
+					<div class="card-credit vertical">
+						<div class="card-credit">Credit</div>
+					</div>
+				</div>
+				<hr class="card-line">
+				<div class="card-body-base">
+					<form action="{% url 'books:create_card' book.pk movie.pk %}" method="POST">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<input type="submit">
+					</form>
+				</div>
+			</div>
+			<div class="card-tail">
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock content %}
