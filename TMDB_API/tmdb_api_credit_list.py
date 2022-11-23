@@ -25,6 +25,7 @@ def get_credit_datas():
                 'known_for_department' : person['known_for_department'],
                 'popularity' : person['popularity'],
                 'profile_path' : person['profile_path'],
+                'click_count' : 0,
                 }
             }
         credit_list.append(data)

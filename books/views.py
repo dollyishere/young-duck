@@ -8,6 +8,16 @@ from .models import Book, Card
 from movies.models import Genre, Movie, People
 import qrcode
 import random
+import sys
+
+if sys.version_info < (3, 0):
+    from urllib2 import urlopen
+else:
+    from urllib.request import urlopen
+
+import io
+
+from colorthief import ColorThief
 
 # Create your views here.
 # signup, login 외 모든 기능은 로그인 후 접근할 수 있으므로, 만약 해당 유저가 login 상태가 아닐 시 login 페이지로 이동하도록 조치함(is_authenticated)
@@ -136,7 +146,7 @@ def create_card(request, book_pk, movie_pk):
                 for card in cards:
                     if movie == card.watched_movie:
                         card.belonged_book.add(book_pk)
-                        return redirect('books:detail_card', card.pk)
+                        return redirect('books:detail', book_pk)
             form = CardForm(request.POST)
             if form.is_valid():
                 card = form.save(commit=False)
@@ -148,7 +158,7 @@ def create_card(request, book_pk, movie_pk):
                     qr_img_url = qrcode.make('https://www.youtube.com/watch?v={}'.format(movie.video))
                     print(type(qr_img_url))
                     qr_img_url.save('media/movies/video/{}.png'.format(movie.pk))
-                return redirect('books:detail_card', card.pk)
+                return redirect('books:detail', book_pk)
         else:
             form = CardForm()
         context = {
@@ -180,12 +190,29 @@ def detail_card(request, card_pk):
         qr_img = False
         if movie.video:
             qr_img = 'media/movies/video/{}.png'.format(movie.pk)
+
+        # tmp_file = 'back.png'
+        # urllib.request.urlretrieve('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path), tmp_file)
+        # color_thief = ColorThief(tmp_file)
+        # dominant_color = color_thief.get_palette(color_count=3)[2]
+        # os.remove(tmp_file)
+        # dominant_color = list(dominant_color)
+        # print(dominant_color)
+
+        fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
+        f = io.BytesIO(fd.read())
+        color_thief = ColorThief(f)
+        dominant_color = color_thief.get_palette(color_count=3)[2]
+        dominant_color = list(dominant_color)
+        print(dominant_color)
+
         context = {
             'card' : card,
             'movie' : movie,
             'qr_img' : qr_img,
             'genre' : genres,
             'people' : people,
+            'dominant_color' : dominant_color,
         }
         return render(request, 'books/detail_card.html', context)
     else:

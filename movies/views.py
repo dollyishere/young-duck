@@ -13,7 +13,6 @@ def detail(request, movie_pk):
     if request.user.is_authenticated:
         movie = get_object_or_404(Movie, pk=movie_pk)
         movie.click_count += 1
-        print(movie.click_count)
         movie.save()
         movie.refresh_from_db
 
@@ -59,7 +58,32 @@ def recommended(request):
         #     print(choice_genre.name)
         #     '{}'.format() = choice_genre.movie_set.all()[:10] 
             # '{}'.format(choice_genre[i]) = Genre.movie_set.filter
+        
         movies = Movie.objects.all()
+        longest_title = ''
+        longest_overview = ''
+        longest_name = ''
+        longest_director_name = ''
+
+        for movie in movies:
+            if len(movie.title) > len(longest_title):
+                longest_title = movie.title
+            if len(movie.overview) > len(longest_overview):
+                longest_overview = movie.overview
+            if len(movie.director) > len(longest_director_name):
+                longest_director_name = movie.director
+
+        people = People.objects.all()
+        
+        for person in people:
+            if len(person.name) > len(longest_name):
+                longest_name = person.name
+        
+        print(longest_title)
+        print(longest_overview)
+        print(longest_name)
+        print(longest_director_name)
+
         context = {
             'movies' : movies,
         }
@@ -72,12 +96,13 @@ def recommended(request):
 def search(request):
     if request.user.is_authenticated:
         searched = request.GET['nav-search-form'].strip()
-        movies = Movie.objects.filter(title__contains=searched)
-        people = People.objects.filter(name__contains=searched)
+        movies = Movie.objects.filter(title__contains=searched).order_by('-popularity')
+        people = People.objects.filter(name__contains=searched).order_by('-popularity')
         genres = Genre.objects.filter(name__contains=searched)
         genres_movies = []
         for genre in genres:
             genres_movies.extend(genre.movie_set.all())
+        genres_movies.sort(key=lambda x:x.popularity, reverse=True)
         books = Book.objects.filter(title__contains=searched)
         context = {
                 'searched' : searched,

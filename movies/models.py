@@ -10,7 +10,7 @@ class People(models.Model):
     known_for_department = models.CharField(max_length=50)
     popularity = models.FloatField()
     profile_path = models.CharField(max_length=200, blank=True)
-    
+    # click_count = models.IntegerField()
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
