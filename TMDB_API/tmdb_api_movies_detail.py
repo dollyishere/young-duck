@@ -16,7 +16,7 @@ def get_movie_datas(movie_list, people_id_list):
         
         movie_detail = requests.get(movie_detail_request_url).json()
         
-        # 만약 movie_detail['backdrop_path']이 null일시, ''를 대신 넣어줌
+        # 만약 movie_detail['backdrop_path'], movie_detail['poster_path']이 null일시, ''를 대신 넣어줌
         if movie_detail['backdrop_path'] == None:
             movie_detail['backdrop_path'] = ''
         
@@ -107,9 +107,9 @@ def get_movie_datas(movie_list, people_id_list):
                 #     people_list.append(crew['id'])
 
         data['fields']['people'] = people_list
-        # print(people_list)
-        # pprint(data)
+
         # total_data에 지금까지 만든 영화(1편) 데이터 추가
+        # credit_data에는 people_list 내부 요소들을 extend를 이용해 저장
         total_data.append(data)
         credit_data.extend(people_list)
 
