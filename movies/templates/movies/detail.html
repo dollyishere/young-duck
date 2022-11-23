@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="movie-search" class="component-init">
-  <div class="container-xnarrow vertical">
+  <div class="container-xnarrow vertical" style="position: relative">
     <div class="vertical">
       <div id="movie-detail-title" class="books-index-title">상세 정보</div>
       <div class="movie-detail-body horizontal">
@@ -26,9 +26,9 @@
               <div class="movie-detail-content-overview">{{ movie.overview }}</div>
           </div>
           
-          <a id="movie-detail-create-link" href="{% url 'movies:select_book' movie.pk %}">
+          <div id="movie-detail-create-link">
             <div id="movie-detail-create-btn">추가하기</div>
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
       <a href="{% url 'movies:detail_person' person.pk %}">
         <div class="movie-detail-person vertical">
           <div class="movie-detail-person-face" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
-          <div class="movie-detail-person-name">{{ person.name }}</div>
+          <div class="movie-detail-person-name">{{ person.name|truncatechars:20 }}</div>
           <div class="movie-detail-person-role">{{ person.known_for_department }}</div>
         </div>
       </a>
@@ -58,6 +58,19 @@
       </div>
     </div>
 
+  <div id="movie-detail-add-x" class="hidden"></div>
+  <div id="movie-detail-add" class="hidden">
+    {% for book in books %}
+      <form action="{% url 'books:create_card' book.pk movie.pk %}" method="POST">
+        {% csrf_token %}
+        <div class="vertical" style="cursor: pointer;">
+        <input type="submit" class="movie-detail-book-thumbnail" value="" style="background-image: url('{{ book.cover_image.url }}'); opacity: 1; z-index: 100;">
+        <input type="submit" value="{{ book.title }}" class="detail-submit-title">
+        <input type="submit" value="{{ book.semi_title }}" class="detail-submit-semi-title">
+        </div>
+      </form>
+    {% endfor %}
+  </div>
         
 </div>
 {% endblock content %}
@@ -112,7 +125,7 @@
       bookTitle.innerText = books[i*5+j].title
       bookSemi.innerText = books[i*5+j].semi_title
       themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
-      bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
+      bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}');`
       
       myBooksList.appendChild(themeBook)
 
@@ -163,6 +176,23 @@
       myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
     }
   }
+
+  const addX = document.getElementById('movie-detail-add-x')
+  const detailAdd = document.getElementById('movie-detail-add')
+  const createBtn = document.getElementById('movie-detail-create-btn')
+
+  createBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    detailAdd.classList.remove('hidden')
+    addX.classList.remove('hidden')
+
+    addX.addEventListener('click', (event) => {
+      event.preventDefault()
+    detailAdd.classList.add('hidden')
+    addX.classList.add('hidden')
+    })
+  })
+
     
 </script>
 {% endblock script %}
