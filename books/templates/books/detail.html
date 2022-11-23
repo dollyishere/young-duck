@@ -36,14 +36,18 @@
 				{% for card in cards %}
 				<a href="{% url 'books:detail_card' card.pk %}">
 					<div class="book-detail-movie-card">
-						<div class="book-movie-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ card.watched_movie.poster_path }}')"></div>
+						{% if card.visited_count == 0 %}
+							<div class="card-none"></div>
+						{% endif %}
+						<div class="book-movie-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ card.watched_movie.poster_path }}')">
+						</div>
 					</div>
 				</a>
 				{% endfor %}
 				{% if user == person %}				
 					<a href="{% url 'books:select_movie' book.pk %}">
-						<div class="book-detail-movie-card">
-								카드 만들기
+						<div id="card-create" class="book-detail-movie-card" style="background-color: transparent;">
+							<div class="card-create-btn"></div>
 						</div>
 					</a>
 				{% endif %}
