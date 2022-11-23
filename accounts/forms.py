@@ -14,7 +14,7 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        exclude = ('user',)
+        fields = ['first_name', 'last_name']
 
 class ProfileForm(forms.ModelForm):
 

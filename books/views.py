@@ -9,7 +9,7 @@ from movies.models import Genre, Movie, People
 import qrcode
 import random
 
-# 이하는 colorthief 기동을 위해 필요한 라이브러리 설치 코드임을 밝힙니다.
+# 이하는 colorthief 기동을 위해 필요한 라이브러리 import 코드임을 밝힙니다.
 import sys
 
 if sys.version_info < (3, 0):
@@ -168,12 +168,10 @@ def create_card(request, book_pk, movie_pk):
             if cards:
                 for card in cards:
                     if movie == card.watched_movie:
-                        # belonged_book_list = []
-                        # belonged_book_list.extend(card.belonged_book)
-                        # if book in belonged_book_list:
-                        #     card.belonged_book.remove(book_pk)
-                        #     return redirect('books:index')
-                        # else:
+                        if book in card.belonged_book.all():
+                            card.belonged_book.remove(book_pk)
+                            return redirect('books:index')
+                        else:
                             card.belonged_book.add(book_pk)
                             return redirect('books:detail', book_pk)
 
@@ -181,10 +179,22 @@ def create_card(request, book_pk, movie_pk):
         # 이때 만약 해당 movie의 video field에 값이 존재한다면, qrcode 라이브러리로 qrcode를 생성한 후 'media/movies/video/' 파일에 저장합니다.
         # 이후 해당 테마북 상세 페이지로 리다이렉트합니다.
             form = CardForm(request.POST)
+
             if form.is_valid():
                 card = form.save(commit=False)
                 card.user = request.user
                 card.watched_movie = movie
+
+                # 만약 사용자가 디폴트 값을 입력하지 않았을 시, 디폴트 값을 입력
+                if card.my_score == None:
+                    card.my_score = 0
+                
+                if card.my_comment == None:
+                    card.my_comment = ''
+
+                if card.visited_count == None:
+                    card.visited_count = 0
+
                 card.save()
                 card.belonged_book.add(book_pk)
                 if movie.video:
@@ -194,6 +204,7 @@ def create_card(request, book_pk, movie_pk):
                 return redirect('books:detail', book_pk)
         else:
             form = CardForm()
+            form.fields['visited_count'].initial = 0
 
         # 만약 GET로 접근했다면, 카드 생성 페이지로 이동합니다.
         # 이때 colorthief 라이브러리를 이용하여, 해당 영화의 backdrop 이미지의 컬러 팔레트를 추출해냅니다.
@@ -357,3 +368,34 @@ def select_movie(request, book_pk):
         return render(request, 'books/select_movie.html', context)
     else:
         return redirect('accounts:login')
+
+
+@require_POST
+def stole_book(request, book_pk):
+    book = get_object_or_404(Book, pk=book_pk)
+    cards = book.collected_cards.all()
+    movies = []
+    for card in cards:
+        your_movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
+        movies.append(your_movie)
+
+    book_form = BookForm()
+    my_book = book_form.save(commit=False)
+    my_book.user = request.user
+    my_book.title = book.title
+    my_book.semi_title = book.semi_title
+    my_book.cover_image = book.cover_image
+    my_book.save()
+
+    for movie in movies:
+        card_form = CardForm()
+        my_card = card_form.save(commit=False)
+        my_card.user = request.user
+        my_card.watched_movie = movie
+        my_card.my_score = 0.0
+        my_card.my_comment = ''
+        my_card.visited_count = 0
+        my_card.save()
+        my_card.belonged_book.add(my_book.pk)
+
+    return redirect('books:detail', my_book.pk)

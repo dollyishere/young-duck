@@ -25,6 +25,13 @@
 						<div id="book-delete" ></div>
 					</button>
 				</form>
+				{% else %}
+				<form action="{% url 'books:stole_book' book.pk %}" method="POST">
+					{% csrf_token %}
+					<button id="book-delete-btn" >
+						<div id="book-edit" ></div>
+					</button>
+				</form>
 				{% endif %}
 			</div>
 		</div>
