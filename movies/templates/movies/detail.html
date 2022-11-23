@@ -50,7 +50,7 @@
       <div id="movie-detail-title" class="books-index-title" style="width: calc(100% - 112px);">이 영화가 속한 테마북</div>
       <div class="books-buttons">
         <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
-        {% if books.count < 5 %}
+        {% if books|length <= 5 %}
           <div id="my-books-right" class="books-right-btn right-btn-disavailable"></div>
         {% else %}
           <div id="my-books-right" class="books-right-btn right-btn-available"></div>
