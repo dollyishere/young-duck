@@ -9,6 +9,7 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from django.http import JsonResponse
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfileForm
 from .models import Profile, User
+from books.models import Book, Card
 from movies.models import Movie
 import random
 
@@ -125,8 +126,12 @@ def change_password(request):
 def profile(request, username):
     if request.user.is_authenticated:
         person = get_object_or_404(get_user_model(), username=username)
+        books = Book.objects.filter(user=person)
+        cards = Card.objects.filter(user=person)
         context = {
             'person': person,
+            'books' : books,
+            'cards' : cards,
         }
         return render(request, 'accounts/profile.html', context)
     else:
