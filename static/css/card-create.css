@@ -110,6 +110,7 @@
 }
 
 .card-body-base {
+  position: relative;
   width: 365px;
   height: 220px;
   padding: 10px 25px 10px 25px;
