@@ -39,13 +39,16 @@ def detail(request, movie_pk):
             books.extend(books_list)
         
         books.sort(key=lambda x:x.updated_at, reverse=True)
-        print(books)
+        
+        # 해당 페이지에 접속한 유저가 만든 테마북 정보들을 가져옵니다.
+        my_books = Book.objects.filter(user=request.user)
 
         context = {
             'movie' : movie,
             'people' : people,
             'genres' : genres,
             'books' : books,
+            'my_books' : my_books,
         }
         return render(request, 'movies/detail.html', context)
     else:

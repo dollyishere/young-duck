@@ -60,7 +60,7 @@
 
   <div id="movie-detail-add-x" class="hidden"></div>
   <div id="movie-detail-add" class="hidden">
-    {% for book in books %}
+    {% for book in my_books %}
       <form action="{% url 'books:create_card' book.pk movie.pk %}" method="POST">
         {% csrf_token %}
         <div class="vertical" style="cursor: pointer;">
