@@ -8,6 +8,8 @@ from .models import Book, Card
 from movies.models import Genre, Movie, People
 import qrcode
 import random
+
+# 이하는 colorthief 기동을 위해 필요한 라이브러리 설치 코드임을 밝힙니다.
 import sys
 
 if sys.version_info < (3, 0):
@@ -26,9 +28,11 @@ from colorthief import ColorThief
 def index(request):
     # 만약 로그인하지 않았을 시, 홈에는 접근 불가
     if request.user.is_authenticated:
+        # 메인 화면에서는 유저 자신이 제작한 테마북을 확인할 수 있습니다.
+        # filter를 이용해 현재 요청한 사용자가 제작한 테마북 정보를 모두 불러옵니다.
         books = Book.objects.filter(user=request.user)
         
-        # 친구들의 테마북 데이터를 불러와 friends_books에 저장한 후, -pk 순으로 sort함
+        # 만약 친구가 존재한다면, 친구 정보와 해당 친구들의 테마북 데이터를 불러와 friends_books에 저장한 후, -pk 순으로 sort를 통해 정렬합니다.
         user = get_object_or_404(get_user_model(), pk=request.user.pk)
         friends = user.followings.all()
         friends_books = []
@@ -53,6 +57,9 @@ def index(request):
 @require_http_methods(['GET', 'POST'])
 def create(request):
     if request.user.is_authenticated:
+        # 만약 POST로 접근하였고, request.POST로 전달된 정보들을 넣은 form이 valid하다면, 신규 테마북을 생성합니다.
+        # 사용자가 cover_image를 설정하지 않았다면, 기존에 'media/images/cover_img/' 폴더에 저장되어 있던 50 장의 이미지 중 랜덤으로 하나를 선정하여 경로값을 넣어줍니다.
+        # 만약 GET으로 접근하였다면, 테마북 제작 화면으로 이동합니다.
         if request.method == 'POST':
             form = BookForm(request.POST, request.FILES)
             if form.is_valid():
@@ -75,6 +82,8 @@ def create(request):
 @require_GET
 def detail(request, book_pk):
     if request.user.is_authenticated:
+        # 테마북 상세 조회 페이지에서는 해당 테마북 정보, 해당 테마북을 제작한 인물에 대한 정보, 해당 테마북에 속한 카드 정보를 불러와 context에 저장합니다.
+        # 이후 render 시 해당 정보를 html 측으로 전달합니다.
         book = get_object_or_404(Book, pk=book_pk)
         person = get_object_or_404(get_user_model(), pk=book.user.pk)
         cards = book.collected_cards.all()
@@ -92,6 +101,11 @@ def detail(request, book_pk):
 @require_http_methods(['GET', 'POST'])
 def update(request, book_pk):
     if request.user.is_authenticated:
+        # 테마북 정보 수정을 진행하는 함수입니다.
+        # 먼저 book_pk로 해당 테마북에 대한 정보를 불러옵니다.
+        # if문을 사용해 해당 테마북을 제작한 유저와 현재 요청한 사용자가 같다면, 수정이 가능하게 합니다.
+        # 만약 접근 방법이 POST이고, request.POST를 통해 불러온 정보를 넣은 form이 valid하다면, 업데이트를 진행합니다.
+        # 만약 접근 방법이 GET이라면, 테마북 수정 페이지로 이동합니다.
         book = get_object_or_404(Book, pk=book_pk)
         if request.user == book.user:
             if request.method == 'POST':
@@ -115,6 +129,8 @@ def update(request, book_pk):
 @require_POST
 def delete(request, book_pk):
     if request.user.is_authenticated:
+        # 테마북 삭제를 진행합니다.
+        # 만약 테마북을 제작한 유저와 현재 삭제를 요청한 사용자가 일치한다면, 삭제를 진행합니다.
         book = get_object_or_404(Book, pk=book_pk)
         if request.user == book.user:
             book.delete()
@@ -128,25 +144,42 @@ def delete(request, book_pk):
 @require_http_methods(['GET', 'POST'])
 def create_card(request, book_pk, movie_pk):
     if request.user.is_authenticated:
+        # 카드를 제작하는 함수입니다.
+        # 먼저 book_pk와 movie_pk를 이용해 해당하는 테마북과 영화에 대한 정보를 각각 받아옵니다.
+        # 이후 해당 영화의 장르들과 해당 영화 제작에 참여한 인물에 대한 정보를 역참조로 받아옵니다.
         book = get_object_or_404(Book, pk=book_pk)
         movie = get_object_or_404(Movie, pk=movie_pk)
         genres = movie.genres.all()
         people = movie.people.all()
 
+        # 만약 장르와 인물의 수가 5개(명)보다 많다면, 인덱싱을 진행합니다.
         if len(people) >= 5:
             people = people[:5]
 
         if len(genres) >= 5:
             genres = genres[:5]
             
-            
+        # 만약 접근 방법이 POST라면, 카드 제작을 진행합니다.
+        # 먼저 해당 유저가 제작한 카드들에 대한 정보를 filter를 통해 전부 불러옵니다.
+        # 만약 cards의 수가 1 이상이라면, for문을 통해 각 카드 정보를 조회합니다.
+        # 만약 해당 카드와 연결된 movie가 현재 선택한 movie라면, belonged_book에 해당 테마북의 pk를 추가한 후, 해당 테마북 상세 페이지로 리다이렉트합니다.
         if request.method == 'POST':
             cards = Card.objects.filter(user=request.user)
-            if len(cards):
+            if cards:
                 for card in cards:
                     if movie == card.watched_movie:
-                        card.belonged_book.add(book_pk)
-                        return redirect('books:detail', book_pk)
+                        # belonged_book_list = []
+                        # belonged_book_list.extend(card.belonged_book)
+                        # if book in belonged_book_list:
+                        #     card.belonged_book.remove(book_pk)
+                        #     return redirect('books:index')
+                        # else:
+                            card.belonged_book.add(book_pk)
+                            return redirect('books:detail', book_pk)
+
+        # 만약 신규로 생성되는 카드라면, 카드를 신규 생성합니다.
+        # 이때 만약 해당 movie의 video field에 값이 존재한다면, qrcode 라이브러리로 qrcode를 생성한 후 'media/movies/video/' 파일에 저장합니다.
+        # 이후 해당 테마북 상세 페이지로 리다이렉트합니다.
             form = CardForm(request.POST)
             if form.is_valid():
                 card = form.save(commit=False)
@@ -162,6 +195,10 @@ def create_card(request, book_pk, movie_pk):
         else:
             form = CardForm()
 
+        # 만약 GET로 접근했다면, 카드 생성 페이지로 이동합니다.
+        # 이때 colorthief 라이브러리를 이용하여, 해당 영화의 backdrop 이미지의 컬러 팔레트를 추출해냅니다.
+        # 그리고 해당 컬러 팔레트에서 3번째로 점유율이 높은 색을 선택하여 해당 색을 각각 r, g, b로 나누어 context에 저장합니다.
+        # 이후 해당 정보들을 카드 배경을 만들 때 사용합니다.
         fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
         f = io.BytesIO(fd.read())
         color_thief = ColorThief(f)
@@ -186,6 +223,8 @@ def create_card(request, book_pk, movie_pk):
 @require_GET
 def detail_card(request, card_pk):
     if request.user.is_authenticated:
+        # 카드 상세 페이지입니다.
+        # 전체적인 로직은 테마북 상세 페이지와 비슷합니다.
         card = get_object_or_404(Card, pk=card_pk)
         movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
         genres = movie.genres.all()
@@ -196,19 +235,13 @@ def detail_card(request, card_pk):
 
         if len(genres) >= 5:
             genres = genres[:5]
-            
+        
+        # 만약 movie video 정보가 존재한다면, qr_img에 해당 qrcode 이미지가 존재하는 경로 값을 저장합니다.
         qr_img = False
         if movie.video:
             qr_img = 'media/movies/video/{}.png'.format(movie.pk)
 
-        # tmp_file = 'back.png'
-        # urllib.request.urlretrieve('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path), tmp_file)
-        # color_thief = ColorThief(tmp_file)
-        # dominant_color = color_thief.get_palette(color_count=3)[2]
-        # os.remove(tmp_file)
-        # dominant_color = list(dominant_color)
-        # print(dominant_color)
-
+        # 여기서도 colorthief를 사용합니다.
         fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
         f = io.BytesIO(fd.read())
         color_thief = ColorThief(f)
@@ -233,16 +266,21 @@ def detail_card(request, card_pk):
 @require_http_methods(['GET', 'POST'])
 def update_card(request, card_pk):
     if request.user.is_authenticated:
+        # 카드 업데이트를 진행합니다.
+        # 전체적인 로직은 카드 생성 페이지와 비슷합니다.
         card = get_object_or_404(Card, pk=card_pk)
         movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
         genres = movie.genres.all()
         people = movie.people.all()
+
         if len(people) >= 5:
             people = people[:5]
 
         if len(genres) >= 5:
             genres = genres[:5]
 
+        # 만약 접근 방식이 POST이고, request.POST를 통해 불러온 정보를 저장한 form이 valid하다면, 카드를 업데이트합니다.
+        # 만약 접근 방식이 GET이라면, 카드 수정 페이지로 이동합니다.
         if request.user == card.user:
             if request.method == 'POST':
                 form = CardForm(request.POST, instance=card)
@@ -254,8 +292,7 @@ def update_card(request, card_pk):
         else:
             return redirect('books:detail_card', card.pk)
 
-            
-
+        # 여기서도 colorthief를 사용합니다.
         fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
         f = io.BytesIO(fd.read())
         color_thief = ColorThief(f)
@@ -280,6 +317,8 @@ def update_card(request, card_pk):
 @require_POST
 def delete_card(request, card_pk):
     if request.user.is_authenticated:
+        # 카드를 삭제합니다.
+        # 만약 카드를 제작했던 유저와 현재 삭제를 요청하는 유저가 같다면, 카드를 삭제합니다.
         card = get_object_or_404(Book, pk=card_pk)
         if request.user == card.user:
             card.delete()
@@ -293,9 +332,14 @@ def delete_card(request, card_pk):
 @require_http_methods(['GET', 'POST'])
 def select_movie(request, book_pk):
     if request.user.is_authenticated:
+        # 먼저 book_pk를 이용해 카드를 만들고자 하는 테마북의 정보를 받아옵니다.
         book = get_object_or_404(Book, pk=book_pk)
+        
+        # 만약 POST로 접근했다면, 영화 검색을 진행합니다.
+        # 검색창에 입력한 단어를 strip()을 통해 공백을 삭제해준 후, 해당 정보가 담긴 영화, 인물, 장르들에 대한 정보를 filter를 통해 가져옵니다.
+        # 만약 GET으로 접근했다면, 영화 검색 및 선택 페이지로 이동합니다.
         if request.method == 'POST':
-            searched = request.POST['searched']
+            searched = request.POST['searched'].strip()
             movies = Movie.objects.filter(title__contains=searched)
             people = People.objects.filter(name__contains=searched)
             genres = Genre.objects.filter(name__contains=searched)
