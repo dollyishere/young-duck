@@ -26,6 +26,6 @@ class Card(models.Model):
     my_comment = models.TextField(blank=True)
     visited_count = models.IntegerField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    watched_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='cards')
+    watched_movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='card')
     belonged_book = models.ManyToManyField(Book, related_name='collected_cards')
     
