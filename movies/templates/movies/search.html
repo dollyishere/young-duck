@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="movie-search" class="component-init">
-  <div class="container-narrow vertical">
+  <div class="container-xnarrow vertical">
     <div id="search-movie" class="vertical search-container">
     <div id="search-subject">
       <div id="search-index-movies" class="books-index-title can-click">Movies</div>
@@ -22,9 +22,9 @@
 
             <div class="search-list-right vertical">
               <div class="search-list-title">{{ movie.title }}</div>
-              <div class="search-list-info horizontal">{{ movie.released_date }}랑 국가? 장르 {{ movie.genre_set }}</div>
+              <div class="search-list-info horizontal">{{ movie.released_date|date:'Y' }} - {{ movie.genre_set }}</div>
               <div class="search-list-vote horizontal">별점 : {{ movie.vote_average }}</div>
-              <div class="search-list-overview">{{ movie.overview }}</div>
+              <div class="search-list-overview">{{ movie.overview|truncatechars:350 }}</div>
             </div>
           </div>
         </a>

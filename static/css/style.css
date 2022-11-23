@@ -18,3 +18,18 @@ body {
   background-color: black;
   color: #f5f5f5;
 }
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+  height: 15%; /* 스크롤바의 길이 */
+  background: #333333; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, .1);  /*스크롤바 뒷 배경 색상*/
+}
