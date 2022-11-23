@@ -186,5 +186,6 @@
 .movie-poster {
   width: 36px;
   height: 52px;
-  background-color: skyblue;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
