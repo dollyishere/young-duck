@@ -1,47 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container" style="margin: 100px;">
-        <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.poster_path }}');"></div>
-        <h1>{{ movie.title }}</h1>
-        <p>{{ movie.overview }}</p>
-        <p id="movie_poster" value="'https://image.tmdb.org/t/p/w500{{ movie.poster_path }}'" ></p>
-        {% for person in people %}
-            <a href="{% url 'movies:detail_person' person.pk %}">{{ person.name }}</a>
-        {% endfor %}
-        <a href="{% url 'movies:select_book' movie.pk %}">Make your card!</a>
+<div id="movie-search" class="component-init">
+  <div class="container-xnarrow vertical">
+    <div class="vertical">
+      <div id="movie-detail-title" class="books-index-title">상세 정보</div>
+      <div class="movie-detail-body horizontal">
+        <div class="movie-detail-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.poster_path }}');"></div>
+        <div class="movie-detail-content vertical">
+
+          <div class="movie-detail-content-title">{{ movie.title }}</div>
+
+          <div class="movie-detail-content-item">
+            {% for genre in genres %}
+              <div class="movie-detail-content-genre">{{ genre.name }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="movie-detail-content-item">
+            <div class="movie-detail-tag"><i class="fa-solid fa-star" style="color: red; margin-right: 10px;"></i></div>
+            <div class="movie-detail-content-vote">{{ movie.vote_average|floatformat:2 }}</div>
+          </div>
+
+          <div class="movie-detail-content-item">
+              <div class="movie-detail-content-overview">{{ movie.overview }}</div>
+          </div>
+          
+          <a id="movie-detail-create-link" href="{% url 'movies:select_book' movie.pk %}">
+            <div id="movie-detail-create-btn">추가하기</div>
+          </a>
+        </div>
+      </div>
     </div>
+
+    <div class="movie-detail-people horizontal">
+      <div id="movie-detail-title" class="books-index-title">CREDIT</div>
+      {% for person in people %}
+      <a href="{% url 'movies:detail_person' person.pk %}">
+        <div class="movie-detail-person vertical">
+          <div class="movie-detail-person-face" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
+          <div class="movie-detail-person-name">{{ person.name }}</div>
+          <div class="movie-detail-person-role">{{ person.known_for_department }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+        
+</div>
 {% endblock content %}
 
 {% block script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
-    <script>
-        console.log('hi!')
-        const colorThief = new ColorThief();
-        const img = new Image();
-
-        img.addEventListener('load', function() {
-            colorThief.getColor(img);
-        });
-
-        const img_url = document.querySelector('#movie_poster').value
-        console.log(img_url)
-        let imageURL = 'https://i.pinimg.com/564x/3b/b4/9b/3bb49bd2a7f86e29b5670da1fe03fee4.jpg';
-        let googleProxyURL = 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=';
-
-        img.crossOrigin = 'Anonymous';
-        img.src = googleProxyURL + encodeURIComponent(img_url);
-        {% comment %} let i
-        // Make sure image is finished loading
-        if (img.complete) {
-            colorThief.getColor(img);
-        } else {
-            image.addEventListener('load', function() {
-            colorThief.getColor(img, 1);
-            console.log(colorThief.getColor(img, 1))
-            });
-        } {% endcomment %}
-    </script>
-
+<script src="https://kit.fontawesome.com/2abf5eb55e.js" crossorigin="anonymous"></script>
 {% endblock script %}
-
