@@ -34,9 +34,11 @@
 			<div class="book-detail-movies-body horizontal">
 				<!-- for문 왕창 돌리기 -->
 				{% for card in cards %}
-				<div class="book-detail-movie-card">
-					<div class="book-movie-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ card.watched_movie.poster_path }}')"></div>
-				</div>
+				<a href="{% url 'books:detail_card' card.pk %}">
+					<div class="book-detail-movie-card">
+						<div class="book-movie-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ card.watched_movie.poster_path }}')"></div>
+					</div>
+				</a>
 				{% endfor %}
 				<a href="{% url 'books:select_movie' book.pk %}">
 					<div class="book-detail-movie-card">

@@ -235,3 +235,7 @@ textarea::-webkit-scrollbar {
 .card-genre {
   height: 35px;
 }
+
+.visibility-hidden {
+  visibility: hidden;
+}
