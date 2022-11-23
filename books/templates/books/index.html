@@ -101,126 +101,118 @@
 
 {% block script %}
 <script>
-  const myBooksLeft = document.getElementById('my-books-left')
-  const myBooksRight = document.getElementById('my-books-right')
+const myBooksLeft = document.getElementById('my-books-left')
+const myBooksRight = document.getElementById('my-books-right')
 
-  const books = [
-    {% for book in books %}
-      {
-        pk: "{{ book.pk }}",
-        title: "{{ book.title }}",
-        semi_title: "{{ book.semi_title }}",
-        cover_image: "{{ book.cover_image.url }}",
-      },
-    {% endfor %}
-  ]
-  books.push('end')
+const books = [
+  {% for book in books %}
+    {
+      pk: "{{ book.pk }}",
+      title: "{{ book.title }}",
+      semi_title: "{{ book.semi_title }}",
+      cover_image: "{{ book.cover_image.url }}",
+    },
+  {% endfor %}
+]
+books.push('end')
 
-  const myBooks = document.getElementById('my-books')
-  const maxPage = Math.ceil(books.length/5)
-  if(maxPage === 0) {
+const myBooks = document.getElementById('my-books')
+const maxPage = Math.ceil(books.length/5)
+if(maxPage === 0) {
+  myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+}
+
+for(let i=0; i<maxPage; i++) {
+  
+  const myBooksList = document.createElement('div')
+  myBooksList.id = `my-books-list${i}`
+  myBooksList.classList.add("books-body", "horizontal")
+  if(i !== 0) {
+    myBooksList.classList.add("hidden")
+  }
+
+  for(let j=0; j<Math.min(5, books.length-(i*5)); j++) {
+    const themeBook = document.createElement('a')
+    const bookThumbnail = document.createElement('div')
+    const bookTitle = document.createElement('div')
+    const bookSemi = document.createElement('div')
+    bookThumbnail.classList.add("book-thumbnail")
+    bookTitle.classList.add("book-title")
+    bookSemi.classList.add("book-semi")
+
+    themeBook.appendChild(bookThumbnail)
+    themeBook.appendChild(bookTitle)
+    themeBook.appendChild(bookSemi)
+    themeBook.classList.add("book", "vertical")
+    themeBook.style.cssText = "display:flex; justify-content: center;"
+
+    if(i*5+j === books.length-1) {
+      bookThumbnail.id = "themeBookCreate"
+      bookTitle.id = "themeBookCreateTitle"
+      bookTitle.innerText = '테마북'
+      bookSemi.id = "themeBookCreateSemi"
+      bookSemi.innerText = '추가'
+      bookTitle.style.visibility = "hidden"
+      bookSemi.style.visibility = "hidden"
+      themeBook.href = BASE_URL + '/books/create' 
+      bookThumbnail.style.cssText = `background-image: url('/static/images/icons/plus.png'); background-size: auto 30%; background-repeat: no-repeat; background-position: center;`
+    } 
+    else {
+      bookTitle.innerText = books[i*5+j].title
+      bookSemi.innerText = books[i*5+j].semi_title
+      themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
+      bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
+    }
+    
+    myBooksList.appendChild(themeBook)
+
+    myBooks.appendChild(myBooksList)
+  }
+}
+
+let myBookPage = 0;
+
+myBooksLeft.addEventListener("click", (e) => {
+  e.preventDefault()
+  if(myBookPage > 0) {
+    const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
+    const newBooksList = document.getElementById(`my-books-list${myBookPage-1}`)
+
+    lastBooksList.classList.add("hidden")
+    newBooksList.classList.remove("hidden")
+    myBookPage -= 1
+    isEnd(myBookPage)
+  }
+})
+
+myBooksRight.addEventListener("click", (e) => {
+  e.preventDefault()
+  if(myBookPage < maxPage-1) {
+    const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
+    const newBooksList = document.getElementById(`my-books-list${myBookPage+1}`)
+
+    lastBooksList.classList.add("hidden")
+    newBooksList.classList.remove("hidden")
+    myBookPage += 1
+    isEnd(myBookPage)
+  }
+})
+
+function isEnd(myBookPage) {
+  if(myBookPage === 0) {
+    myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
+  }
+  else {
+    myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
+  }
+
+  if(myBookPage === maxPage-1) {
     myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
   }
-
-  for(let i=0; i<maxPage; i++) {
-    
-    const myBooksList = document.createElement('div')
-    myBooksList.id = `my-books-list${i}`
-    myBooksList.classList.add("books-body", "horizontal")
-    if(i !== 0) {
-      myBooksList.classList.add("hidden")
-    }
-
-    for(let j=0; j<Math.min(5, books.length-(i*5)); j++) {
-      const themeBook = document.createElement('a')
-      const bookThumbnail = document.createElement('div')
-      const bookTitle = document.createElement('div')
-      const bookSemi = document.createElement('div')
-      bookThumbnail.classList.add("book-thumbnail")
-      bookTitle.classList.add("book-title")
-      bookSemi.classList.add("book-semi")
-
-      themeBook.appendChild(bookThumbnail)
-      themeBook.appendChild(bookTitle)
-      themeBook.appendChild(bookSemi)
-      themeBook.classList.add("book", "vertical")
-      themeBook.style.cssText = "display:flex; justify-content: center;"
-
-      if(i*5+j === books.length-1) {
-        bookThumbnail.id = "themeBookCreate"
-        bookTitle.id = "themeBookCreateTitle"
-        bookTitle.innerText = '테마북'
-        bookSemi.id = "themeBookCreateSemi"
-        bookSemi.innerText = '추가'
-        bookTitle.style.visibility = "hidden"
-        bookSemi.style.visibility = "hidden"
-        themeBook.href = BASE_URL + '/books/create' 
-        bookThumbnail.style.cssText = `background-image: url('/static/images/icons/plus.png'); background-size: auto 30%; background-repeat: no-repeat; background-position: center;`
-      } 
-      else {
-        bookTitle.innerText = books[i*5+j].title
-        bookSemi.innerText = books[i*5+j].semi_title
-        themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
-        bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
-      }
-      
-      myBooksList.appendChild(themeBook)
-
-      myBooks.appendChild(myBooksList)
-    }
+  else {
+    myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
   }
-
-  let myBookPage = 0;
-
-  myBooksLeft.addEventListener("click", (e) => {
-    e.preventDefault()
-    if(myBookPage > 0) {
-      const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
-      const newBooksList = document.getElementById(`my-books-list${myBookPage-1}`)
-
-      lastBooksList.classList.add("hidden")
-      newBooksList.classList.remove("hidden")
-      myBookPage -= 1
-      isEnd(myBookPage)
-    }
-  })
-
-  myBooksRight.addEventListener("click", (e) => {
-    e.preventDefault()
-    if(myBookPage < maxPage-1) {
-      const lastBooksList = document.getElementById(`my-books-list${myBookPage}`)
-      const newBooksList = document.getElementById(`my-books-list${myBookPage+1}`)
-
-      lastBooksList.classList.add("hidden")
-      newBooksList.classList.remove("hidden")
-      myBookPage += 1
-      isEnd(myBookPage)
-    }
-  })
-
-  function isEnd(myBookPage) {
-    if(myBookPage === 0) {
-      myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
-    }
-    else {
-      myBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
-    }
-
-    if(myBookPage === maxPage-1) {
-      myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
-    }
-    else {
-      myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
-    }
-  }
-
-  {% comment %} const BOOK_CREATE_URL = '/books/create'
-
-  const themeBookCreate = document.getElementById("themeBookCreate")
-  themeBookCreate.addEventListener("click", (e) => {
-    e.preventDefault()
-    location.href = BASE_URL+BOOK_CREATE_URL
-  }) {% endcomment %}
+}
     
 </script>
 {% endblock script %}
