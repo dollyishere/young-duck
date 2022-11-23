@@ -371,7 +371,7 @@ def select_movie(request, book_pk):
 
 
 @require_POST
-def stole_book(request, book_pk):
+def steal_book(request, book_pk):
     book = get_object_or_404(Book, pk=book_pk)
     cards = book.collected_cards.all()
     movies = []
