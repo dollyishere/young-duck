@@ -7,6 +7,7 @@ from .forms import BookForm, CardForm
 from .models import Book, Card
 from movies.models import Genre, Movie, People
 import qrcode
+import random
 
 # Create your views here.
 # signup, login 외 모든 기능은 로그인 후 접근할 수 있으므로, 만약 해당 유저가 login 상태가 아닐 시 login 페이지로 이동하도록 조치함(is_authenticated)
@@ -16,8 +17,23 @@ def index(request):
     # 만약 로그인하지 않았을 시, 홈에는 접근 불가
     if request.user.is_authenticated:
         books = Book.objects.filter(user=request.user)
+        
+        # 친구들의 테마북 데이터를 불러와 friends_books에 저장한 후, -pk 순으로 sort함
+        user = get_object_or_404(get_user_model(), pk=request.user.pk)
+        friends = user.followings.all()
+        friends_books = []
+
+        if friends:
+            for friend in friends:
+                friend_books = friend.book_set.all().order_by('-pk')
+                friends_books.extend(friend_books)
+
+            friends_books.sort(key=lambda x:x.pk, reverse=True)
+
         context = {
             'books' : books,
+            'friends' : friends,
+            'friends_books' : friends_books,
         }
         return render(request, 'books/index.html', context)
     else:
@@ -32,6 +48,8 @@ def create(request):
             if form.is_valid():
                 book = form.save(commit=False)
                 book.user = request.user
+                if book.cover_image == '':
+                    book.cover_image = 'images/cover_img/{}.jpg'.format(random.randrange(1, 51))
                 book.save()
                 return redirect('books:detail', book.pk)
         else:

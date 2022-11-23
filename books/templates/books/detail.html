@@ -38,11 +38,13 @@
 					<div class="book-movie-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ card.watched_movie.poster_path }}')"></div>
 				</div>
 				{% endfor %}
-				<a href="{% url 'books:select_movie' book.pk %}">
-					<div class="book-detail-movie-card">
-							카드 만들기
-					</div>
-				</a>
+				{% if user == person %}				
+					<a href="{% url 'books:select_movie' book.pk %}">
+						<div class="book-detail-movie-card">
+								카드 만들기
+						</div>
+					</a>
+				{% endif %}
 			</div>
 		</div>
 
