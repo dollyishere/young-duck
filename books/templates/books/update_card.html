@@ -5,7 +5,7 @@
 	<div id="create-card-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')" class="background">
 	</div>
 	<div class="card-container">
-		<div class="card-back vertical">
+		<div class="card-back vertical" style="background-color: rgb({{ r }}, {{ g }}, {{ b }})">
 			<div class="card-header horizontal">
 				<a class="card-header-left" href="javascript:history.back()">
 					<div class="left-arrow-black card-btn"></div>
@@ -56,7 +56,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="card-tail">
+			<div class="card-tail" style="background-color: rgb({{ r }}, {{ g }}, {{ b }})">
 			</div>
 		</div>
 	</div>

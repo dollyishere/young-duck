@@ -161,12 +161,22 @@ def create_card(request, book_pk, movie_pk):
                 return redirect('books:detail', book_pk)
         else:
             form = CardForm()
+
+        fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
+        f = io.BytesIO(fd.read())
+        color_thief = ColorThief(f)
+        dominant_color = color_thief.get_palette(color_count=3)[2]
+        dominant_color = list(dominant_color)
+
         context = {
             'form' : form,
             'book' : book,
             'movie' : movie,
             'genre' : genres,
             'people' : people,
+            'r' : dominant_color[0],
+            'g' : dominant_color[1],
+            'b' : dominant_color[2],
         }
         return render(request, 'books/create_card.html', context)
     else:
@@ -204,7 +214,6 @@ def detail_card(request, card_pk):
         color_thief = ColorThief(f)
         dominant_color = color_thief.get_palette(color_count=3)[2]
         dominant_color = list(dominant_color)
-        print(dominant_color)
 
         context = {
             'card' : card,
@@ -212,7 +221,9 @@ def detail_card(request, card_pk):
             'qr_img' : qr_img,
             'genre' : genres,
             'people' : people,
-            'dominant_color' : dominant_color,
+            'r' : dominant_color[0],
+            'g' : dominant_color[1],
+            'b' : dominant_color[2],
         }
         return render(request, 'books/detail_card.html', context)
     else:
@@ -242,12 +253,24 @@ def update_card(request, card_pk):
                 form = CardForm(instance=card)
         else:
             return redirect('books:detail_card', card.pk)
+
+            
+
+        fd = urlopen('https://image.tmdb.org/t/p/w500{}'.format(movie.backdrop_path))
+        f = io.BytesIO(fd.read())
+        color_thief = ColorThief(f)
+        dominant_color = color_thief.get_palette(color_count=3)[2]
+        dominant_color = list(dominant_color)
+
         context = {
             'card' : card,
             'form' : form,
             'movie' : movie,
             'genre' : genres,
             'people' : people,
+            'r' : dominant_color[0],
+            'g' : dominant_color[1],
+            'b' : dominant_color[2],
         }
         return render(request, 'books/update_card.html', context)
     else:
