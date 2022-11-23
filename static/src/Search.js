@@ -1,3 +1,5 @@
+const store = document.getElementById('store')
+
 const indexMovies = document.getElementById('search-index-movies')
 const indexPeople = document.getElementById('search-index-people')
 const indexGenre = document.getElementById('search-index-genre')
@@ -21,7 +23,6 @@ const searchLists = [
   searchListGenre,
   searchListBooks,
 ]
-
 indexLists.forEach(function(item, index) {
   item.addEventListener('click', function(e) {
     e.preventDefault()
@@ -36,46 +37,28 @@ indexLists.forEach(function(item, index) {
   })
 })
 
-// indexMovies.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   searchLists.forEach((element) => {
-//     element.classList.add('hidden')
-//   })
-//   indexLists.forEach((element) => {
-//     element.style.color = "#333333";
-//   })
-//   searchListMovies.classList.remove('hidden')
-// })
+function getStore() {
+  try {
+    return window.localStorage.getItem('isGenre')
+  } catch(e) {
+    window.localStorage.setItem('isGenre', 'false')
+    return 'false'
+  }
+}
 
-// indexPeople.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   searchLists.forEach((element) => {
-//     element.classList.add('hidden')
-//   })
-//   indexLists.forEach((element) => {
-//     element.style.color = "#333333";
-//   })
-//   searchListPeople.classList.remove('hidden')
-// })
-
-// indexGenre.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   searchLists.forEach((element) => {
-//     element.classList.add('hidden')
-//   })
-//   indexLists.forEach((element) => {
-//     element.style.color = "#333333";
-//   })
-//   searchListGenre.classList.remove('hidden')
-// })
-
-// indexBooks.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   searchLists.forEach((element) => {
-//     element.classList.add('hidden')
-//   })
-//   indexLists.forEach((element) => {
-//     element.style.color = "#333333";
-//   })
-//   searchListBooks.classList.remove('hidden')
-// })
+window.addEventListener('load', (e) => {
+  e.preventDefault()
+  const isGenre = getStore()
+  if(isGenre === "true") {
+    searchLists.forEach((element) => {
+      element.classList.add('hidden')
+    })
+    indexLists.forEach((element) => {
+      element.style.color = "#333333"
+    })
+    searchListGenre.classList.remove('hidden')
+    indexGenre.style.color = "#F5F5F5"
+    window.localStorage.removeItem('isGenre')
+    window.localStorage.setItem('isGenre', 'false')
+  }
+})
