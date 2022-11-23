@@ -2,8 +2,10 @@
 
 {% block content %}
     <div class="container" style="margin: 100px;">
+        <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.poster_path }}');"></div>
         <h1>{{ movie.title }}</h1>
         <p>{{ movie.overview }}</p>
+        <p id="movie_poster" value="'https://image.tmdb.org/t/p/w500{{ movie.poster_path }}'" ></p>
         {% for person in people %}
             <a href="{% url 'movies:detail_person' person.pk %}">{{ person.name }}</a>
         {% endfor %}
@@ -11,8 +13,35 @@
     </div>
 {% endblock content %}
 
-{% block scripts %}
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <script>
+        console.log('hi!')
+        const colorThief = new ColorThief();
+        const img = new Image();
 
+        img.addEventListener('load', function() {
+            colorThief.getColor(img);
+        });
 
-{% endblock scripts %}
+        const img_url = document.querySelector('#movie_poster').value
+        console.log(img_url)
+        let imageURL = 'https://i.pinimg.com/564x/3b/b4/9b/3bb49bd2a7f86e29b5670da1fe03fee4.jpg';
+        let googleProxyURL = 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=';
+
+        img.crossOrigin = 'Anonymous';
+        img.src = googleProxyURL + encodeURIComponent(img_url);
+        {% comment %} let i
+        // Make sure image is finished loading
+        if (img.complete) {
+            colorThief.getColor(img);
+        } else {
+            image.addEventListener('load', function() {
+            colorThief.getColor(img, 1);
+            console.log(colorThief.getColor(img, 1))
+            });
+        } {% endcomment %}
+    </script>
+
+{% endblock script %}
 
