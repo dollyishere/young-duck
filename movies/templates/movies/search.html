@@ -5,10 +5,10 @@
   <div class="container-narrow vertical">
     <div id="search-movie" class="vertical search-container">
     <div id="search-subject">
-      <div id="search-index-movies" class="books-index-title">Movies</div>
-      <div id="search-index-people" class="books-index-title">People</div>
-      <div id="search-index-genre" class="books-index-title">Genre</div>
-      <div id="search-index-books" class="books-index-title">Books</div>
+      <div id="search-index-movies" class="books-index-title can-click">Movies</div>
+      <div id="search-index-people" class="books-index-title unavailable can-click">People</div>
+      <div id="search-index-genre" class="books-index-title unavailable can-click">Genre</div>
+      <div id="search-index-books" class="books-index-title unavailable can-click">Books</div>
     </div>
 
     <div id="search-movies" class="search-list vertical">
@@ -22,7 +22,7 @@
 
             <div class="search-list-right vertical">
               <div class="search-list-title">{{ movie.title }}</div>
-              <div class="search-list-info horizontal">{{ movie.released_date }}랑 국가? 장르</div>
+              <div class="search-list-info horizontal">{{ movie.released_date }}랑 국가? 장르 {{ movie.genre_set }}</div>
               <div class="search-list-vote horizontal">별점 : {{ movie.vote_average }}</div>
               <div class="search-list-overview">{{ movie.overview }}</div>
             </div>
