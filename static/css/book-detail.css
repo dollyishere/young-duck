@@ -9,7 +9,7 @@
 }
 
 #book-detail-cover {
-  width: 960px;
+  width: 950px;
   height: 350px;
   background-size: 100%;
   background-position: center;
@@ -30,7 +30,7 @@
 
 .book-detail-movies-body {
   width: 100%;
-  gap: 9px;
+  gap: 8px;
   padding: 20px 0px 20px 0px;
 }
 
