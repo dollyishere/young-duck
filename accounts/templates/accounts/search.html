@@ -1,24 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
-		{% if searched %}
-			<h1> 검색하신 유저에 대한 정보입니다. </h1>
-			<br>
-			{% for person in people %}
-			{{ person.username }} <br>
-			<form action="{% url 'accounts:profile' person.username %}">
-				<input type="submit" value="SELECT USER">
-			</form>
-			<hr>
+<div id="select_movie" class="component-init">
+  <div class="container-narrow vertical">
+    <div id="select-label">User를 검색하세요.</div>
+    <form action="{% url 'accounts:search' %}" method="POST">
+      {% csrf_token %}
+      <input type="search" placeholder="search" name="searched" id="select-movie-search">
+      <!-- <button type="submit">search</button> -->
+    </form>
+
+	{% if searched %}
+    <div class="vertical">
+    <h1 style="margin-bottom: 10px;">"{{ searched }}"에 대해 총 {{ people|length }}건의 검색 결과가 있습니다. </h1>
+
+	  {% for person in people %}
+      <div class="search-result horizontal">
+        <a href="{% url 'accounts:profile' person.profile.user %}">
+          <div class="search-person-img" style="background-image: url('{{ person.profile.profile_img.url }}'); background-size: 100%;"></div>
+        </a>
+        
+        <div class="search-person-body horizontal">
+          <div class="search-person-body">
+            <a href="{% url 'accounts:profile' person.profile.user %}">
+              <div class="search-person-name">
+                <span id="search-nickname">{{ person.profile.nickname }}</span>
+                <span id="search-user">{{ person.profile.user }}</span>
+              </div>
+            </a>
+
+            <div id="search-profile-follow" class="profile-follow-cnt horizontal">
+              <div id="search-follow-header"></div>
+              <div id="search-follow-body">
+                팔로잉 : <span id="search-followings-count">{{ person.followings.all|length }}</span>
+                <span id="search-following-divider">|</span>
+                팔로워 : <span id="search-followers-count">{{ person.followers.all|length }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form id="follow-form" data-user-id="{{ person.pk }}">
+          {% csrf_token %}
+          {% if user in person.followers.all %}
+            <button id="searchFollowBtn" class="search-unfollow-btn"></button>
+          {% else %}
+            <button id="searchFollowBtn" class="search-follow-btn"></button>
+          {% endif %}
+        </form>
+      </div>
 			{% endfor %}
-		{% else %}
-			<h1> 찾고 있는 유저의 이름을 검색창에 입력해주세요. </h1>
-			<form action="{% url 'accounts:search' %}" method="POST">
-				{% csrf_token %}
-				<input type="search" placeholder="search" name="searched">
-				<button type="submit">search</button>
-			</form>
+    </div>
 		{% endif %}
-	</div>
+
+  </div>
+</div>
 {% endblock %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'src/SearchProfile.js' %}"></script>
+{% endblock script %}

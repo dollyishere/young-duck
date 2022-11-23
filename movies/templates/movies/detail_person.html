@@ -1,14 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container" style="margin: 100px;">
-        <h1>{{ person.name }}</h1>
-        <p>{{ person.birthday }}</p>
-        <p>{{ person.known_for_department }}</p>
-        {% for movie in movies %}
-          <p>{{ movie.title }}</p>
-          <a href="{% url 'movies:detail' movie.pk %}">go detail</a>
-        {% endfor %}
+
+
+<div id="movie-search" class="component-init">
+  <div class="container-xnarrow vertical" style="position: relative">
+    <div class="vertical">
+      <div id="movie-detail-title" class="books-index-title">인물 정보</div>
+      <div class="movie-detail-body horizontal">
+        <div class="movie-detail-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
+        <div class="movie-detail-content vertical">
+
+          <div class="movie-detail-content-title">{{ person.name }}</div>
+
+          <div class="movie-detail-content-item">
+            <div class="movie-detail-tag"><i class="fa-solid fa-star" style="color: red; margin-right: 10px;"></i></div>
+            <div class="movie-detail-content-vote">{{ movie.vote_average|floatformat:2 }}</div>
+          </div>
+
+          <div class="movie-detail-content-item">
+              <div class="movie-detail-content-vote">{{ person.birthday }}</div>
+              <div class="movie-detail-content-vote">{{ person.known_for_department }}</div>
+          </div>
+
+          <div class="movie-detail-content-item">
+              <div class="movie-detail-content-overview">{{ movie.overview }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="movie-detail-people horizontal">
+      <div id="movie-detail-title" class="books-index-title">대표 작품</div>
+      {% for movie in movies %}
+      <a href="{% url 'movies:detail' movie.pk %}">
+        <div class="movie-detail-person vertical">
+          <div class="movie-detail-person-face" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.poster_path }}');"></div>
+          <div class="movie-detail-person-name">{{ movie.title|truncatechars:12 }}</div>
+        </div>
+      </a>
+      {% endfor %}
     </div>
 {% endblock content %}
 

@@ -1,23 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container" style="margin: 100px;">
-        <h1>이 장르는 어떠세요? 영덕에서 추천합니다!</h1>
-        {% for choice_genre in choice_genres %}
-            <h1>{{ choice_genre.name }}</h1>
+
+<div id="movie-search" class="component-init">
+  <div class="container-xnarrow vertical">
+    <div id="search-movie" class="vertical search-container">
+
+
+      <div class="recommeneded-items">
+        <div id="search-index-movies" class="books-index-title">YD's PICK</div>
+        <div class="recommended-items-row">
+          {% for top_clicked_movie in top_clicked_movies %}
+          <a href="{% url 'movies:detail' top_clicked_movie.pk %}">
+            <div class="recommeneded-item vertical">
+              <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ top_clicked_movie.poster_path }}');"></div>
+              <div class="recommeneded-item-title">{{ top_clicked_movie.title|truncatechars:15 }}</div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% for choice_genre in choice_genres %}
+        <div class="recommeneded-items">
+          <div id="search-index-movies" class="books-index-title">YD's {{ choice_genre.name }}</div>
+          <div class="recommended-items-row">
             {% for choice_movie in choice_genre.movie_set.all|slice:":5" %}
-                <p>{{ choice_movie.title }}</p>
+            <a href="{% url 'movies:detail' choice_movie.pk %}">
+              <div class="recommeneded-item vertical">
+                <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ choice_movie.poster_path }}');"></div>
+                <div class="recommeneded-item-title">{{ choice_movie.title|truncatechars:15 }}</div>
+              </div>
+            </a>
             {% endfor %}
+          </div>
+        </div>
         {% endfor %}
+      </div>
 
-        <h1>현재 인기 있는 배우들이 궁금하다면?</h1>
-        {% for popular_person in popular_people %}
-            <h1>{{ popular_person.name }}</h1>
-        {% endfor %}
+      <div class="recommeneded-items">
+        <div id="search-index-movies" class="books-index-title">YD's CREDIT</div>
+        <div class="recommended-items-row">
+          {% for popular_person in popular_people %}
+          <a href="{% url 'movies:detail_person' popular_person.pk %}">
+            <div class="recommeneded-item vertical">
+              <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ popular_person.profile_path }}');"></div>
+              <div class="recommeneded-item-title">{{ popular_person.name|truncatechars:15 }}</div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
 
-        <h1>영덕 이용자들이 선택한 영화는?</h1>
-        {% for top_clicked_movie in top_clicked_movies %}
-            <h1>{{ top_clicked_movie.title }}</h1>
-        {% endfor %}
     </div>
+  </div>
+</div>
 {% endblock content %}
