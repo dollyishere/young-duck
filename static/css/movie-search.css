@@ -94,8 +94,6 @@
 
 }
 
-
-
 .search-list-books {
   margin-top: 20px;
   width: 100%;
@@ -110,4 +108,12 @@
   background-position: center;
   border-radius: 5px;
   box-shadow: 2px 3px 3px rgba(55, 55, 55, 0.4);
+}
+
+.unavailable {
+  color: #333333;
+}
+
+.can-click {
+  cursor: pointer;
 }
