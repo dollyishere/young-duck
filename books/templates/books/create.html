@@ -6,6 +6,7 @@
     <form action="{% url 'books:create' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
+      <div>* 커버 미업로드시 자동 이미지로 대체됩니다.</div>
       <button id="book-create-btn" value="CREATE">
     </form>
 	</div>
