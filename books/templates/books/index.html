@@ -155,6 +155,7 @@
         bookTitle.style.visibility = "hidden"
         bookSemi.style.visibility = "hidden"
         themeBook.href = BASE_URL + '/books/create' 
+        bookThumbnail.style.cssText = `background-image: url('/static/images/icons/plus.png'); background-size: auto 30%; background-repeat: no-repeat; background-position: center;`
       } 
       else {
         bookTitle.innerText = books[i*5+j].title
