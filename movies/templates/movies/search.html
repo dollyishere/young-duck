@@ -39,7 +39,7 @@
 
             <div class="search-person vertical" style="border: none;">
               <div class="search-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
-              <div class="search-person-name">{{ person.name }}</div>
+              <div class="search-person-name">{{ person.name|truncatechars:15 }}</div>
               <div class="search-person-department">{{ person.known_for_department }}</div>
             </div>
           </a>
