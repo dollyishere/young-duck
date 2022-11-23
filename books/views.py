@@ -186,12 +186,6 @@ def create_card(request, book_pk, movie_pk):
                 card.watched_movie = movie
 
                 # 만약 사용자가 디폴트 값을 입력하지 않았을 시, 디폴트 값을 입력
-                if card.my_score == None:
-                    card.my_score = 0
-                
-                if card.my_comment == None:
-                    card.my_comment = ''
-
                 if card.visited_count == None:
                     card.visited_count = 0
 
@@ -388,14 +382,23 @@ def steal_book(request, book_pk):
     my_book.save()
 
     for movie in movies:
-        card_form = CardForm()
-        my_card = card_form.save(commit=False)
-        my_card.user = request.user
-        my_card.watched_movie = movie
-        my_card.my_score = 0.0
-        my_card.my_comment = ''
-        my_card.visited_count = 0
-        my_card.save()
-        my_card.belonged_book.add(my_book.pk)
+        my_collection = Card.objects.filter(
+            watched_movie=movie,
+            user=request.user
+            )
+        print(my_collection)  
+        if my_collection:
+            my_collection[0].belonged_book.add(my_book.pk)
+        else:
+            card_form = CardForm()
+            my_card = card_form.save(commit=False)
+            my_card.user = request.user
+            my_card.watched_movie = movie
+            my_card.my_score = 0.0
+            my_card.my_comment = ''
+            my_card.visited_count = 0
+            my_card.save()
+            
+            my_card.belonged_book.add(my_book.pk)
 
     return redirect('books:detail', my_book.pk)

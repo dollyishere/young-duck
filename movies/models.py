@@ -8,7 +8,9 @@ class People(models.Model):
     name = models.CharField(max_length=50)
     birthday = models.DateField(null=True)
     known_for_department = models.CharField(max_length=50)
+    # biography = models.TextField(blank=True)
     popularity = models.FloatField()
+    # place_of_birth = models.CharField(max_length=100, blank=True)
     profile_path = models.CharField(max_length=200, blank=True)
     click_count = models.IntegerField()
 
