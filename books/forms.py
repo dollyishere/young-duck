@@ -10,7 +10,6 @@ class BookForm(forms.ModelForm):
 
 class CardForm(forms.ModelForm):
     my_score = forms.FloatField(
-        required=False,
         label='평점을 매겨주세요. (최소 0.0, 최대 5.0)',
         widget=forms.NumberInput(
             attrs={
@@ -21,7 +20,6 @@ class CardForm(forms.ModelForm):
         ),
     )
     my_comment = forms.CharField(
-        required=False,
         label='감상을 적어주세요.',
         widget=forms.Textarea()
     )

@@ -7,11 +7,14 @@ def get_credit_datas():
     credit_list = []
     for i in credit_dict:
         # 'https://www.themoviedb.org/person/{}'.format(person.pk) 사용하면 인물 소개로 이동 가능
-        request_url = 'https://api.themoviedb.org/3/person/{}?api_key={}&language=ko-KR'.format(i, TMDB_API_KEY)
+        request_url = 'https://api.themoviedb.org/3/person/{}?api_key={}&language=en-US'.format(i, TMDB_API_KEY)
         person = requests.get(request_url).json()
 
         if person['profile_path'] == None:
             person['profile_path'] = ''
+        
+        if person['place_of_birth'] == None:
+            person['place_of_birth'] = ''
 
         data = {
             'model' : 'movies.people',
@@ -20,7 +23,9 @@ def get_credit_datas():
                 'name' : person['name'],
                 'birthday' : person['birthday'],
                 'known_for_department' : person['known_for_department'],
+                'biography' : person['biography'],
                 'popularity' : person['popularity'],
+                'place_of_birth' : person['place_of_birth'],
                 'profile_path' : person['profile_path'],
                 'click_count' : 0,
                 }
