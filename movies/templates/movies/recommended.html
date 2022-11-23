@@ -2,8 +2,22 @@
 
 {% block content %}
     <div class="container" style="margin: 100px;">
-        {% for movie in movies %}
-            <a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a>
+        <h1>이 장르는 어떠세요? 영덕에서 추천합니다!</h1>
+        {% for choice_genre in choice_genres %}
+            <h1>{{ choice_genre.name }}</h1>
+            {% for choice_movie in choice_genre.movie_set.all|slice:":5" %}
+                <p>{{ choice_movie.title }}</p>
+            {% endfor %}
+        {% endfor %}
+
+        <h1>현재 인기 있는 배우들이 궁금하다면?</h1>
+        {% for popular_person in popular_people %}
+            <h1>{{ popular_person.name }}</h1>
+        {% endfor %}
+
+        <h1>영덕 이용자들이 선택한 영화는?</h1>
+        {% for top_clicked_movie in top_clicked_movies %}
+            <h1>{{ top_clicked_movie.title }}</h1>
         {% endfor %}
     </div>
 {% endblock content %}
