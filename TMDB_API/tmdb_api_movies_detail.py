@@ -19,6 +19,9 @@ def get_movie_datas(movie_list, people_id_list):
         # 만약 movie_detail['backdrop_path']이 null일시, ''를 대신 넣어줌
         if movie_detail['backdrop_path'] == None:
             movie_detail['backdrop_path'] = ''
+        
+        if movie_detail['poster_path'] == None:
+            movie_detail['poster_path'] = ''
 
         # 해당 데이터를 집어넣을 모델의 형식에 맞춰 제작
         # model 및 pk(해당 영화의 id로 지정해 향후 쉽게 참조할 수 있게 함), 그리고 fields를 지정해줌

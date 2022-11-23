@@ -13,8 +13,8 @@ def get_credit_datas():
         if person['profile_path'] == None:
             person['profile_path'] = ''
 
-        if person['birthday'] == None:
-            person['birthday'] = ''
+        # if person['birthday'] == None:
+        #     person['birthday'] = null
 
         data = {
             'model' : 'movies.people',

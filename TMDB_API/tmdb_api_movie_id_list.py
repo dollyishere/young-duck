@@ -11,7 +11,7 @@ def get_movies_id_datas():
 
 
     # popular
-    for i in range(1, 50):
+    for i in range(1, 150):
         request_url = 'https://api.themoviedb.org/3/movie/popular?api_key={}&language=ko-KR&page={}'.format(TMDB_API_KEY, i)
         
         popular_movies = requests.get(request_url).json()
@@ -21,7 +21,7 @@ def get_movies_id_datas():
                 total_data.append(popular_movie['id'])
 
     # top_rated
-    for i in range(1, 50):
+    for i in range(1, 150):
         request_url = 'https://api.themoviedb.org/3/movie/popular?api_key={}&language=ko-KR&page={}'.format(TMDB_API_KEY, i)
 
         top_rated_movies = requests.get(request_url).json()
