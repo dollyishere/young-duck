@@ -346,7 +346,6 @@ def update_card(request, card_pk):
     else:
         return redirect('accounts:login')
 
-
 @require_POST
 def delete_card(request, card_pk):
     if request.user.is_authenticated:
@@ -361,35 +360,35 @@ def delete_card(request, card_pk):
     else:
         return redirect('accounts:login')
 
-
-@require_http_methods(['GET', 'POST'])
-def select_movie(request, book_pk):
-    if request.user.is_authenticated:
-        # 먼저 book_pk를 이용해 카드를 만들고자 하는 테마북의 정보를 받아옵니다.
-        book = get_object_or_404(Book, pk=book_pk)
+# 로직 변경으로 현재는 사용되지 않음
+# @require_http_methods(['GET', 'POST'])
+# def select_movie(request, book_pk):
+#     if request.user.is_authenticated:
+#         # 먼저 book_pk를 이용해 카드를 만들고자 하는 테마북의 정보를 받아옵니다.
+#         book = get_object_or_404(Book, pk=book_pk)
         
-        # 만약 POST로 접근했다면, 영화 검색을 진행합니다.
-        # 검색창에 입력한 단어를 strip()을 통해 공백을 삭제해준 후, 해당 정보가 담긴 영화, 인물, 장르들에 대한 정보를 filter를 통해 가져옵니다.
-        # 만약 GET으로 접근했다면, 영화 검색 및 선택 페이지로 이동합니다.
-        if request.method == 'POST':
-            searched = request.POST['searched'].strip()
-            movies = Movie.objects.filter(title__contains=searched)
-            people = People.objects.filter(name__contains=searched)
-            genres = Genre.objects.filter(name__contains=searched)
-            context = {
-                'searched' : searched,
-                'movies' : movies,
-                'people' : people,
-                'genres' : genres,
-                'book' : book,
-            }
-        else:
-            context = {
-                'book' : book,
-            }
-        return render(request, 'books/select_movie.html', context)
-    else:
-        return redirect('accounts:login')
+#         # 만약 POST로 접근했다면, 영화 검색을 진행합니다.
+#         # 검색창에 입력한 단어를 strip()을 통해 공백을 삭제해준 후, 해당 정보가 담긴 영화, 인물, 장르들에 대한 정보를 filter를 통해 가져옵니다.
+#         # 만약 GET으로 접근했다면, 영화 검색 및 선택 페이지로 이동합니다.
+#         if request.method == 'POST':
+#             searched = request.POST['searched'].strip()
+#             movies = Movie.objects.filter(title__contains=searched)
+#             people = People.objects.filter(name__contains=searched)
+#             genres = Genre.objects.filter(name__contains=searched)
+#             context = {
+#                 'searched' : searched,
+#                 'movies' : movies,
+#                 'people' : people,
+#                 'genres' : genres,
+#                 'book' : book,
+#             }
+#         else:
+#             context = {
+#                 'book' : book,
+#             }
+#         return render(request, 'books/select_movie.html', context)
+#     else:
+#         return redirect('accounts:login')
 
 
 @require_POST
