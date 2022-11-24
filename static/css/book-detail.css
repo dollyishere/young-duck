@@ -80,6 +80,7 @@
 
 #cover-base-content {
   flex-flow: column wrap;
+  gap: 20px;
 }
 
 #cover-base-content-horizontal {
@@ -95,8 +96,9 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 40px;
   font-weight: 600;
-  color: #f5f5f5;
+  color: #f5f5f5;;
   margin-right: 10px;
+  text-shadow: 1px 1px 2px black;
 }
 
 #cover-semi-title {
@@ -104,8 +106,9 @@
   font-size: 24px;
   font-weight: 400;
   color: #f5f5f5;
-  margin-right: 30px;
-
+  margin-right: 40px;
+  text-shadow: 1px 1px 2px black;
+  margin-bottom: 2px;
 }
 
 #book-edit {
@@ -149,4 +152,34 @@
 
 #card-create:hover {
   background-color: #cdcdcd;
+}
+
+.unlike-btn {
+  width: 20px;
+  height: 20px;
+  background-image: url('../images/icons/unlike.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  color: transparent
+}
+
+.like-btn {
+  width: 20px;
+  height: 20px;
+  background-image: url('../images/icons/like.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  color: transparent
+}
+
+#like-cnt {
+  font-size: 16px;
+  font-weight: 400;
+  color: #f5f5f5;
+  text-shadow: 1px 1px 2px black;
+  margin-bottom: 3px;
 }

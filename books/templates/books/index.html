@@ -3,6 +3,8 @@
 {% block content %}
 <div id="books">
   <div id="books-container" class="vertical">
+    
+    <!-- 나의 테마북 -->
     <div id="my-books" class="books vertical">
       <div class="books-header">
         <div id="my-books-title" class="books-index-title">나의 테마북</div>
@@ -17,45 +19,22 @@
       </div>
     </div>
 
-    <!-- 레이아웃을 보기 위한 더미데이터 -->
-    <div id="recommended-books" class="books vertical">
+    <!-- 인기 테마북 -->
+    <div id="popular-books" class="books vertical">
       <div class="books-header">
-        <div id="my-books-title" class="books-index-title">추천 테마북</div>
+        <div id="my-books-title" class="books-index-title">인기 테마북</div>
         <div class="books-buttons">
-          <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
-          <div id="my-books-right" class="books-right-btn right-btn-available"></div>
-        </div>
-      </div>
-      <div id="my-books" class="books-body horizontal">
-        <!-- 여기서 for문 돌려서 book들 출력(btn 클릭으로 i 움직이고, for에 j 넣어 돌리면 될듯) -->
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸 어디까지 들어</div>
-          <div class="book-semi">소제목이 들어갈 칸 얘도 어디까지 들</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
-        </div>
-        <div class="book vertical">
-          <div class="book-thumbnail"></div>
-          <div class="book-title">제목이 들어갈 칸</div>
-          <div class="book-semi">소제목이 들어갈 칸</div>
+          <div id="popular-books-left" class="books-left-btn left-btn-disavailable"></div>
+          {% if popular_books.count < 5 %}
+            <div id="popular-books-right" class="books-right-btn right-btn-disavailable"></div>
+          {% else %}
+            <div id="popular-books-right" class="books-right-btn right-btn-available"></div>
+          {% endif %}
         </div>
       </div>
     </div>
 
+    <!-- 최신 테마북 -->
     <div id="newest-books" class="books vertical">
       <div class="books-header">
         <div id="my-books-title" class="books-index-title">최신 테마북</div>
@@ -157,7 +136,7 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       myBookPage -= 1
-      isEnd(myBookPage)
+      isEndMyBook(myBookPage)
     }
   })
 
@@ -170,11 +149,11 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       myBookPage += 1
-      isEnd(myBookPage)
+      isEndMyBook(myBookPage)
     }
   })
 
-  function isEnd(myBookPage) {
+  function isEndMyBook(myBookPage) {
     if(myBookPage === 0) {
       myBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
     }
@@ -187,6 +166,112 @@
     }
     else {
       myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
+    }
+  }
+  
+  // 인기 북
+  const popularBooksLeft = document.getElementById('popular-books-left')
+  const popularBooksRight = document.getElementById('popular-books-right')
+
+
+  const popularBooksData = [
+    {% for popular_book in popular_books %}
+      {
+        pk: "{{ popular_book.pk }}",
+        title: "{{ popular_book.title }}",
+        semi_title: "{{ popular_book.semi_title }}",
+        cover_image: "{{ popular_book.cover_image.url }}",
+        friend_name: "{{ popular_book.user.username }}",
+        friend_profile: "{{ popular_book.user.profile.profile_img.url }}",
+      },
+    {% endfor %}
+  ]
+
+  const popularBooks = document.getElementById('popular-books')
+  const popularMaxPage = Math.ceil(popularBooksData.length/5)
+  if(popularMaxPage === 0) {
+    popularBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+  }
+
+  for(let i=0; i<popularMaxPage; i++) {
+    
+    const popularBooksList = document.createElement('div')
+    popularBooksList.id = `popular-books-list${i}`
+    popularBooksList.classList.add("books-body", "horizontal")
+    if(i !== 0) {
+      popularBooksList.classList.add("hidden")
+    }
+    for(let j=0; j<Math.min(5, popularBooksData.length-(i*5)); j++) {
+      const themeBook = document.createElement('a')
+      const bookThumbnail = document.createElement('div')
+      const bookTitle = document.createElement('div')
+      const bookSemi = document.createElement('div')
+      const bookProfile = document.createElement('div')
+      bookThumbnail.classList.add("book-thumbnail")
+      bookTitle.classList.add("book-title")
+      bookSemi.classList.add("book-semi")
+      bookProfile.classList.add("book-inner-profile")
+
+      bookThumbnail.appendChild(bookProfile)
+
+      themeBook.appendChild(bookThumbnail)
+      themeBook.appendChild(bookTitle)
+      themeBook.appendChild(bookSemi)
+      themeBook.classList.add("book", "vertical")
+      themeBook.style.cssText = "display:flex; justify-content: center;"
+
+      bookTitle.innerText = popularBooksData[i*5+j].title
+      bookSemi.innerText = popularBooksData[i*5+j].semi_title
+      themeBook.href = BASE_URL + '/books/' + popularBooksData[i*5+j].pk + '/detail/' 
+      bookThumbnail.style.cssText = `background-image: url('${popularBooksData[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center; position: relative;`
+      bookProfile.style.cssText = `background-image: url('${popularBooksData[i*5+j].friend_profile}');`
+
+      popularBooksList.appendChild(themeBook)
+      popularBooks.appendChild(popularBooksList)
+    }
+  }
+
+  let popularBookPage = 0;
+
+  popularBooksLeft.addEventListener("click", (e) => {
+    e.preventDefault()
+    if(popularBookPage > 0) {
+      const lastBooksList = document.getElementById(`popular-books-list${popularBookPage}`)
+      const newBooksList = document.getElementById(`popular-books-list${popularBookPage-1}`)
+
+      lastBooksList.classList.add("hidden")
+      newBooksList.classList.remove("hidden")
+      popularBookPage -= 1
+      isEndPopularBook(popularBookPage)
+    }
+  })
+
+  popularBooksRight.addEventListener("click", (e) => {
+    e.preventDefault()
+    if(popularBookPage < popularMaxPage-1) {
+      const lastBooksList = document.getElementById(`popular-books-list${popularBookPage}`)
+      const newBooksList = document.getElementById(`popular-books-list${popularBookPage+1}`)
+
+      lastBooksList.classList.add("hidden")
+      newBooksList.classList.remove("hidden")
+      popularBookPage += 1
+      isEndPopularBook(popularBookPage)
+    }
+  })
+
+  function isEndPopularBook(popularBookPage) {
+    if(popularBookPage === 0) {
+      popularBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
+    }
+    else {
+      popularBooksLeft.classList.replace("left-btn-disavailable", "left-btn-available")
+    }
+
+    if(popularBookPage === popularMaxPage-1) {
+      popularBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
+    }
+    else {
+      popularBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
     }
   }
 
@@ -208,8 +293,6 @@
       },
     {% endfor %}
   ]
-
-  console.log(friendsBooks)
 
   const newestBooks = document.getElementById('newest-books')
   const newestMaxPage = Math.ceil(friendsBooks.length/5)
@@ -267,7 +350,7 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       newestBookPage -= 1
-      isEnd(newestBookPage)
+      isEndNewestBook(newestBookPage)
     }
   })
 
@@ -280,11 +363,11 @@
       lastBooksList.classList.add("hidden")
       newBooksList.classList.remove("hidden")
       newestBookPage += 1
-      isEnd(newestBookPage)
+      isEndNewestBook(newestBookPage)
     }
   })
 
-  function isEnd(newestBookPage) {
+  function isEndNewestBook(newestBookPage) {
     if(newestBookPage === 0) {
       newestBooksLeft.classList.replace("left-btn-available", "left-btn-disavailable")
     }
@@ -299,6 +382,6 @@
       newestBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
     }
   }
-    
+  
 </script>
 {% endblock script %}
