@@ -44,15 +44,15 @@
     </div>
     <div id="profile-rightbox" class="vertical">
       <!-- 나의 테마북 -->
-      <div id="my-books" class="books vertical">
-        <div class="books-header">
-          <div id="my-books-title" class="books-index-title">나의 테마북</div>
-          <div class="books-buttons">
-            <div id="my-books-left" class="books-left-btn left-btn-disavailable"></div>
+      <div id="profile-my-books" class="profile-books vertical">
+        <div class="profile-books-header">
+          <div id="profile-my-books-title" class="profile-books-index-title">나의 테마북</div>
+          <div class="profile-books-buttons">
+            <div id="my-books-left" class="profile-books-left-btn left-btn-disavailable"></div>
             {% if books.count < 5 %}
-              <div id="my-books-right" class="books-right-btn right-btn-disavailable"></div>
+              <div id="my-books-right" class="profile-books-right-btn right-btn-disavailable"></div>
             {%else %}
-              <div id="my-books-right" class="books-right-btn right-btn-available"></div>
+              <div id="my-books-right" class="profile-books-right-btn right-btn-available"></div>
             {% endif %}
           </div>
         </div>
@@ -101,10 +101,12 @@
       },
     {% endfor %}
   ]
-  books.push('end')
   
-  const myBooks = document.getElementById('my-books')
+  console.log(books)
+
+  const myBooks = document.getElementById('profile-my-books')
   const maxPage = Math.ceil(books.length/5)
+
   if(maxPage === 0) {
     myBooksRight.classList.replace("right-btn-available", "right-btn-disavailable")
   }
@@ -113,7 +115,7 @@
     
     const myBooksList = document.createElement('div')
     myBooksList.id = `my-books-list${i}`
-    myBooksList.classList.add("books-body", "horizontal")
+    myBooksList.classList.add("profile-books-body", "horizontal")
     if(i !== 0) {
       myBooksList.classList.add("hidden")
     }
@@ -123,33 +125,20 @@
       const bookThumbnail = document.createElement('div')
       const bookTitle = document.createElement('div')
       const bookSemi = document.createElement('div')
-      bookThumbnail.classList.add("book-thumbnail")
-      bookTitle.classList.add("book-title")
-      bookSemi.classList.add("book-semi")
+      bookThumbnail.classList.add("profile-book-thumbnail")
+      bookTitle.classList.add("profile-book-title")
+      bookSemi.classList.add("profile-book-semi")
   
       themeBook.appendChild(bookThumbnail)
       themeBook.appendChild(bookTitle)
       themeBook.appendChild(bookSemi)
-      themeBook.classList.add("book", "vertical")
+      themeBook.classList.add("profile-book", "vertical")
       themeBook.style.cssText = "display:flex; justify-content: center;"
   
-      if(i*5+j === books.length-1) {
-        bookThumbnail.id = "themeBookCreate"
-        bookTitle.id = "themeBookCreateTitle"
-        bookTitle.innerText = '테마북'
-        bookSemi.id = "themeBookCreateSemi"
-        bookSemi.innerText = '추가'
-        bookTitle.style.visibility = "hidden"
-        bookSemi.style.visibility = "hidden"
-        themeBook.href = BASE_URL + '/books/create' 
-        bookThumbnail.style.cssText = `background-image: url('/static/images/icons/plus.png'); background-size: auto 30%; background-repeat: no-repeat; background-position: center;`
-      } 
-      else {
-        bookTitle.innerText = books[i*5+j].title
-        bookSemi.innerText = books[i*5+j].semi_title
-        themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
-        bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
-      }
+      bookTitle.innerText = books[i*5+j].title
+      bookSemi.innerText = books[i*5+j].semi_title
+      themeBook.href = BASE_URL + '/books/' + books[i*5+j].pk + '/detail/' 
+      bookThumbnail.style.cssText = `background-image: url('${books[i*5+j].cover_image}'); background-size: auto 100%; background-repeat: no-repeat; background-position: center;`
       
       myBooksList.appendChild(themeBook)
   
@@ -200,6 +189,6 @@
       myBooksRight.classList.replace("right-btn-disavailable", "right-btn-available")
     }
   }
-
+</script>
 {% endblock script %}
 
