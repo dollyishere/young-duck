@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div id="create-card" class="component-init">
 	<div id="create-card-background" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')" class="background">
 	</div>
@@ -12,9 +11,13 @@
 					<div class="left-arrow-black card-btn"></div>
 				</a>
 				<div class="card-header-center">Y-Card</div>
-				<a class="write-black card-header-right" href="{% url 'books:update_card' card.pk %}">
-					<div class="write-black card-btn"></div>
-				</a>
+				{% if user == card.user %}
+					<a class="write-black card-header-right" href="{% url 'books:update_card' card.pk %}">
+						<div class="write-black card-btn"></div>
+					</a>
+				{% else %}
+					<div class="card-btn"></div>
+				{% endif %}
 			</div>
 			<div class="card-cover" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}')"></div>
 			<div class="card-body vertical">

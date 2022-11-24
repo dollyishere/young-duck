@@ -13,26 +13,44 @@
 			</div>
 
 			<div id="cover-base" class="horizontal">
-				<div id="cover-title">{{ book.title }}</div>
-				<div id="cover-semi-title">{{ book.semi_title }}</div>
-				{% if user  == person %}
-				<a href="{% url 'books:update' book.pk %}">
-					<div id="book-edit"></div>
-				</a>
-				<form action="{% url 'books:delete' book.pk %}" method="POST">
-					{% csrf_token %}
-					<button id="book-delete-btn">
-						<div id="book-delete" ></div>
-					</button>
-				</form>
-				{% else %}
-				<form action="{% url 'books:steal_book' book.pk %}" method="POST">
-					{% csrf_token %}
-					<button id="book-delete-btn" >
-						<div id="book-edit" ></div>
-					</button>
-				</form>
-				{% endif %}
+				<div id="cover-base-content">
+					<div id="cover-title">{{ book.title }}</div>
+					<div id="cover-base-content-horizontal">
+						<div id="cover-semi-title">{{ book.semi_title }}</div>
+						<div>
+							{% comment %} 좋아요 {% endcomment %}
+							<form action="like-forms" data-book-id="{{ book.pk }}">
+								{% csrf_token %}
+								{% if request.user in book.like_users.all %}
+									<input type="submit" id="like-{{ book.pk }}" class="unlike-btn">
+								{% else %}
+									<input type="submit" id="like-{{ book.pk }}" class="like-btn">
+								{% endif %}
+							</form>
+
+						</div>
+					</div>
+				</div>
+				<div id="cover-base-btn">
+					{% if user  == person %}
+					<a href="{% url 'books:update' book.pk %}">
+						<div id="book-edit"></div>
+					</a>
+					<form action="{% url 'books:delete' book.pk %}" method="POST">
+						{% csrf_token %}
+						<button id="book-delete-btn">
+							<div id="book-delete" ></div>
+						</button>
+					</form>
+					{% else %}
+					<form action="{% url 'books:steal_book' book.pk %}" method="POST">
+						{% csrf_token %}
+						<button id="book-delete-btn" >
+							<div id="book-edit" ></div>
+						</button>
+					</form>
+					{% endif %}
+				</div>
 			</div>
 		</div>
 		{% comment %} <span>{{ book.like_users|length }}</span> {% endcomment %}

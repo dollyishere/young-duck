@@ -15,6 +15,7 @@
     <h1 style="margin-bottom: 10px;">"{{ searched }}"에 대해 총 {{ people|length }}건의 검색 결과가 있습니다. </h1>
 
 	  {% for person in people %}
+      {% if person.pk != user.pk %}
       <div class="search-result horizontal">
         <a href="{% url 'accounts:profile' person.profile.user %}">
           <div class="search-person-img" style="background-image: url('{{ person.profile.profile_img.url }}'); background-size: 100%;"></div>
@@ -32,9 +33,9 @@
             <div id="search-profile-follow" class="profile-follow-cnt horizontal">
               <div id="search-follow-header"></div>
               <div id="search-follow-body">
-                팔로잉 : <span id="search-followings-count">{{ person.followings.all|length }}</span>
+                팔로잉 : <span id="search-followings-count-{{ person.pk }}">{{ person.followings.all|length }}</span>
                 <span id="search-following-divider">|</span>
-                팔로워 : <span id="search-followers-count">{{ person.followers.all|length }}</span>
+                팔로워 : <span id="search-followers-count-{{ person.pk }}">{{ person.followers.all|length }}</span>
               </div>
             </div>
           </div>
@@ -42,12 +43,13 @@
         <form id="follow-form" data-user-id="{{ person.pk }}">
           {% csrf_token %}
           {% if user in person.followers.all %}
-            <button id="searchFollowBtn" class="search-unfollow-btn"></button>
+            <button id="searchFollowBtn-{{ person.pk }}" class="search-unfollow-btn"></button>
           {% else %}
-            <button id="searchFollowBtn" class="search-follow-btn"></button>
+            <button id="searchFollowBtn-{{ person.pk }}" class="search-follow-btn"></button>
           {% endif %}
         </form>
       </div>
+      {% endif %}
 			{% endfor %}
     </div>
 		{% endif %}

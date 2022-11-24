@@ -69,12 +69,26 @@
 
 #cover-top {
   width: 100%;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 #cover-base {
   width: 100%;
-  align-items: baseline;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#cover-base-content {
+  flex-flow: column wrap;
+}
+
+#cover-base-content-horizontal {
+  flex-flow: row wrap;
+  align-items: flex-end;
+}
+
+#cover-base-btn {
+  flex-flow: row wrap;
 }
 
 #cover-title {
