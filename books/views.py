@@ -31,6 +31,9 @@ def index(request):
         # 메인 화면에서는 유저 자신이 제작한 테마북을 확인할 수 있습니다.
         # filter를 이용해 현재 요청한 사용자가 제작한 테마북 정보를 모두 불러옵니다.
         books = Book.objects.filter(user=request.user)
+
+        # 추천 테마북을 like_user순으로 구해옵니다.
+        popular_books = Book.objects.all().order_by('-like_users')[:20]
         
         # 만약 친구가 존재한다면, 친구 정보와 해당 친구들의 테마북 데이터를 불러와 friends_books에 저장한 후, -pk 순으로 sort를 통해 정렬합니다.
         user = get_object_or_404(get_user_model(), pk=request.user.pk)
@@ -46,6 +49,7 @@ def index(request):
 
         context = {
             'books' : books,
+            'popular_books' : popular_books,
             'friends' : friends,
             'friends_books' : friends_books,
         }
@@ -140,6 +144,24 @@ def delete(request, book_pk):
     else:
         return redirect('accounts:login')
 
+
+@require_POST
+def like(request, book_pk):
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, pk=book_pk)
+        is_liked = False
+        if book.like_users.filter(pk=request.user.pk).exists():
+            is_liked = False
+            book.like_users.remove(request.user)
+        else:
+            is_liked = True
+            book.like_users.add(request.user)
+        context = {
+            'is_liked' : is_liked,
+            'like_count' : book.like_users.count(),
+        }
+        return JsonResponse(context)
+    return redirect('accounts:login')
 
 @require_http_methods(['GET', 'POST'])
 def create_card(request, book_pk, movie_pk):
@@ -367,6 +389,9 @@ def select_movie(request, book_pk):
 @require_POST
 def steal_book(request, book_pk):
     if request.user.is_authenticated:
+        # 다른 유저 또는 해당 유저가 제작한 테마북과 그 하위 카드들의 정보를 가져와 새로 자신의 테마북으로 만듭니다.
+        # 만약 이미 제작한 영화 카드라면 해당 카드의 belonged_book에 해당 테마북 정보를 새로 넣어줍니다.
+        # 만약 제작된 적 없는 영화 카드라면 기본값을 모두 0, ''으로 지정한 후 해당 테마북과 연결해줍니다.
         book = get_object_or_404(Book, pk=book_pk)
         cards = book.collected_cards.all()
         movies = []

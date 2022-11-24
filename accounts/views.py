@@ -28,6 +28,7 @@ def signup(request):
     # 만약 접근 방식이 POST라면 사용자가 입력한 데이터를 request.POST를 통해 불러와 form에 넣어줍니다.
     # 만약 회원 가입 form이 valid하다면, 신규 유저를 생성하고 로그인합니다.
     # profile의 경우, 신규 유저 생성 시 동시에 생성됩니다.
+    # 이때 초기 nickname, profile_img도 임의로 지정해줍니다.
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
