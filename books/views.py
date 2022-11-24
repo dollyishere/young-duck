@@ -366,39 +366,42 @@ def select_movie(request, book_pk):
 
 @require_POST
 def steal_book(request, book_pk):
-    book = get_object_or_404(Book, pk=book_pk)
-    cards = book.collected_cards.all()
-    movies = []
-    for card in cards:
-        your_movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
-        movies.append(your_movie)
+    if request.user.is_authenticated:
+        book = get_object_or_404(Book, pk=book_pk)
+        cards = book.collected_cards.all()
+        movies = []
+        for card in cards:
+            your_movie = get_object_or_404(Movie, pk=card.watched_movie.pk)
+            movies.append(your_movie)
 
-    book_form = BookForm()
-    my_book = book_form.save(commit=False)
-    my_book.user = request.user
-    my_book.title = book.title
-    my_book.semi_title = book.semi_title
-    my_book.cover_image = book.cover_image
-    my_book.save()
+        book_form = BookForm()
+        my_book = book_form.save(commit=False)
+        my_book.user = request.user
+        my_book.title = book.title
+        my_book.semi_title = book.semi_title
+        my_book.cover_image = book.cover_image
+        my_book.save()
 
-    for movie in movies:
-        my_collection = Card.objects.filter(
-            watched_movie=movie,
-            user=request.user
-            )
-        print(my_collection)  
-        if my_collection:
-            my_collection[0].belonged_book.add(my_book.pk)
-        else:
-            card_form = CardForm()
-            my_card = card_form.save(commit=False)
-            my_card.user = request.user
-            my_card.watched_movie = movie
-            my_card.my_score = 0.0
-            my_card.my_comment = ''
-            my_card.visited_count = 0
-            my_card.save()
-            
-            my_card.belonged_book.add(my_book.pk)
+        for movie in movies:
+            my_collection = Card.objects.filter(
+                watched_movie=movie,
+                user=request.user
+                )
+            print(my_collection)  
+            if my_collection:
+                my_collection[0].belonged_book.add(my_book.pk)
+            else:
+                card_form = CardForm()
+                my_card = card_form.save(commit=False)
+                my_card.user = request.user
+                my_card.watched_movie = movie
+                my_card.my_score = 0.0
+                my_card.my_comment = ''
+                my_card.visited_count = 0
+                my_card.save()
+                
+                my_card.belonged_book.add(my_book.pk)
 
-    return redirect('books:detail', my_book.pk)
+        return redirect('books:detail', my_book.pk)
+    else:
+        return redirect('accounts:login')
