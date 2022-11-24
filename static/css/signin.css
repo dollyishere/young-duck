@@ -32,10 +32,9 @@
 #login-logo {
   height: 100px;
   width: 100px;
-  background-image: url('../images/logo/logo_tmp.png');
+  background-image: url('../images/logo/logo.png');
   background-size: 100%;
   border-radius: 100px;
-  border: 8px solid #cdcdcd;
   justify-content: center;
   align-items: baseline;
 }

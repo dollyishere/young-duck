@@ -39,7 +39,7 @@
       <a href="{% url 'movies:detail_person' person.pk %}">
         <div class="movie-detail-person vertical">
           <div class="movie-detail-person-face" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
-          <div class="movie-detail-person-name">{{ person.name|truncatechars:20 }}</div>
+          <div class="movie-detail-person-name">{{ person.name|truncatechars:15 }}</div>
           <div class="movie-detail-person-role">{{ person.known_for_department }}</div>
         </div>
       </a>

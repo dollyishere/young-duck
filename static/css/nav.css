@@ -30,13 +30,12 @@ div {
 #nav-logo {
   width: 25px;
   height: 25px;
-  background-image: url('../images/logo/logo_tmp.png');
+  background-image: url('../images/logo/logo.png');
   background-size: 100%;
   align-items: center;
   margin-right: 10px;
   cursor: pointer;
   border-radius: 25px;
-  border: 2px solid #cdcdcd;
 }
 
 #nav-title {

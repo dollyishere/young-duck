@@ -63,3 +63,8 @@ label[for="id_cover_image"] {
     font-weight: 400;
     cursor: pointer;
   }
+
+#cover_image-clear_id {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}

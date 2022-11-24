@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="container" style="margin: 100px;">
-		<h1 class="text-center">BOOK UPDATE</h1>
-			<form action="{% url 'books:update' book.pk %}" method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<input type="submit">
-			</form>
-			<hr>
-			<a href="{% url 'books:index' %}">[back]</a>
-	</div>
+<div id="book-create" class="component-init">
+  <div id="book-create-container" class="vertical container-narrow">
+    <form action="{% url 'books:update' book.pk %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div style="margin: 10px 0px 20px 0px">* 커버 미업로드시 자동 이미지로 대체됩니다.</div>
+      <button id="book-create-btn" >CREATE</button>
+    </form>
+  </div>
+</div>
 {% endblock content %}
