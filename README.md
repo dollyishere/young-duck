@@ -52,6 +52,7 @@
     * [TMDB API offical site](https://developers.themoviedb.org/3/getting-started/introductionhttps:/)
 * django & python 관련 라이브러리
   * Pillow (django 이미지 관리 툴)
+  * qrcode (qrcode 생성 툴)
   * requests (API 요청)
   * colorthief (movie backdrop 이미지 색깔 팔레트 추출)
     * [official github](https://https://github.com/fengsp/color-thief-py)
@@ -99,10 +100,28 @@
 * DB 내에서 사용되는 fixture 파일은 movies 앱 내에 위치합니다.
 * fixture data의 load는 반드시 모델 정의(makemigrations) 및 migrate 이후에 직접 진행합니다.
 * 이하의 순서대로 loaddata를 진행합니다(genre_list.json과 credit_list.json의 순서는 바뀌어도 무방함).
+* genre_list.json, credit_list.json, movie_list.json은 모두 TMDB_API를 통해 파싱한 데이터입니다.
 
   1. `python manage.py loaddata genre_list.json`(model genre)
   2. `python manage.py loaddata credit_list.json`(model people)
   3. `python manage.py loaddata movie_list.json`(model movie)
+
+##### * TMDB_API
+
+###### 로직 설명
+
+![TMDB_API](./README_img/api%EA%B5%AC%EC%A1%B0.PNG)
+[참조한 블로그](https://velog.io/@ready2start/Mollbar-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EC%98%81%ED%99%94-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0)
+
+1. genre의 경우, Genre movie_list에서 리스트 째로 불러왔습니다.
+2. movie의 경우, 먼저 Movie popular와 Movie top_rated에서 각각 150 페이지 씩 for문을 통해 데이터를 요청한 후, 그 중에서 해당하는 movie의 id 값만 가져와 별도의 json 파일(movie_id_list)에 저장했습니다(tmdb_api_movie_id_list.py).
+3. people도 마찬가지로 popular에서 300 페이지 씩 for문을 돌려 데이터를 요청한 후, 해당하는 person의 id 값만을 별도의 json 파일(people_id_list)에 저장했습니다(tmdb_api_people_id_list.py).
+4. 이후 영화 상세 정보를 불러옵니다. Movie detail에 이번에는 이전에 구한 popular & top_rated movie_id를 통해 요청을 보내 해당 영화들의 상세 정보들을 하나씩 가져옵니다(for문 이용).
+5. 이때 genre는 N:M 관계이기에 id 값만 따로 가져와 리스트 형태로 저장해줍니다.
+6. 이후 해당 영화의 pk 값을 통해 해당 영화에 출연하거나 제작에 참여한 인물들의 정보를 불러옵니다. (Movie credits)
+7. 이때 기존에 구해둔 popular people_id_list와 대조한 후, 만약 해당될 시에만 해당 인물의 pk 값을 리스트에 담아 모든 대조작업이 끝난 후에 해당 movie data에 people이라는 field 명으로 추가해주고(N:M), 따로 credit.json으로 저장합니다. (tmdb_api_movies_detail.py, movie_list.json)
+8. 마지막으로 credit.json을 이용하여 for문으로 해당 list에 들어있는 인물의 id 값을 통해 detail한 정보를 불러옵니다. (tmdb_api_credit_list.py, credit_list.json)
+
 
 ### - URL
 
@@ -198,12 +217,13 @@
 | search          | 사용자 검색 기능                                                      | GET & POST           |
 
 ## 6. 서비스 대표 기능 설명
-  * 영화 관련 테마북 제작 및 수집
-  * 영화 포토 티켓 제작 및 수집
-  * 영화, 인물, 장르, 테마북, 유저 검색 가능
-  * 영화, 인물 관련 정보 확인 가능(상세 페이지에서)
-  * 영화 추천받는 기능
-  * 다른 유저와는 간접적으로 소통(follow, 타인의 테마북 구경)
+
+* 영화 관련 테마북 제작 및 수집
+* 영화 포토 티켓 제작 및 수집
+* 영화, 인물, 장르, 테마북, 유저 검색 가능
+* 영화, 인물 관련 정보 확인 가능(상세 페이지에서)
+* 영화 추천받는 기능
+* 다른 유저와는 간접적으로 소통(follow, 타인의 테마북 구경)
 
 ## 7. 목표 서비스 상세 설명 및 실제 구현 정도
 
@@ -233,6 +253,8 @@
   * 만약 visited_count 값을 지정하지 않을 시, 자동으로 0이 지정됩니다.
   * 티켓에는 movie back_drop image, title, genre, credit 정보가 자동으로 지정되어 있으며, 티켓 상세 페이지에서 확인할 수 있습니다.
     * genre를 클릭하면 해당 장르의 검색 결과 페이지로, credit의 인물명 버튼을 클릭했을 시 해당 인물 상세 페이지로 이동합니다.
+    * 만약 tmdb 측에서 video 정보가 제공되는 영화의 경우, 카드 내부에 qrcode가 생성됩니다.
+      * 해당 qrcode를 카메라로 인식시킬 경우, 해당 영화의 유튜브 영상으로 이동합니다.
   * 영화 포토 카드의 색상은 해당 영화의 back_drop 이미지의 색상 팔레트 3번째 값이 부여됩니다. (colorthief)
 * 테마북 상세 페이지에서는 해당 테마북에 맞는 포토 카드를 추가, 열람할 수 있습니다.
   * 테마북 상세 페이지 내의 카드는 포스터 이미지를 보여줍니다.
@@ -262,18 +284,25 @@
   * 검색 결과 정렬은 popularity 기준입니다(영화, 인물, 장르)
 
 ## 8. 영화 추천 알고리즘 설명
-  #### 사이트 이용자가 영화를 추천받는 방식으로는 크게 2 가지 방법이 존재합니다.
-  ##### 1. 다른 유저의 테마북 확인
-  * 메인 화면에서 다른 유저(혹은 친구)가 제작한 테마북이 좋아요가 많은 순/최근 업데이트된 순으로 정렬되어 관람하는 것이 가능합니다.
-  * 사용자는 그 테마북들을 구경하면서, 다른 사람들은 어떤 영화를 보는지 확인이 가능하고, 해당 테마북과 카드들의 정보를 가져오는 것으로 새로운 영화 관람 목표를 세우는 것이 가능합니다.
-  ##### 2. '둘러보기'(recommended) 게시판 이용
-  * '둘러보기' 게시판에서는 사이트 측이 추천하는 영화 목록을 확인할 수 있습니다.
-    * 크게 2 가지 추천 방식이 존재합니다.
-      * (1) 장르 목록 중 3 가지 장르를 임의로 설정하여, 해당 장르에 속한 영화들을 popularity가 높은 순으로 정렬하여 상위 5개만 사용자에게 추천합니다.
-      * (2) 영화 상세 페이지에 접속할 때마다 'click_count'가 자동으로 1씩 증가합니다. 해당 수치가 높은 순으로 정렬한 후, 상위 5개만 사용자에게 추천합니다.
+
+#### 사이트 이용자가 영화를 추천받는 방식으로는 크게 2 가지 방법이 존재합니다.
+
+##### 1. 다른 유저의 테마북 확인
+
+* 메인 화면에서 다른 유저(혹은 친구)가 제작한 테마북이 좋아요가 많은 순/최근 업데이트된 순으로 정렬되어 관람하는 것이 가능합니다.
+* 사용자는 그 테마북들을 구경하면서, 다른 사람들은 어떤 영화를 보는지 확인이 가능하고, 해당 테마북과 카드들의 정보를 가져오는 것으로 새로운 영화 관람 목표를 세우는 것이 가능합니다.
+
+##### 2. '둘러보기'(recommended) 게시판 이용
+
+* '둘러보기' 게시판에서는 사이트 측이 추천하는 영화 목록을 확인할 수 있습니다.
+  * 크게 2 가지 추천 방식이 존재합니다.
+    * (1) 장르 목록 중 3 가지 장르를 임의로 설정하여, 해당 장르에 속한 영화들을 popularity가 높은 순으로 정렬하여 상위 5개만 사용자에게 추천합니다.
+    * (2) 영화 상세 페이지에 접속할 때마다 'click_count'가 자동으로 1씩 증가합니다. 해당 수치가 높은 순으로 정렬한 후, 상위 5개만 사용자에게 추천합니다.
 
 ## 9. 프로젝트 후기
+
 ##### ※ 유한별
-  * 
+
 ##### ※ 임주연
-  * 살려줘
+
+* 살려줘

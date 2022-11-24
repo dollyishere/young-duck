@@ -13,6 +13,6 @@ urlpatterns = [
     path('cards/<int:card_pk>/', views.detail_card, name='detail_card'),
     path('cards/<int:card_pk>/update/', views.update_card, name='update_card'),
     path('cards/<int:card_pk>/delete/', views.delete_card, name='delete_card'),
-    # path('<int:book_pk>/select/', views.select_movie, name='select_movie'),
+    path('<int:book_pk>/select/', views.select_movie, name='select_movie'),
     path('<int:book_pk>/steal/', views.steal_book, name='steal_book'),
 ]
