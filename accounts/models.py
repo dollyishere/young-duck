@@ -18,6 +18,5 @@ class Profile(models.Model):
         blank=True,
         )
     profile_img = models.ImageField(
-        default='images/icons/{}.png'.format(random.randrange(1, 20)),
         upload_to=profiles_image_path,
         )

@@ -32,7 +32,12 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Profile.objects.create(user=user)
+            profile_form = ProfileForm()
+            my_profile = profile_form.save(commit=False)
+            my_profile.user = user
+            my_profile.nickname = '{}번째 수집가'.format(user.pk)
+            my_profile.profile_img = 'images/icons/{}.png'.format(random.randrange(1, 20))
+            my_profile.save()
             auth_login(request, user)
             return redirect('books:index')
     else:
