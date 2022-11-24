@@ -98,7 +98,7 @@
       themeBook.appendChild(bookThumbnail)
       themeBook.appendChild(bookTitle)
       themeBook.appendChild(bookSemi)
-      themeBook.classList.add("book", "vertical")
+      themeBook.classList.add("book", "vertical", "grow")
       themeBook.style.cssText = "display:flex; justify-content: center;"
 
       if(i*5+j === books.length-1) {
@@ -217,7 +217,7 @@
       themeBook.appendChild(bookThumbnail)
       themeBook.appendChild(bookTitle)
       themeBook.appendChild(bookSemi)
-      themeBook.classList.add("book", "vertical")
+      themeBook.classList.add("book", "vertical", "grow")
       themeBook.style.cssText = "display:flex; justify-content: center;"
 
       bookTitle.innerText = popularBooksData[i*5+j].title
@@ -325,7 +325,7 @@
       themeBook.appendChild(bookThumbnail)
       themeBook.appendChild(bookTitle)
       themeBook.appendChild(bookSemi)
-      themeBook.classList.add("book", "vertical")
+      themeBook.classList.add("book", "vertical", "grow")
       themeBook.style.cssText = "display:flex; justify-content: center;"
 
       bookTitle.innerText = friendsBooks[i*5+j].title

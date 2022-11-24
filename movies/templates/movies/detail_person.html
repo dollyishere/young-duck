@@ -11,20 +11,19 @@
         <div class="movie-detail-poster" style="background-image: url('https://image.tmdb.org/t/p/w500{{ person.profile_path }}');"></div>
         <div class="movie-detail-content vertical">
 
-          <div class="movie-detail-content-title">{{ person.name }}</div>
-
-          <div class="movie-detail-content-item">
-            <div class="movie-detail-tag"><i class="fa-solid fa-star" style="color: red; margin-right: 10px;"></i></div>
-            <div class="movie-detail-content-vote">{{ movie.vote_average|floatformat:2 }}</div>
+          <div class="person-detail-content-title">{{ person.name }}</div>
+          
+          <div class="person-detail-content-item">
+            <div class="person-detail-content-element">{{ person.known_for_department }}</div>
           </div>
 
-          <div class="movie-detail-content-item">
-              <div class="movie-detail-content-vote">{{ person.birthday }}</div>
-              <div class="movie-detail-content-vote">{{ person.known_for_department }}</div>
+          <div class="person-detail-content-item">
+            <div class="person-detail-content-birth" style="margin-right: 15px;">{{ person.birthday }}</div>
+            <div class="person-detail-content-element">{{ person.place_of_birth }}</div>
           </div>
-
-          <div class="movie-detail-content-item">
-              <div class="movie-detail-content-overview">{{ movie.overview }}</div>
+          
+          <div class="person-detail-content-item">
+              <div class="person-detail-content-overview">{{ person.biography }}</div>
           </div>
         </div>
       </div>
