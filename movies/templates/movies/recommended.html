@@ -14,7 +14,7 @@
           <a href="{% url 'movies:detail' top_clicked_movie.pk %}">
             <div class="recommeneded-item vertical">
               <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ top_clicked_movie.poster_path }}');"></div>
-              <div class="recommeneded-item-title">{{ top_clicked_movie.title|truncatechars:15 }}</div>
+              <div class="recommeneded-item-title">{{ top_clicked_movie.title|truncatechars:12 }}</div>
             </div>
           </a>
           {% endfor %}
@@ -29,7 +29,7 @@
             <a href="{% url 'movies:detail' choice_movie.pk %}">
               <div class="recommeneded-item vertical">
                 <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ choice_movie.poster_path }}');"></div>
-                <div class="recommeneded-item-title">{{ choice_movie.title|truncatechars:15 }}</div>
+                <div class="recommeneded-item-title">{{ choice_movie.title|truncatechars:12 }}</div>
               </div>
             </a>
             {% endfor %}
@@ -37,21 +37,7 @@
         </div>
         {% endfor %}
       </div>
-
-      <div class="recommeneded-items">
-        <div id="search-index-movies" class="books-index-title">YD's CREDIT</div>
-        <div class="recommended-items-row">
-          {% for popular_person in popular_people %}
-          <a href="{% url 'movies:detail_person' popular_person.pk %}">
-            <div class="recommeneded-item vertical">
-              <div class="recommeneded-item-thumbnail" style="background-image: url('https://image.tmdb.org/t/p/w500/{{ popular_person.profile_path }}');"></div>
-              <div class="recommeneded-item-title">{{ popular_person.name|truncatechars:15 }}</div>
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-
+      
     </div>
   </div>
 </div>
