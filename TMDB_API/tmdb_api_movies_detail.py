@@ -3,7 +3,7 @@ import requests
 from pprint import pprint
 import json
 
-TMDB_API_KEY = '851d868671f3d56e21c372701537e231'
+TMDB_API_KEY = ''
 
 def get_movie_datas(movie_list, people_id_list):
     total_data = []
