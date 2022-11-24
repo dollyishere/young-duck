@@ -18,7 +18,7 @@
 
 (SSAFY 8기 1학기 최종 프로젝트)
 
-##### 팀 고유 주제: 기록과 수집을 기반으로 한 영화 테마북 구현
+##### 팀 고유 주제: '기록과 수집'을 기반으로 한 영화 테마북 구현
 
 (내가 봤거나 보고 싶은 영화를 기록하고, 카드 형태로 수집할 수 있도록!)
 
@@ -100,7 +100,7 @@
 * DB 내에서 사용되는 fixture 파일은 movies 앱 내에 위치합니다.
 * fixture data의 load는 반드시 모델 정의(makemigrations) 및 migrate 이후에 직접 진행합니다.
 * 이하의 순서대로 loaddata를 진행합니다(genre_list.json과 credit_list.json의 순서는 바뀌어도 무방함).
-* genre_list.json, credit_list.json, movie_list.json은 모두 TMDB_API를 통해 파싱한 데이터입니다.
+* genre_list.json(19 objects), credit_list.json(18653 objects), movie_list.json(2971 objects)은 모두 TMDB_API를 통해 파싱한 데이터입니다.
 
   1. `python manage.py loaddata genre_list.json`(model genre)
   2. `python manage.py loaddata credit_list.json`(model people)
@@ -121,7 +121,6 @@
 6. 이후 해당 영화의 pk 값을 통해 해당 영화에 출연하거나 제작에 참여한 인물들의 정보를 불러옵니다. (Movie credits)
 7. 이때 기존에 구해둔 popular people_id_list와 대조한 후, 만약 해당될 시에만 해당 인물의 pk 값을 리스트에 담아 모든 대조작업이 끝난 후에 해당 movie data에 people이라는 field 명으로 추가해주고(N:M), 따로 credit.json으로 저장합니다. (tmdb_api_movies_detail.py, movie_list.json)
 8. 마지막으로 credit.json을 이용하여 for문으로 해당 list에 들어있는 인물의 id 값을 통해 detail한 정보를 불러옵니다. (tmdb_api_credit_list.py, credit_list.json)
-
 
 ### - URL
 
@@ -222,32 +221,39 @@
 * 영화 포토 티켓 제작 및 수집
 * 영화, 인물, 장르, 테마북, 유저 검색 가능
 * 영화, 인물 관련 정보 확인 가능(상세 페이지에서)
-* 영화 추천받는 기능
+* 영화 추천 기능
 * 다른 유저와는 간접적으로 소통(follow, 타인의 테마북 구경)
 
 ## 7. 목표 서비스 상세 설명 및 실제 구현 정도
 
 #### 목표 서비스
 
-##### accounts
+##### accounts  
 
+![login](./README_img/YoungDuck/01_login_page.png)
 * 회원 가입, 로그인, 로그아웃, 회원 정보 수정, 비밀 번호 변경, 탈퇴(현재 프론트 상 구현 x), 팔로우, 프로필, 프로필 수정, 유저 찾기 기능을 이용할 수 있습니다.
-  * 로그인하지 않은 사용자는 로그인, 회원가입 페이지 이외의 페이지에 접근이 불가합니다. (is_authenticated)
-  * 회원 가입 시 profile은 자동으로 생성됩니다.
-    * default nickname은 '{user.pk}번째 수집가' 입니다.
-    * profile_img의 경우, 랜덤으로 지정됩니다.
-  * 유저 검색의 경우, username과 nickname 양쪽으로 동시에 검색이 가능합니다. (검색 결과는 구분되지 않고 뜨게 됨)
-    * 유저 검색 사이트에서는 검색 결과로 나온 유저를 팔로우/언팔로우하는 것이 가능합니다.
-  * profile 상세 페이지에서는 해당 유저가 소유한 테마북 목록과 포토 카드 목록을 확인할 수 있습니다.
+* 로그인하지 않은 사용자는 로그인, 회원가입 페이지 이외의 페이지에 접근이 불가합니다. (is_authenticated)
+![profile](./README_img/YoungDuck/14_my_profile.png)
+* 회원 가입 시 profile은 자동으로 생성됩니다.
+  * default nickname은 '{user.pk}번째 수집가' 입니다.
+  * profile_img의 경우, 랜덤으로 지정됩니다.
+![search_user](./README_img/YoungDuck/23_search_user.png)
+* 유저 검색의 경우, username과 nickname 양쪽으로 동시에 검색이 가능합니다. (검색 결과는 구분되지 않고 뜨게 됨)
+  * 유저 검색 사이트에서는 검색 결과로 나온 유저를 팔로우/언팔로우하는 것이 가능합니다.
+![otheruser](./README_img/YoungDuck/21_other_user_profile.png)
+* profile 상세 페이지에서는 해당 유저가 소유한 테마북 목록과 포토 카드 목록을 확인할 수 있습니다.
+  * 만약 사용자 본인의 프로필 페이지라면 프로필 수정을, 다른 유저의 프로필 페이지라면, 해당 유저를 팔로우/언팔로우 하는 것이 가능합니다.
 
 ##### books
-
+![home](./README_img/YoungDuck/22_home.png)
 * books/index.html의 경우 메인 화면(home)과 같은 역할을 수행합니다.
 * 현재 사용자(request.user)가 제작한 테마북(나의 테마북), 인기 테마북(like_users가 높은 순으로 선정), 최신 테마북(현재 사용자가 follow한 유저가 만든 테마북을 최신순(updated_at)으로 정렬)을 확인할 수 있습니다.
   * 이때 테마북의 cover_image, title, semi_title, 테마북 소유 유저의 profile_img를 시각적으로 확인하는 것이 가능합니다.
+![book_create](./README_img/YoungDuck/06_create_book.png)
 * 영화 관련 테마북을 생성, 수정, 열람, 삭제(현재 프론트상 구현 x)할 수 있습니다.
   * 테마북의 title, semi_title, cover_image를 지정해줄 수 있습니다.
   * 만약 cover_image를 지정하지 않을 경우, defalut image가 랜덤으로 주어집니다.
+![card_detail](./README_img/YoungDuck/11_detail_card.png)
 * 영화 포토 카드를 생성, 수정, 열람, 삭제하는 것이 가능합니다.
   * 영화 포토 카드에서는 my_score(사용자 자체 점수), my_comment, visited_count(관람 횟수) 값을 지정해줄 수 있습니다.
   * 만약 visited_count 값을 지정하지 않을 시, 자동으로 0이 지정됩니다.
@@ -256,6 +262,7 @@
     * 만약 tmdb 측에서 video 정보가 제공되는 영화의 경우, 카드 내부에 qrcode가 생성됩니다.
       * 해당 qrcode를 카메라로 인식시킬 경우, 해당 영화의 유튜브 영상으로 이동합니다.
   * 영화 포토 카드의 색상은 해당 영화의 back_drop 이미지의 색상 팔레트 3번째 값이 부여됩니다. (colorthief)
+![book_detail](./README_img/YoungDuck/13_detail_book_fill.png)
 * 테마북 상세 페이지에서는 해당 테마북에 맞는 포토 카드를 추가, 열람할 수 있습니다.
   * 테마북 상세 페이지 내의 카드는 포스터 이미지를 보여줍니다.
   * 이때 아직 관람하지 않은(visited_count == 0) 영화의 포토 카드의 경우 포스터가 흑백으로 출력됩니다.
@@ -268,17 +275,21 @@
   * 왼쪽 상단의 이미지를 누르면 해당 테마북을 소유한 유저의 프로필 페이지로 이동합니다.
 * 다른 유저가 만들었거나, 내가 만든 테마북과 해당 테마북과 연결된 카드들의 정보를 가져와 완전히 같은 양식의 테마북을 만드는 것이 가능합니다. (steal_book)
 
-##### movies
+##### movies  
 
-* 영화에 대한 상세 정보를 확인하는 것이 가능합니다.
+  ![movie_detail](./README_img/YoungDuck/18_detail_movie.png)
+* 영화 상세 페이지에서는 해당 영화에 대한 자세한 정보를 확인하는 것이 가능합니다.
   * 이때 title을 위시한 해당 영화 상세, 해당 영화에 출연한 popularity 상위 5명(더 적을 수도 있음), 해당 영화 카드가 담긴 테마북 정보를 확인할 수 있습니다.
   * 인물, 테마북은 클릭하면 상세 페이지로 이동이 가능합니다.
   * '추가하기' 버튼을 누르면 현재 사용자가 소유하고 있는 테마북이 버튼 형식으로 화면에 정렬되며, 그 중 하나를 선택하면 해당 테마북에 영화 포토 카드를 추가할 수 있습니다.
+![person_detail](./README_img/YoungDuck/19_detail_person.png)
 * 각 인물(배우, 감독)의 상세 페이지를 확인할 수 있습니니다.
   * 인물 상세 페이지에서는 해당 인물의 인적 사항 및 출연한 영화를 확인할 수 있습니다.
     * 영화 포스터 버튼을 누르면 해당 영화 상세 페이지로 이동합니다.
+![recommended](./README_img/YoungDuck/04_recommended.png)
 * 둘러보기(recommended)에서는 사이트 자체에서 추천하는 영화를 확인할 수 있습니다.
   * 추천 알고리즘에 대해서는 아래에서 설명합니다.
+![search](./README_img/YoungDuck/28_genre_search.png)
 * 영화(movie), 인물(people), 장르(genre), 테마북(book)에 대한 전체 검색이 가능합니다.
   * 이때 검색 결과의 기준은 title(영화, 테마북), name(people, genre)에 해당 검색어를 포함하고 있는지의 여부입니다.
   * 검색 결과 정렬은 popularity 기준입니다(영화, 인물, 장르)
@@ -302,7 +313,14 @@
 ## 9. 프로젝트 후기
 
 ##### ※ 유한별
+* 짧은 시간동안 몰입해서 무언가를 만드는 경험이 매우 새롭고 즐거웠다.
+* 기획 단계의 중요성을 깨달았다. 기능 목록과 명세를 아주 세세하게 작성하지 않았으면 정말 많이 헤맸을 듯.
+* Vue.js를 사용해보고 싶었으나 시간적 제약으로 인해 도전하지 못했다. 방학 때 꼭 framework를 활용한 프로젝트를 진행해봐야겠다.
+* 페어프로그래밍은 2배로 힘들고 2배로 성장하는 기회인 것 같다.
 
 ##### ※ 임주연
 
-* 살려줘
+* 지금까지는 홀로 코딩하는 것에 익숙했지만, 팀원과의 협업을 통해 최종 프로젝트를 진행하려니 많이 생경하기만 했다.
+* 하지만 시간이 갈수록 내가 혼자서는 할 수 없는 것을 협업을 통해서라면 구현할 수 있다는 점, 내 작업에 대해 평가해줄 수 있는 사람이 있다는 것이 매우 즐거웠던 것 같다.
+* 그리고 평소에 소망했던 백엔드 업무를 도맡아 django, SQL 문법 및 RESTful API 등에 대해 보다 깊이 이해하게 되었으며, 굉장히 값진 경험이었다고 생각한다.
+* 시간 부족으로 미처 구현하지 못한 기능들에 아쉬움도 많지만 더 발전하면 된다는 자신감이 솟는다. 방학 때는 백엔드도 물론이지만 프론트엔드 관련, 특히 Vue에 대해 더 배우고 싶다.
