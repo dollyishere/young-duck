@@ -22,8 +22,8 @@
 
             <div class="search-list-right vertical">
               <div class="search-list-title">{{ movie.title }}</div>
-              <div class="search-list-info horizontal">{{ movie.released_date|date:'Y' }} - {{ movie.genre_set }}</div>
-              <div class="search-list-vote horizontal">별점 : {{ movie.vote_average }}</div>
+              <div class="search-list-info horizontal">{{ movie.released_date|date:'Y' }}</div>
+              <div class="search-list-vote horizontal"><i class="fa-solid fa-star" style="color: red; margin-right: 10px;"></i>{{ movie.vote_average|floatformat:2 }}</div>
               <div class="search-list-overview">{{ movie.overview|truncatechars:350 }}</div>
             </div>
           </div>
@@ -87,6 +87,7 @@
 {% endblock content %}
 
 {% block script %}
+<script src="https://kit.fontawesome.com/2abf5eb55e.js" crossorigin="anonymous"></script>
 {% load static %}
 <script src="{% static 'src/Search.js' %}"></script>
 {% endblock script %}
