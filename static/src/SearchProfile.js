@@ -5,7 +5,7 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 forms.forEach((form) => {
   form.addEventListener('submit', function(e) {
     e.preventDefault()
-    const userId = event.target.dataset.userId
+    const userId = e.target.dataset.userId
 
     axios({
       method: 'post',
@@ -14,15 +14,15 @@ forms.forEach((form) => {
     })
       .then((response) => {
         const isFollowed = response.data.is_followed
-        const followBtn = document.querySelector('#searchFollowBtn')
+        const followBtn = document.querySelector(`#searchFollowBtn-${userId}`)
         if (isFollowed === true) {
           followBtn.classList.replace('search-follow-btn', 'search-unfollow-btn')
         } else {
           followBtn.classList.replace('search-unfollow-btn', 'search-follow-btn')
         }
 
-        const followersCountTag = document.querySelector('#search-followers-count')
-        const followingsCountTag = document.querySelector('#search-followings-count')
+        const followersCountTag = document.querySelector(`#search-followers-count-${userId}`)
+        const followingsCountTag = document.querySelector(`#search-followings-count-${userId}`)
         const followersCount = response.data.followers_count
         const followingsCount = response.data.followings_count
         followersCountTag.innerText = followersCount
