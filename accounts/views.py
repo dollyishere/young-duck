@@ -223,10 +223,21 @@ def follow(request, user_pk):
 def search(request):
     if request.user.is_authenticated:
         # 만약 POST로 접근했다면, request.POST를 통해 사용자가 검색창에 입력한 값을 불러와 stirp()로 공백을 제거합니다.
-        # 이후 해당 검색어를 username에 포함하고 있는 유저를 filter와 __contains를 통해 정보를 불러와 people에 저장합니다.
+        # 이후 해당 검색어를 username, nickname에 포함하고 있는 유저를 filter와 __contains를 통해 정보를 불러와 people에 저장합니다.
         if request.method == 'POST':
             searched = request.POST['searched'].strip()
-            people = User.objects.filter(username__contains=searched)
+            people = []
+            
+            people_username = User.objects.filter(username__contains=searched)
+            if people_username:
+                people.extend(people_username)
+            
+            profile_nickname = Profile.objects.filter(nickname__contains=searched)
+            
+            for person_nickname in profile_nickname:
+                if person_nickname.user not in people:
+                    people.append(person_nickname.user)
+
             context = {
                     'searched' : searched,
                     'people' : people,
