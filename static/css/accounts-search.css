@@ -61,7 +61,7 @@
 }
 
 .search-person-body {
-  width: 210px;
+  width: 250px;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
