@@ -4,7 +4,7 @@ import requests
 import json
 
 
-TMDB_API_KEY = '851d868671f3d56e21c372701537e231'
+TMDB_API_KEY = ''
 
 def get_genre_datas():
     total_data = []
