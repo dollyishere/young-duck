@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
+from django.db.models import Count
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.http import JsonResponse
 from .forms import BookForm, CardForm
@@ -33,7 +34,10 @@ def index(request):
         books = Book.objects.filter(user=request.user)
 
         # 추천 테마북을 like_user순으로 구해옵니다.
-        popular_books = Book.objects.all().order_by('-like_users')[:20]
+        # https://www.reddit.com/r/learnpython/comments/71v8jo/django_order_queryset_by_a_manytomanyfieldcount/ 참조
+        popular_books = Book.objects.all()\
+            .annotate(num_likes=Count('like_users'))\
+                .order_by('-num_likes')
         
         # 만약 친구가 존재한다면, 친구 정보와 해당 친구들의 테마북 데이터를 불러와 friends_books에 저장한 후, -pk 순으로 sort를 통해 정렬합니다.
         user = get_object_or_404(get_user_model(), pk=request.user.pk)
@@ -145,6 +149,8 @@ def delete(request, book_pk):
         return redirect('accounts:login')
 
 
+# 좋아하는 테마북에 좋아요를 누를 수 있습니다.
+# 비동기로 구현했습니다.
 @require_POST
 def like(request, book_pk):
     if request.user.is_authenticated:
