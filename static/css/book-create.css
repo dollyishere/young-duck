@@ -8,6 +8,34 @@
     padding: 100px;
 }
 
+#id_title {
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  padding: 0px 15px 0px 15px;
+  margin: 10px 0px 10px 0px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
+#id_semi_title {
+  width: calc(100% - 37px);
+  height: 40px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-radius: 7px;
+  border: solid 2px #f5f5f5;
+  margin: 10px 0px 10px 0px;
+  padding: 0px 15px 0px 15px;
+  color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+}
+
 label[for="id_title"] {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 20px;
@@ -25,3 +53,13 @@ label[for="id_cover_image"] {
     font-size: 20px;
     font-weight: 600;
 }
+
+#book-create-btn {
+    width: 100%;
+    background-color: transparent;
+    color: #f5f5f5;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+  }

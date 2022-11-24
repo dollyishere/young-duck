@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="box" style="margin: 200px;">
+<div id="select_movie" class="component-init">
+  <div class="container-narrow vertical">
+    <div id="edit-form">
     <form action="{% url 'accounts:update_profile' user.username %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" class="btn btn-success" value="Change Info">
     </form>
-    <a href="{% url 'books:index' %}" class="btn btn-primary">Back to the index</a>
+    </div>
   </div>
 {% endblock content %}
+
+
 {% block scripts %}
 {% endblock scripts %}
