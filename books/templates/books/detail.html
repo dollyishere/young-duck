@@ -17,15 +17,16 @@
 					<div id="cover-title">{{ book.title }}</div>
 					<div id="cover-base-content-horizontal">
 						<div id="cover-semi-title">{{ book.semi_title }}</div>
-						<div>
+						<div id="cover-like">
 							{% comment %} 좋아요 {% endcomment %}
-							<form action="like-forms" data-book-id="{{ book.pk }}">
+							<form id="like-forms" data-book-id="{{ book.pk }}">
 								{% csrf_token %}
 								{% if request.user in book.like_users.all %}
 									<input type="submit" id="like-{{ book.pk }}" class="unlike-btn">
 								{% else %}
 									<input type="submit" id="like-{{ book.pk }}" class="like-btn">
 								{% endif %}
+								<span id="like-cnt">{{ book.like_users.all|length }}</span>
 							</form>
 
 						</div>
@@ -46,7 +47,7 @@
 					<form action="{% url 'books:steal_book' book.pk %}" method="POST">
 						{% csrf_token %}
 						<button id="book-delete-btn" >
-							<div id="book-edit" ></div>
+							<div id="book-edit"></div>
 						</button>
 					</form>
 					{% endif %}
@@ -82,3 +83,9 @@
 	</div>
 </div>
 {% endblock content %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'src/Like.js' %}"></script>
+{% endblock script %}
+
