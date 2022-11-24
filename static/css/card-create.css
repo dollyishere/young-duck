@@ -214,7 +214,7 @@
   justify-content: flex-end;
 }
 
-#card-create > input {
+#card-create-btn {
   border: none;
   background-color: transparent;
   font-family: 'Noto Sans KR', sans-serif;
@@ -225,6 +225,7 @@
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
+  margin-left: 330px;
 }
 
 textarea {

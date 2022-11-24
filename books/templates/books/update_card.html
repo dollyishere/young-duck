@@ -28,16 +28,16 @@
 						<div class="card-tag">Genre</div>
 						<div class="card-genre-list horizontal">
 							{% for g in genre %}
-								<div id="card-genre">{{ g.name }}</div>
+								<div id="card-genre" class="card-genre-style">{{ g.name }}</div>
 							{% endfor %}
 						</div>
 					</div>
 
 					<div class="card-credit card-inner vertical">
-						<div class="card-credit">Credit</div>
+						<div class="card-tag">Credit</div>
 						<div class="card-credit-list horizontal">
 							{% for person in people %}
-								<a id="card-person" href="{% url 'movies:detail_person' person.pk %}">{{ person.name }}</a>
+								<a id="card-person" href="{% url 'movies:detail_person' person.pk %}" style="background-color: rgba({{ r }}, {{ g }}, {{ b }}, 0.4)">{{ person.name }}</a>
 							{% endfor %}
 						</div>
 					</div>
@@ -50,9 +50,7 @@
 					<form action="{% url 'books:update_card' card.pk %}" method="POST">
 						{% csrf_token %}
 						{{ form.as_p }}
-						<div id="card-create">
-							<input type="submit" value="Post">
-						</div>
+							<input type="submit" value="Post" id="card-create-btn">
 					</form>
 				</div>
 			</div>
