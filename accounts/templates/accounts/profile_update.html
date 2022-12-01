@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="box" style="margin: 200px;">
+    <form action="{% url 'accounts:profile_update' user.username %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" class="btn btn-success" value="Change Info">
+    </form>
+    <a href="{% url 'books:index' %}" class="btn btn-primary">Back to the index</a>
+  </div>
+{% endblock content %}
+{% block scripts %}
+{% endblock scripts %}
