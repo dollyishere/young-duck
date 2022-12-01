@@ -414,8 +414,8 @@ def steal_book(request, book_pk):
 
         for movie in movies:
             my_collection = Card.objects.filter(
+                user=request.user,
                 watched_movie=movie,
-                user=request.user
                 )
             print(my_collection)  
             if my_collection:
